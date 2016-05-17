@@ -57,10 +57,26 @@ typedef enum{
 /*
  * Value definition
  */
+
+
+    // nodi per la funzione di hash
+struct nodo{
+    char *stringa;
+    nodo *fratello;
+};
+
+typedef struct nodo nodo;
+
+#define TOT 1987
+#define SHIFT 4
+
+nodo *tabella[TOT - 1];
+
 typedef union{
     int ival;
     char* sval;
     enum {TRUE, FALSE} bval;
+    //nodo* hval;
 } Value;
 
 /*
@@ -84,6 +100,14 @@ pnode nontermnode(Nonterminal),
         strconstnode(),
         boolconstnode(),
         newnode(Typenode);
+        
+        //funzioni per la tabella di hash degli id
+
+char* insertFind(int h, char *id);
+
+nodo* creaNodo(int h, char *id);
+
+int hash(char *id);
         
 
 #endif /* DEF_H */
