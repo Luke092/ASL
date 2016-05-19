@@ -1,6 +1,9 @@
 #ifndef DEF_H
 #define DEF_H
 
+
+
+
 /* 
  * Node type definition
  */
@@ -60,21 +63,24 @@ typedef enum{
 
 
     // nodi per la funzione di hash
+
+typedef struct nodo nodo;
+
 struct nodo{
     char *stringa;
     nodo *fratello;
 };
 
-typedef struct nodo nodo;
+//typedef struct nodo nodo;
 
 #define TOT 1987
 #define SHIFT 4
 
-nodo *tabella[TOT - 1];
+//nodo *tabella[TOT - 1];
 
 typedef union{
     int ival;
-    char* sval;
+    char *sval;
     enum {TRUE, FALSE} bval;
     //nodo* hval;
 } Value;
@@ -82,13 +88,17 @@ typedef union{
 /*
  * Node structure definition
  */
+
+typedef struct snode* pnode;
+
 struct snode{
     Typenode type;
     Value val;
-    struct snode* child, brother;
+    struct snode* child; 
+    struct snode* brother;
 };
 
-typedef struct snode* pnode;
+
 
 /*
  * Function definition
@@ -105,7 +115,7 @@ pnode nontermnode(Nonterminal),
 
 char* insertFind(int h, char *id);
 
-nodo* creaNodo(int h, char *id);
+nodo* creaNodo(char *id);
 
 int hash(char *id);
         
