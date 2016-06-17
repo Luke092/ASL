@@ -113,11 +113,11 @@ pnode nontermnode(Nonterminal),
         
         //funzioni per la tabella di hash degli id
 
-char* insertFind(int h, char *id);
+//char* insertFind(int h, char *id);
 
-nodo* creaNodo(char *id);
+//nodo* creaNodo(char *id);
 
-int hash(char *id);
+//int hash(char *id);
         
 
 #endif /* DEF_H */

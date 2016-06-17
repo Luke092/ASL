@@ -547,14 +547,15 @@ char *yytext;
     
     #include "parser.h"
     #include "def.h"
+    #include "headerHash.h"
     int line = 1;
     Value lexval;
     char* newstring(char* s);
     void stampaErrore(int l);
     int assign_id(char* s);
-    nodo *tabella[TOT - 1];
+    
     int prova;
-#line 558 "lex.yy.c"
+#line 559 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -741,9 +742,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 25 "sintaxAnalizer.lex"
+#line 26 "sintaxAnalizer.lex"
 
-#line 747 "lex.yy.c"
+#line 748 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -828,257 +829,257 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 26 "sintaxAnalizer.lex"
+#line 27 "sintaxAnalizer.lex"
 ;
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 27 "sintaxAnalizer.lex"
+#line 28 "sintaxAnalizer.lex"
 { line++; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "sintaxAnalizer.lex"
+#line 29 "sintaxAnalizer.lex"
 { return yytext[0]; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "sintaxAnalizer.lex"
+#line 30 "sintaxAnalizer.lex"
 { return (ASSIGN); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 30 "sintaxAnalizer.lex"
+#line 31 "sintaxAnalizer.lex"
 { return (EQUAL); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 31 "sintaxAnalizer.lex"
+#line 32 "sintaxAnalizer.lex"
 { return (NE); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 32 "sintaxAnalizer.lex"
+#line 33 "sintaxAnalizer.lex"
 { return (G); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 33 "sintaxAnalizer.lex"
+#line 34 "sintaxAnalizer.lex"
 { return (GE); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 34 "sintaxAnalizer.lex"
+#line 35 "sintaxAnalizer.lex"
 { return (L); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 35 "sintaxAnalizer.lex"
+#line 36 "sintaxAnalizer.lex"
 { return (LE); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 36 "sintaxAnalizer.lex"
+#line 37 "sintaxAnalizer.lex"
 { return (PLUS); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 37 "sintaxAnalizer.lex"
+#line 38 "sintaxAnalizer.lex"
 { return (MINUS); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 38 "sintaxAnalizer.lex"
+#line 39 "sintaxAnalizer.lex"
 { return (MUL); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 39 "sintaxAnalizer.lex"
+#line 40 "sintaxAnalizer.lex"
 { return (DIV); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 40 "sintaxAnalizer.lex"
+#line 41 "sintaxAnalizer.lex"
 { return (PROGRAM); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 41 "sintaxAnalizer.lex"
+#line 42 "sintaxAnalizer.lex"
 { return (TYPE); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 42 "sintaxAnalizer.lex"
+#line 43 "sintaxAnalizer.lex"
 { return (VAR); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 43 "sintaxAnalizer.lex"
+#line 44 "sintaxAnalizer.lex"
 { return (CONST); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 44 "sintaxAnalizer.lex"
+#line 45 "sintaxAnalizer.lex"
 { return (PROC); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 45 "sintaxAnalizer.lex"
+#line 46 "sintaxAnalizer.lex"
 { return (FUNC); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 46 "sintaxAnalizer.lex"
+#line 47 "sintaxAnalizer.lex"
 { return (OUT); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 47 "sintaxAnalizer.lex"
+#line 48 "sintaxAnalizer.lex"
 { return (INOUT); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 48 "sintaxAnalizer.lex"
+#line 49 "sintaxAnalizer.lex"
 { return (BEGIN); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 49 "sintaxAnalizer.lex"
+#line 50 "sintaxAnalizer.lex"
 { return (END); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 50 "sintaxAnalizer.lex"
+#line 51 "sintaxAnalizer.lex"
 { return (BREAK); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 51 "sintaxAnalizer.lex"
+#line 52 "sintaxAnalizer.lex"
 { return (EXIT); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 52 "sintaxAnalizer.lex"
+#line 53 "sintaxAnalizer.lex"
 { return (IF); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 53 "sintaxAnalizer.lex"
+#line 54 "sintaxAnalizer.lex"
 { return (THEN); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 54 "sintaxAnalizer.lex"
+#line 55 "sintaxAnalizer.lex"
 { return (ELSE); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 55 "sintaxAnalizer.lex"
+#line 56 "sintaxAnalizer.lex"
 { return (ELSIF); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 56 "sintaxAnalizer.lex"
-{ printf("while");return (WHILE); }           
+#line 57 "sintaxAnalizer.lex"
+{ return (WHILE); }           
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 57 "sintaxAnalizer.lex"
+#line 58 "sintaxAnalizer.lex"
 { return (DO); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 58 "sintaxAnalizer.lex"
+#line 59 "sintaxAnalizer.lex"
 { return (REPEAT); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 59 "sintaxAnalizer.lex"
+#line 60 "sintaxAnalizer.lex"
 { return (UNTIL); }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 60 "sintaxAnalizer.lex"
+#line 61 "sintaxAnalizer.lex"
 { return (FOR); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 61 "sintaxAnalizer.lex"
+#line 62 "sintaxAnalizer.lex"
 { return (TO); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 62 "sintaxAnalizer.lex"
+#line 63 "sintaxAnalizer.lex"
 { return (INPUT); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 63 "sintaxAnalizer.lex"
+#line 64 "sintaxAnalizer.lex"
 { return (OUTPUT); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 64 "sintaxAnalizer.lex"
+#line 65 "sintaxAnalizer.lex"
 { return (AND); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 65 "sintaxAnalizer.lex"
+#line 66 "sintaxAnalizer.lex"
 { return (OR); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 66 "sintaxAnalizer.lex"
+#line 67 "sintaxAnalizer.lex"
 { return (NOT); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 67 "sintaxAnalizer.lex"
+#line 68 "sintaxAnalizer.lex"
 { return (INTEGER); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 68 "sintaxAnalizer.lex"
+#line 69 "sintaxAnalizer.lex"
 { return (STRING); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 69 "sintaxAnalizer.lex"
+#line 70 "sintaxAnalizer.lex"
 { return (BOOLEAN); }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 70 "sintaxAnalizer.lex"
+#line 71 "sintaxAnalizer.lex"
 { lexval.ival = atoi(yytext); return (INTCONST); }
 	YY_BREAK
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
-#line 71 "sintaxAnalizer.lex"
+#line 72 "sintaxAnalizer.lex"
 { lexval.sval = newstring(yytext); return (STRCONST); }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 72 "sintaxAnalizer.lex"
+#line 73 "sintaxAnalizer.lex"
 { lexval.bval = ( yytext[0] == 'f' ? FALSE : TRUE); return (BOOLCONST); }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 73 "sintaxAnalizer.lex"
-{ prova= assign_id(yytext); printf("ID");return (ID); }           
+#line 74 "sintaxAnalizer.lex"
+{ lexval.ival = assign_id(yytext);return (ID); }           
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 74 "sintaxAnalizer.lex"
+#line 75 "sintaxAnalizer.lex"
 { stampaErrore(line); }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 76 "sintaxAnalizer.lex"
+#line 77 "sintaxAnalizer.lex"
 ECHO;
 	YY_BREAK
-#line 1082 "lex.yy.c"
+#line 1083 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2076,20 +2077,18 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 76 "sintaxAnalizer.lex"
+#line 77 "sintaxAnalizer.lex"
 
 
 
 main(){
     yylex();
-    char* n = prova;
-    //printf("%d",prova);
-    printf("%s",n);
+    
 }
 
 
 int assign_id(char *s){
-    //printf("%s\n",s);
+    
     int puntatore;
     puntatore = insertFind(hash(s),s);
     return puntatore;
@@ -2107,89 +2106,4 @@ void stampaErrore(int l){
 
 }
 
-int hash(char *id){
-    int h = 0;
-    int i= 0;
 
-    for(i = 0; id[i] != '\0'; i++){
-        
-        h = ((h << SHIFT)+id[i])%TOT;
-        
-    }
-    printf("stringa %s HASH %d\n",id,h);
-    return h;
-    
-}
-
-nodo* creaNodo(char *id){
-    struct nodo *nuovoNodo;
-    nuovoNodo = malloc(sizeof(struct nodo));
-    char *p = malloc(strlen(id)+1);
-    strcpy(p,id);
-    nuovoNodo->stringa = p;
-    return nuovoNodo;
-}
-
-
-char* insertFind(int h, char *id){
-    char *p;
-    nodo *nuovoNodo, *parente;
-    if(!tabella[h]){ // se non c'è già un nodo con quell'hash
-        
-        nuovoNodo = creaNodo(id);
-        tabella[h] = nuovoNodo;
-        
-        
-    }else{ // se c'è già un nodo con quell'hash
-        
-        int trovato = 0;
-        int nullo = 0;
-        parente = tabella[h];
-        while(!nullo && !trovato){
-            
-            //int a;
-            //printf("stringhe da confrontare %s %s\n",parente->stringa,id);
-            if((strcmp(parente->stringa,id)) == 0){ // controllo il valore della stringa del nodo
-                //printf("dentro if a:%d\n",a);
-                //printf("TROVATO str1: %s str2:%s\n",parente->stringa,id);
-                trovato = 1;
-                p = parente->stringa;
-                return p;
-            }else{ //se il nodo ha stringa diversa passo oltre        
-                if(parente->fratello != 0){ // se il puntatore è assegnato passo al nodo successivo
-                    //printf("dentro if\n");
-                    parente = parente->fratello;
-                    //printf("puntiamo a %s\n",parente->stringa);
-                }else{
-                   // printf("nullo\n");
-                    nullo = 1;
-                }
-                
-            }
-            
-        }
-        //printf("fuori dal while\n");
-        nuovoNodo = creaNodo(id);
-        parente->fratello = nuovoNodo;
-       // printf("stringa aggiunta %s\n",parente->fratello->stringa);
-    }
-    p = nuovoNodo->stringa;
-    return p;
-}
-
-void stampa(){
-    int i;
-    for(i =0; i<TOT;i++){
-        if(tabella[i]){
-            printf("%d stringa:%s \n",i,tabella[i]->stringa);
-            nodo *parente = tabella[i]->fratello;
-            while(parente){
-                printf("CREDIAMOCI");
-                printf("%d stringa interna:%s \n",i,parente->stringa);
-                parente = parente->fratello;
-            }
-        }else{
-            printf("%d UN CAZZO\n",i);
-        }
-    }
-}
