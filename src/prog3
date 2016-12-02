@@ -1,0 +1,53 @@
+program alpha
+	
+	type 	T1, T2:   array [2] of array [1] of string;
+		T3: T1;
+		T4: string;
+		T5: T4;
+		T6:T3;
+		T7: array [3] of T1;
+	var 	x,y,z: T6;
+		i, e:integer;
+	const
+      MAX: integer = 1;
+      q: T3 =[["s"],["c"]];
+	PROV: T7 =[ [["3"],["c"]],[["sa"],["zon"]],[["u"],["one"]] ];
+
+	 proc jhonny()
+                type T8 : string;
+			asd:integer;						
+              		T7:boolean;
+		var p,ty: integer;
+		  
+		const
+      MAX: T4 = "cri";
+      q: T3 =[["s"],["c"]];
+       
+			
+			proc cri() 
+				type T10 : string;
+                        sd:integer;                                  
+
+                var p,ty: sd;
+                   jj: T7;
+                const
+     				voto:sd=5;
+			PROVA: T7=true;
+			begin cri 
+				f=y;
+			end cri;
+
+
+
+
+			
+
+
+	 begin jhonny
+                s=r;
+        end jhonny;
+
+begin alpha
+
+x=y;	
+end alpha.

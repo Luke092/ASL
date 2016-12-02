@@ -1,20 +1,16 @@
 # Main
-compiler: clear  parser.o sintax_utility.o lex.o  functionHash.o print_utility.o symbtab.o
-	cc -g -o asl_compiler lex.o sintax_utility.o parser.o functionHash.o print_utility.o symbtab.o 
+compiler: parser.o lex.o utility.o functionHash.o abstract_tree_utilities.o main.c
+	cc -g -o asl_compiler lex.o parser.o utility.o functionHash.o abstract_tree_utilities.o main.c
 
 # utilities
-sintax_utility.o: sintax_utility.c
-	cc -g -c sintax_utility.c
+utility.o: utility.c
+	cc -g -c utility.c
 	
 functionHash.o: functionHash.c
 	cc -g -c functionHash.c
 	
-print_utility.o: print_utility.c
-	cc -g -c print_utility.c
-
-# symbtab
-symbtab.o: symbtab.c
-	cc -g -c symbtab.c
+tree.o : tree.c
+	cc -g -c tree.c
 
 # Yacc compile
 parser.o:   parser.c
@@ -33,7 +29,8 @@ lex.c: sintaxAnalizer.lex
 
 
 # Remove all files not needed
-	
 clear:
 	rm *.o
-	
+	rm parser.output
+	rm parser.c
+rm lex.c

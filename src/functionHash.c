@@ -1,13 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Author: andrea
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "def.h"
 #include "headerHash.h"
+#include "def_symbtab.h"
 
 nodo *tabella[TOT - 1];
 
@@ -80,16 +80,17 @@ char* insertFind(int h, char *id){
     return p;
 }
 
-void stampa(){
+void stampa(pstLine tabella[]){
+    printf("\nTOT = %d\n",TOT);
     int i;
     for(i =0; i<TOT;i++){
         if(tabella[i]){
-            printf("%d stringa:%s \n",i,tabella[i]->stringa);
-            nodo *parente = tabella[i]->fratello;
+            printf("%d stringa:%s \n",i,tabella[i]->name);
+            pstLine parente = tabella[i]->next;
             while(parente){
                 //printf("CREDIAMOCI");
-                printf("%d stringa interna:%s \n",i,parente->stringa);
-                parente = parente->fratello;
+                printf("%d stringa interna:%s \n",i,parente->name);
+                parente = parente->next;
             }
         }else{
             printf("%d VUOTO\n",i);

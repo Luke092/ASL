@@ -1,0 +1,37 @@
+program p
+	type T1:integer;
+		T2:array [2] of integer;
+		arrT: array [3] of array [2] of integer;
+	var x,y:string;
+	    arr: array [3] of array [2] of integer;
+            arr2: array [2] of string;
+	b:boolean;
+	s:integer; 
+	const   MAX :integer=100;
+func provaFunc2(k:integer):arrT 
+        begin provaFunc2
+               [[3,5],[1,5],[3,3]]
+        end provaFunc2;
+
+proc provaProc(k:string)
+ 	var u:T;       
+	func provaFunc(z:integer):boolean
+        begin provaFunc
+                3==s
+        end provaFunc;
+
+
+	begin provaProc
+		  b=provaFunc(3);              
+        end provaProc;
+
+	
+func provaFunc(t:string):integer
+	begin provaFunc
+		3+MAX
+	end provaFunc;
+    
+begin p
+s=arr[1][provaFunc(arr2[3])];
+s = provaFunc("ciao");
+end p.

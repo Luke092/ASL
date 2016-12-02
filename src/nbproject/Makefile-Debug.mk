@@ -36,7 +36,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/functionHash.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/print_utility.o \
+	${OBJECTDIR}/sintax_utility.o \
+	${OBJECTDIR}/symbtab.o
 
 
 # C Compiler Flags
@@ -63,15 +65,25 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/src: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/src ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/functionHash.o: functionHash.c 
+${OBJECTDIR}/functionHash.o: functionHash.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/functionHash.o functionHash.c
 
-${OBJECTDIR}/main.o: main.c 
+${OBJECTDIR}/print_utility.o: print_utility.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/print_utility.o print_utility.c
+
+${OBJECTDIR}/sintax_utility.o: sintax_utility.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/sintax_utility.o sintax_utility.c
+
+${OBJECTDIR}/symbtab.o: symbtab.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/symbtab.o symbtab.c
 
 # Subprojects
 .build-subprojects:
@@ -79,7 +91,6 @@ ${OBJECTDIR}/main.o: main.c
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/src
 
 # Subprojects
 .clean-subprojects:

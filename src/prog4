@@ -1,0 +1,70 @@
+program alpha
+
+        type    T1, T2:   array [2] of array [1] of string;
+                T3: T1;
+                T4: string;
+                T5: T4;
+                T6:T3;
+                T7: array [3] of T1;
+        var     x,y,z: T6;
+                i, k:integer;
+        const
+      MAX: integer = 1;
+      VEC: T3 =[["s"],["c"]];
+        PROV: T7 =[ [["3"],["c"]],[["sa"],["zon"]],[["u"],["one"]] ];
+
+
+        proc jhonny()
+                type t1 : integer;
+                T2: string;
+                t3,t4:T2;
+                t5: array [15] of t3;
+        var i, j:integer;
+                z:t1;
+                s,t:t5;
+                a:array [100] of integer;
+        const   MAX :integer=100;
+                NAME:T2 = "alpha";
+                prova:string="samu";
+                VECT: array [5] of integer = [2, 3, 4, 1, 23];
+        begin jhonny
+                s=r;
+        end jhonny;
+
+proc jhonny()
+                type t1 : integer;
+                T2: string;
+                t3,t4:T2;
+                t5: array [15] of t3;
+        var i, j:integer;
+                z:t1;
+                s,t:t5;
+                a:array [100] of integer;
+        const   MAX :integer=100;
+                NAME:T2 = "alpha";
+                prova:string="samu";
+                VECT: array [5] of integer = [2, 3, 4, 1, 23];
+        begin jhonny
+                s=r;
+        end jhonny;
+	
+func jhonny(): x
+
+        begin d
+                if z<x then
+                r
+                elsif z>x then
+                f
+                                else
+                g
+                end
+        end d
+
+;
+
+
+
+begin alpha
+
+x=y;
+ end alpha.

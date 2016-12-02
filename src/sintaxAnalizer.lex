@@ -1,39 +1,32 @@
 %{
-    
     #include "parser.h"
     #include "def.h"
-    #include "headerHash.h"
     int line = 1;
     Value lexval;
-    char* newstring(char* s);
-    void stampaErrore(int l);
-    int assign_id(char* s);
-    
-    int prova;
 %}
 
 %option noyywrap
 
-spacing [ \t]+
+spacing ([ \t])+
 letter [A-Za-z]
 digit [0-9]
 intconst {digit}+
 strconst \"([^\"])*\"
 boolconst true|false
 id {letter}({letter}|{digit})* 
-sugar [(),:;\[\]]
+sugar [;(),:\[\].]
 
 %%
 {spacing}       ;
+{sugar}         { return yytext[0]; }     
 \n              { line++; }
-{sugar}         { return yytext[0]; }
-"="             { return (ASSIGN); }
 "=="            { return (EQUAL); }
+"="             { return (ASSIGN); }
 "!="            { return (NE); }
-">"             { return (G); }
+">"             { return (GT); }
 ">="            { return (GE); }
-"<"             { return (L); }
-"<="            { return (LE); }
+"<"             { return (KT); }
+"<="            { return (KE);}
 "+"             { return (PLUS); }
 "-"             { return (MINUS); }
 "*"             { return (MUL); }
@@ -41,12 +34,15 @@ sugar [(),:;\[\]]
 program         { return (PROGRAM); }
 type            { return (TYPE); }
 var             { return (VAR); }
+array           { return (ARRAY); }
+of              { return (OF); }
 const           { return (CONST); }
 proc            { return (PROC); }
 func            { return (FUNC); }
+in              { return (IN); }
 out             { return (OUT); }
 inout           { return (INOUT); }
-begin           { return (BEGIN); }
+begin           { return (T_BEGIN); }
 end             { return (END); }
 break           { return (BREAK); }
 exit            { return (EXIT); }
@@ -69,35 +65,30 @@ integer         { return (INTEGER); }
 string          { return (STRING); }
 boolean         { return (BOOLEAN); }
 {intconst}      { lexval.ival = atoi(yytext); return (INTCONST); }
-{strconst}      { lexval.sval = newstring(yytext); return (STRCONST); }
+{strconst}      { lexval.sval = assign_id_str(yytext); return (STRCONST); }
 {boolconst}     { lexval.bval = ( yytext[0] == 'f' ? FALSE : TRUE); return (BOOLCONST); }
-{id}            { lexval.ival = assign_id(yytext);return (ID); }           
-.               { stampaErrore(line); }
+{id}            { lexval.sval = assign_id_str(yytext);return (ID); }      
+.               { stampaErrore(line); return (ERROR); }
 
 %%
 
-main(){
-    yylex();
-    
-}
-
-
-int assign_id(char *s){
+int assign_id_str(char *s){
     
     int puntatore;
     puntatore = insertFind(hash(s),s);
     return puntatore;
 }
 
-char *newstring(char *s){
-    
-    char *p = malloc(strlen(s)+1);
-    strcpy(p, s);
-    return p;
+int newstring(char *s)
+{
+  char *p;
+  p = malloc(strlen(s)+1);
+  strcpy(p, s);
+  return(p);
 }
 
 void stampaErrore(int l){
-    printf("Errore alla linea %d",l);
+    printf("Errore alla linea %d\n",l);
 
 }
 

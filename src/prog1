@@ -1,0 +1,6 @@
+program test 
+	var x:integer;
+		y:integer;	
+begin test
+	x = y + "string";
+end test.

@@ -1,0 +1,32 @@
+program samu 
+	type t1 : integer;
+		T2: string;
+		t3,t4:T2;
+		t5: array [15] of t3;
+	var i, j:integer;
+		z:t1;
+		s,t:t5;
+		a:array [100] of integer; 
+	const   MAX :integer=100;
+		NAME:T2 = "alpha";
+		prova:string="samucazzone";
+		VECT: array [5] of integer = [2, 3, 4, 1, 23];		
+
+proc p2 (inout t1:boolean)
+	type t1 : integer;
+                T2: string;
+                t3,t4:T2;
+                t5: array [15] of t3;
+
+	begin johnny
+		a = 3 ;
+		simon = dr ;
+	end johnny
+
+
+ ;
+func damioli (d1,d2:T3):integer
+	begin simon
+		i>4 
+	end simon	
+;
