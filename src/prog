@@ -4,11 +4,12 @@ program myprog
         var     x,y,z: integer;
 		f:boolean;
 		arr: array [3] of array [2] of boolean;
+		arr2: array [3] of integer;
 		intarr: array [5] of array [7] of integer;
-
-		const ARR: T1 = [["2"],["ciao",["s"]]];
+	const B:boolean=true;
 begin myprog
-	x = 3 + f;
+	x = 3 + intarr[y][z];
+	arr[4] = [true,false];
 end myprog.
 
 

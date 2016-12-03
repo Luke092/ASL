@@ -14,7 +14,7 @@ func provaFunc2(k:integer):arrT
         end provaFunc2;
 
 proc provaProc(k:string)
- 	var u:T;       
+ 	var u:T1;       
 	func provaFunc(z:integer):boolean
         begin provaFunc
                 3==s
@@ -32,6 +32,5 @@ func provaFunc(t:string):integer
 	end provaFunc;
     
 begin p
-s=arr[1][provaFunc(arr2[3])];
-s = provaFunc("ciao");
+b = 5+(MAX<3);
 end p.

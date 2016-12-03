@@ -34,7 +34,7 @@ program alpha
      				voto:sd=5;
 			PROVA: T7=true;
 			begin cri 
-				f=y;
+				p=ty+7;
 			end cri;
 
 
@@ -44,7 +44,7 @@ program alpha
 
 
 	 begin jhonny
-                s=r;
+                ty=7;
         end jhonny;
 
 begin alpha

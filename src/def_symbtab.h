@@ -48,6 +48,10 @@ void stampa2(pstLine[]),
         start(pnode,pST,ptypeS*),
         nDomain(pnode,ptypeS*),
         decl(pST, pnode,int,ptypeS*),
+        assignStat(pnode),
+        exprBody( pnode,ptypeS*),
+        expr(pnode,ptypeS*),
+        modCall(pnode,ptypeS*),
         printSemanticError(),
         printType(ptypeS),
         optTypeSect_var_const(pnode,int),
@@ -58,10 +62,6 @@ void stampa2(pstLine[]),
 ptypeS 
         createType(int,ptypeS,int),
         controllaEsistenzaTipo(pnode),
-        modCall(pnode),
-        figliExpr(pnode),
-        expr(pnode),
-        exprBody( pnode),
         nArrayConst(pnode),
         lhs(pnode);
 
@@ -73,8 +73,8 @@ pstLine createLine(char*,int,int,ptypeS,pstLine,int,pstLine[],pstLine),
 pST createSymbTab(pST);
 
 int controlConstType(ptypeS,pnode),
-        controllaCompatibilitaTipi(ptypeS ,ptypeS),
-        assignStat(pnode);
+        controllaCompatibilitaTipi(ptypeS ,ptypeS);
+        
         
 pstLine* recuperaFormali(pST,int);
 
