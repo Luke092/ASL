@@ -22,7 +22,7 @@ proc provaProc(k:string)
 
 
 	begin provaProc
-		  b=provaFunc(3);              
+		  b=provaFunc2(3);              
         end provaProc;
 
 	
@@ -32,5 +32,5 @@ func provaFunc(t:string):integer
 	end provaFunc;
     
 begin p
-b = 5+(MAX<3);
+b = 5>arr[s][s];
 end p.

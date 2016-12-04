@@ -48,7 +48,9 @@ void stampa2(pstLine[]),
         start(pnode,pST,ptypeS*),
         nDomain(pnode,ptypeS*),
         decl(pST, pnode,int,ptypeS*),
+        nArrayConst(pnode,ptypeS*),
         assignStat(pnode),
+        lhs(pnode,ptypeS*),
         exprBody( pnode,ptypeS*),
         expr(pnode,ptypeS*),
         modCall(pnode,ptypeS*),
@@ -61,9 +63,8 @@ void stampa2(pstLine[]),
         
 ptypeS 
         createType(int,ptypeS,int),
-        controllaEsistenzaTipo(pnode),
-        nArrayConst(pnode),
-        lhs(pnode);
+        controllaEsistenzaTipo(pnode);
+       
 
 pstLine createLine(char*,int,int,ptypeS,pstLine,int,pstLine[],pstLine),
         insertFindLine(pstLine[],int , char*, int,int,ptypeS,pstLine,int,pstLine[]),

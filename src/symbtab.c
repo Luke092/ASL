@@ -132,8 +132,7 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
             
             switch(ex->val.ival){
                 case N_LHS:
-                    
-                    tipoRitornato2=lhs(ex);
+                    lhs(ex,&tipoRitornato2);
                 break;
                 case N_CONST:
                     switch(ex->child->type){
@@ -147,8 +146,7 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
                             tipoRitornato2 = tipoString;
                         break;
                         //se non è nessuno di questi sopra è un arrayconst
-                        default:tipoRitornato2=nArrayConst(ex->child);
-                                //printType(tipoRitornato);
+                        default:nArrayConst(ex->child,&tipoRitornato2);
                                 break;
                     };
                 break;
@@ -178,10 +176,10 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
 /*
  * funzione che crea un tipo fittizio per rappresentare una costante array;
  */
-ptypeS nArrayConst(pnode nAC){
+void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
     //printf("nArrayConst\n");
     
-    ptypeS tipoRitornato;
+    ptypeS tipoRitornato2;
     ptypeS tipoParziale;
     
     int contatore=1;
@@ -240,12 +238,12 @@ ptypeS nArrayConst(pnode nAC){
     }else{        
         //entro se ho un altro array innestato
         printf("nArrayConstELSE\n");
-        tipoParziale = nArrayConst(nconst->child);
-        ptypeS tipoParziale2;
+        nArrayConst(nconst->child,&tipoParziale);
         
         //ora tutti i fratelli devono essere array con la stessa struttura di tipoParziale
         while(nconst->brother!=NULL){
-            tipoParziale2 = nArrayConst(nconst->brother->child);
+            ptypeS tipoParziale2 = NULL;
+            nArrayConst(nconst->brother->child,&tipoParziale2);
             
             if(controllaCompatibilitaTipi(tipoParziale,tipoParziale2)==0){
                 printf("ERRORE #%d: non sono ammessi array eterogenei (es. [[1],[2,3]])\n",line);
@@ -259,9 +257,12 @@ ptypeS nArrayConst(pnode nAC){
                
     }
     printf("nArrayConstRETURN\n");
-    tipoRitornato=createType(S_ARRAY,tipoParziale,contatore);
+    tipoRitornato2=createType(S_ARRAY,tipoParziale,contatore);
     
-    return tipoRitornato;
+    *tipoRitornato = tipoRitornato2;
+    
+    printf("Tipo tornato array const\n");
+    printType(*tipoRitornato);
         
 }
 
@@ -432,10 +433,11 @@ int optFormalList(pST localStab,pnode nOptFormalList){//restituisce il numero de
  * return 0 = errore
  */
 int controlConstType(ptypeS type,pnode n_const){
-    //printf("controlConstType\n");
+    printf("controlConstType\n");
     int risultato=1;
     int dimConstArray=0;
     int i=0;
+    ptypeS typeArray = NULL;
     switch(type->domain){
         case S_INTEGER:
             risultato = n_const->child->type == T_INTCONST ? 1:0;
@@ -444,9 +446,9 @@ int controlConstType(ptypeS type,pnode n_const){
         break;
         case S_BOOLEAN: risultato = n_const->child->type == T_BOOLCONST ? 1:0;
         break;
-        case S_ARRAY: 
-            
-            risultato = controllaCompatibilitaTipi(type,nArrayConst(n_const->child));
+        case S_ARRAY:           
+            nArrayConst(n_const->child,&typeArray);
+            risultato = controllaCompatibilitaTipi(type,typeArray);
             
         break;
     }
@@ -697,7 +699,8 @@ void assignStat(pnode nStat){
   
     ptypeS typeExpr = NULL;
     exprBody(ex,&typeExpr);
-    ptypeS typeLhs = lhs(nStat->child->child);
+    ptypeS typeLhs = NULL;
+    lhs(nStat->child->child,&typeLhs);
     /*
     if(nStat->child->child->brother->val.ival == N_CONST){//se a dx dell'uguale ho una costante
         risultato = controlConstType(typeLhs,nStat->child->child->brother);
@@ -731,7 +734,7 @@ void assignStat(pnode nStat){
 /*
  *lhs torna il tipo della lhs 
  */
-ptypeS lhs(pnode nLhs){
+void lhs(pnode nLhs,ptypeS* tipoRitornato){
     printf("lhs\n");
     ptypeS tipoLhs = NULL;
     pnode figlio = nLhs->child;
@@ -756,9 +759,7 @@ ptypeS lhs(pnode nLhs){
             if(p->classe==S_CONST){
                 tipoLhs->costante=1;
             }            
-            //return tipoLhs;
-        }
-        
+        }      
     }
     else{//il figlio è un indexing
         //printf("lhs INDEXING\n");
@@ -830,7 +831,8 @@ ptypeS lhs(pnode nLhs){
         
         
                 
-        ptypeS parziale = lhs(nLhs2);
+        ptypeS parziale = NULL;
+        lhs(nLhs2,&parziale);
         if(parziale->child!=NULL){
             tipoLhs = parziale->child;
         }
@@ -842,7 +844,7 @@ ptypeS lhs(pnode nLhs){
         
     }
     
-    return tipoLhs;
+    *tipoRitornato = tipoLhs;
     
 }
 

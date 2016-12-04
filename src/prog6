@@ -1,0 +1,11 @@
+program arrai
+
+	type A:array [2] of array [1] of string;
+		B:array [3] of integer;
+	var x,y:integer;
+	const ARR:A=[["c"],["4"]];
+		ARR2:B=[7,7,6];
+
+begin arrai
+ARR[4][4]=ARR[5][5];
+end arrai.
