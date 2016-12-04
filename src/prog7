@@ -1,0 +1,44 @@
+program ifstat
+
+	var	x,y,z:integer;
+		b:boolean;
+
+	proc pr(k:integer)
+	begin pr
+		x=y;
+		repeat 
+			x=y;
+			y=x;
+		until x>y;
+	end pr;
+
+	func fn(k:boolean):integer
+	begin fn
+		3
+	end fn;
+
+begin ifstat
+
+if b then
+
+	if y<y then 
+		x=6;
+	else	
+		y=x;
+	end;
+elsif x!=-8 then
+ 
+	y=4;
+elsif x==5 then
+
+	z=z;
+	x=6;
+end;
+x=4;
+y=5;
+while x>3+4 or 3+4  do
+	x=y;
+	pr(x);
+end;
+input x;
+end ifstat.

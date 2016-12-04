@@ -76,7 +76,7 @@ void start(pnode root, pST s, ptypeS* tipoRitornato){
                     printf("ERRORE #%d: l'id %s non coincide con quello di begin e end\n",idRoot->line,nomeRoot);
                     exit(0);
                 }
-                nStatBody(nodoCorrente);
+                statList(nodoCorrente->child->brother);
                 break;
             case N_EXPRBODY:
                 if(strcmp(nomeRoot,nodoCorrente->child->val.sval)!=0){
@@ -137,12 +137,15 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
                 case N_CONST:
                     switch(ex->child->type){
                         case T_BOOLCONST:
+                            idErr = "una costante booleana";
                             tipoRitornato2 = tipoBoolean;
                         break;
                         case T_INTCONST:
+                            idErr = "una costante intera";
                             tipoRitornato2 = tipoIntero;
                         break;
                         case T_STRCONST:
+                            idErr = "una costante stringa";
                             tipoRitornato2 = tipoString;
                         break;
                         //se non è nessuno di questi sopra è un arrayconst
@@ -150,7 +153,7 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
                                 break;
                     };
                 break;
-                case N_CONDEXPR:;
+                case N_CONDEXPR:condExpr(ex,&tipoRitornato2);
                 break;
             };
         break;
@@ -171,6 +174,79 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
     printf("Tipo tornato dentro exprbody normale\n");
     printType(tipoRitornato2);
     
+}
+
+/*
+ * funzione che gestisce le cond expr
+ */
+void condExpr(pnode nCond,ptypeS* tipoRitornato){
+    //printf("condexpr\n");
+    
+    line = nCond->child->line;
+    
+    //exprIf= la condizione dell'if
+    ptypeS exprIf = NULL;
+    exprBody(nCond->child,&exprIf);
+    
+    if(controllaCompatibilitaTipi(exprIf,tipoBoolean)==0){
+        //l'exprIf deve essere per forza un booleano, se no è errore
+        printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
+        printSemanticError();
+        exit(0);
+    }
+    
+    //expr1= expr dopo l'if
+    ptypeS expr1 = NULL;
+    exprBody(nCond->child->brother,&expr1);
+    
+    //ora inizia la serie dei possibili fratelli optelsifexprlist
+    pnode nElseIf = nCond->child->brother->brother;
+    pnode nExprElseIf = nElseIf->child;
+    
+    while(nExprElseIf!=NULL){
+        
+        line = nExprElseIf->child->line;
+        
+        //exprElseIf espressione (che deve tornare un bool) dell'elsif
+        ptypeS exprElseIf = NULL;
+        exprBody(nElseIf->child,&exprElseIf);
+        
+        if(controllaCompatibilitaTipi(exprElseIf,tipoBoolean)==0){
+            //l'exprIf deve essere per forza un booleano, se no è errore
+            printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
+            printSemanticError();
+            exit(0);
+        }
+        
+        //expr2 = espressione dopo elsif
+        ptypeS expr2 = NULL;
+        exprBody(nExprElseIf->brother,&expr2);
+        
+        if(controllaCompatibilitaTipi(expr2,expr1)==0){
+            //l'expr2 deve essere dello stesso tipo di expr1, se no è errore
+            printf("ERRORE #%d: il tipo dell'expr di un elseif non coincide con quella dell'if\n",line);
+            printSemanticError();
+            exit(0);
+        }
+        
+        nExprElseIf = nExprElseIf->brother->brother;
+    }
+    
+    //expr3 è l'expr dopo l'else finale
+    ptypeS expr3 = NULL;
+    exprBody(nElseIf->brother,&expr3);
+    
+    if(controllaCompatibilitaTipi(expr3,expr1)==0){
+        //l'expr2 deve essere dello stesso tipo di expr1, se no è errore
+        line = nElseIf->brother->child->line;
+        printf("ERRORE #%d: il tipo dell'expr dell'else non coincide con quella dell'if\n",line);
+        printSemanticError();
+        exit(0);
+    }
+    
+    *tipoRitornato = expr1;
+    printf("tipo tornato COND_EXPR\n");
+    printType(*tipoRitornato);
 }
 
 /*
@@ -522,13 +598,13 @@ void nDomain(pnode n_domain, ptypeS* dom){
     
 }
 
-void nStatBody(pnode n_stat_body){
+/*
+ * funzione che gestisce le stat list
+ */
+void statList(pnode nStatList){
     //printf("nstatbody\n");
-    pnode nStatList = n_stat_body->child->brother;
     pnode nStat = nStatList->child;
-       
-    int risultato;
-    
+ 
     while(nStat!=NULL){
         
         switch(nStat->child->val.ival){
@@ -536,27 +612,114 @@ void nStatBody(pnode n_stat_body){
                 assignStat(nStat);               
                 break;
             case N_IFSTAT:
+                ifStat(nStat->child);
                 break;
             case N_WHILESTAT:
+                whileStat(nStat->child);
                 break;
             case N_REPEATSTAT:
+                repeatStat(nStat->child);
                 break;
             case N_FORSTAT:
                 break;
             case N_INPUTSTAT:
+                
                 break;
             case N_OUTPUTSTAT:
                 break;
             case E_PROC:
                 modCall(nStat->child,NULL);
                 break;
-            /*default:
-                printf("ERRORE: nella stat-list\n");*/
-            
           }
         
         
         nStat = nStat->brother;
+    }
+}
+
+/*
+ * funzione che gestisce una if-stat
+ */
+void ifStat(pnode nIfStat){
+    //printf("nIfStat\n");
+    
+    line = nIfStat->child->line;
+    
+    //exprIf deve tornare un bool se no è errore
+    ptypeS exprIf = NULL;
+    exprBody(nIfStat->child,&exprIf);
+    
+    if(controllaCompatibilitaTipi(exprIf,tipoBoolean)==0){
+        //l'exprIf deve essere per forza un booleano, se no è errore
+        printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
+        printSemanticError();
+        exit(0);
+    }
+    
+    pnode nStatList = nIfStat->child->brother;
+    statList(nStatList);
+    
+    pnode nOptElsif = nStatList->brother;
+    pnode nOptExpr = nOptElsif->child;
+    
+    while(nOptExpr!=NULL){
+        ptypeS exprElsif = NULL;
+        exprBody(nOptExpr,&exprElsif);
+        if(controllaCompatibilitaTipi(exprElsif,tipoBoolean)==0){
+            line = nOptExpr->child->line;
+            //l'exprElsif deve essere per forza un booleano, se no è errore
+            printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
+            printSemanticError();
+            exit(0);
+        }
+        statList(nOptExpr->brother);
+        nOptExpr = nOptExpr->brother->brother;
+    }
+    
+    pnode nElseStatList = nOptElsif->brother;
+    
+    //se nElseStatList è != NULL svuol dire che c'è l'else finale
+    if(nElseStatList!=NULL){
+        statList(nElseStatList);
+    }
+}
+
+/*
+ * funzione che gestisce i while 
+ */
+void whileStat(pnode nWhileStat){
+    //printf("whilestat\n");
+    
+    //exprWhile deve tornare un bool se no è errore
+    ptypeS exprWhile = NULL;
+    exprBody(nWhileStat->child,&exprWhile);
+    if(controllaCompatibilitaTipi(exprWhile,tipoBoolean)==0){
+        line = nWhileStat->child->line;
+        printf("ERRORE #%d: l'expr di un while deve tornare un booleano\n",line);
+        printSemanticError();
+        exit(0);
+    }
+    
+    statList(nWhileStat->child->brother);
+    
+}
+
+/*
+ * funzione che gestisce i repeat
+ */
+void repeatStat(pnode nRepeatStat){
+    //printf("repeatstat\n");
+    
+    statList(nRepeatStat->child);
+    
+    //exprRep deve tornare un bool se no è errore
+    ptypeS exprRep = NULL;
+    exprBody(nRepeatStat->child->brother,&exprRep);
+    if(controllaCompatibilitaTipi(exprRep,tipoBoolean)==0){
+        line = nRepeatStat->child->line;
+        printf("ERRORE #%d: l'expr di un repeat deve tornare un booleano\n",line);
+        printSemanticError();
+        exit(0);
     }
 }
 
@@ -638,7 +801,6 @@ void modCall(pnode nodoModcall,ptypeS* tipoRitornato){
 }
 
 /*
- * MANCA CONDEXPR 
  * funzione che controlla che il parametro attuale e formale passati abbiano stesso tipo
  */
 void controllaParametroChiamata(pstLine formale, pnode attuale){
@@ -656,12 +818,6 @@ void controllaParametroChiamata(pstLine formale, pnode attuale){
    
     ptypeS typeAttuale = NULL;
     exprBody(attuale,&typeAttuale);
-   
-    //printf("ATTUALE\n");
-    //printType(typeAttuale);
-    
-    //printf("FORMALE\n");
-    //printType(formale->root);
 
     /*
      * A questo punto in typeAttuale dovremmo avere (qualsiasi cosa fosse il param attuale) un tipo
@@ -701,30 +857,11 @@ void assignStat(pnode nStat){
     exprBody(ex,&typeExpr);
     ptypeS typeLhs = NULL;
     lhs(nStat->child->child,&typeLhs);
-    /*
-    if(nStat->child->child->brother->val.ival == N_CONST){//se a dx dell'uguale ho una costante
-        risultato = controlConstType(typeLhs,nStat->child->child->brother);
-        return risultato;//0=errore 1=OK
-    }else if(nStat->child->child->brother->val.ival == N_LHS){//se a dx dell'uguale ho un lhs
-        typeExpr = lhs(nStat->child->child->brother);
-    }else if(nStat->child->child->brother->type == T_MODCALL){//se a dx dell'uguale ho una modcall
-        typeExpr = modCall(nStat->child->child->brother);
-    }else{//se a dx dell'= ho una logic/math/comp/neg expr 
-        printf("EXPR\n");
-        typeExpr = expr(nStat->child->child->brother);
-        if(typeExpr==NULL){
-                printf("ERRORE: tipi non compatibili nell'assegnamento\n");
-                printSemanticError();
-                exit(0);
-        }
-    }*/
-    
-    
     
     risultato = controllaCompatibilitaTipi(typeLhs,typeExpr);//recuperati i due tipi controllo che coincidano
     
     if(risultato==0){
-        printf("ERRORE: tipi dell'assegnamento non compatibili\n");
+        printf("ERRORE #%d: tipi dell'assegnamento non compatibili\n",line);
         printSemanticError();
         exit(0);
     }          
@@ -782,55 +919,7 @@ void lhs(pnode nLhs,ptypeS* tipoRitornato){
             printSemanticError();
             exit(0);
         }
-        
-        /*switch(expr2->type){
-            case T_MATHEXPR://calcoliamo il tipo ritornato dalla expr 
-                if(controllaCompatibilitaTipi(expr(expr2),tipoIntero)!=1){//vuol dire che si sta provando ad indicizzare un array con un expr che non ritorna un intero 
-                printf("ERRORE: l'expr usata per l'indexing non restituisce un intero\n");
-                printSemanticError();
-                exit(0);
-                }
-            break;
-            case T_MODCALL:
-                if(controllaCompatibilitaTipi(modCall(expr2),tipoIntero)==0){
-                   printf("ERRORE: la modcall usata per l'indexing non restituisce un intero\n");
-                    printSemanticError();
-                    exit(0); 
-                };
-            break;
-            case T_NONTERM:      
-                switch(expr2->val.ival){
-                    case N_LHS:
-                            
-                            /*
-                             * Se ho un lhs qui vuol dire che ho una roba tiopo arr1[arr2[3]]
-                             * Quindi a me importa solo controllare che arr2[3] torni un int
-                            
-                            if(controllaCompatibilitaTipi(lhs(expr2),tipoIntero) != 1){
-                                printf("ERRORE: l'array interno non torna un intero\n");
-                                printSemanticError();
-                                exit(0);
-                            }
-
-                    break;
-                    case N_CONST:
-                            if(expr2->child->type != T_INTCONST){//se ho una costante non numerica
-                                printf("ERRORE: non si può indicizzare un array con una costante non numerica\n");
-                                printSemanticError();
-                                exit(0);
-                            };
-                    break;
-                }
-                
-            break;                
-            default:
-                printf("ERRORE: non si può indicizzare un array con una expr che non restituisce un integer\n");
-                printSemanticError();
-                exit(0);
-        }*/
-        
-        
-                
+           
         ptypeS parziale = NULL;
         lhs(nLhs2,&parziale);
         if(parziale->child!=NULL){
@@ -934,7 +1023,7 @@ void expr(pnode nExpr,ptypeS* tipoRitornato){
     
     if(tr1==NULL || tr2==NULL || controllaCompatibilitaTipi(tr1,tr2)==0){
         printf("ERRORE #%d: tipi incompatibili nell'espressione\n",line);
-        //printSemanticError();
+        printSemanticError();
         exit(0);
     }else{
         
@@ -978,43 +1067,6 @@ void expr(pnode nExpr,ptypeS* tipoRitornato){
         }        
     }    
 }
-
-/*
- * una expr ha sempre due figli (un figlio e suo fratello) e bisogna assicurarsi 
- * che i tipi di tutti e tre siano "compatibili"
-
-ptypeS figliExpr(pnode figlioExpr){
-    printf("figli expr\n");
-    ptypeS tipoRitornato;
-    
-    if(figlioExpr->val.ival==N_CONST){
-        
-        switch(figlioExpr->child->type){
-            case T_INTCONST:tipoRitornato=tipoIntero;
-            break;
-            case T_BOOLCONST:tipoRitornato=tipoBoolean;
-            break;
-            case T_STRCONST:tipoRitornato=tipoString;
-            break;
-            //se non è nessuno di questi sopra è un arrayconst
-            default:tipoRitornato=nArrayConst(figlioExpr->child);
-                   //printType(tipoRitornato);
-            break;
-        }
-    }else if(figlioExpr->val.ival==N_LHS){
-        
-        tipoRitornato = lhs(figlioExpr);
-       
-    }else if(figlioExpr->type==T_MODCALL){
-        tipoRitornato = modCall(figlioExpr);
-        
-    }else{
-        tipoRitornato=expr(figlioExpr);
-    }
-    printType(tipoRitornato);
-    return tipoRitornato;
-    
-}*/
 
 /*
  * funzione per controllare l'esistenza di tipi definiti dall'utente

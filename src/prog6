@@ -2,10 +2,35 @@ program arrai
 
 	type A:array [2] of array [1] of string;
 		B:array [3] of integer;
+		A2:array [2] of A;
 	var x,y:integer;
+	    b:boolean;
+	    a:A;
+	    a2:A2;	
+	    s:string;	
 	const ARR:A=[["c"],["4"]];
 		ARR2:B=[7,7,6];
 
+	func pf(bo:boolean):array [2] of array [1] of string
+	begin pf
+		if x==4 then
+			[["2"],["2"]]
+		else
+			[["2"],["c"]]
+		end
+	end pf;
+
+
+
 begin arrai
-ARR[4][4]=ARR[5][5];
+break;
+b=pf(if true then
+	b
+elsif x<3 then
+	b
+elsif x<3 then
+	b
+else
+	b
+end)==a;
 end arrai.

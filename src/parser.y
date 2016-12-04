@@ -217,41 +217,35 @@ output-stat :       OUTPUT expr {$$=nontermnode(N_OUTPUTSTAT);$$->child=$2;}
 
 for-stat :          FOR ID {$$=idnode();} ASSIGN expr TO expr DO stat-list END
                     {$$=nontermnode(N_FORSTAT);
-                     $$->child=$3; $3->brother=$5;$5->brother=$7;$7->brother=$9;   
+                     $$->child=$3; $3->brother=$5;$5->brother=$7;$7->brother=nontermnode(N_STATLIST);
+                     $7->brother->child=$9;
                     }
                     ;
 
-while-stat :        WHILE expr DO stat-list END {$$=nontermnode(N_WHILESTAT);$$->child=$2;$2->brother=$4;}
+while-stat :        WHILE expr DO stat-list END {$$=nontermnode(N_WHILESTAT);$$->child=$2;$2->brother=nontermnode(N_STATLIST);$2->brother->child=$4;}
                     ;
 
 repeat-stat :       REPEAT stat-list UNTIL expr 
                     {$$=nontermnode(N_REPEATSTAT);
-                     $$->child=$2;
-                     pnode primo = $2; //prendo il primo stat (che forma la statlist)
-                     int fine=1;
-                     do{
-                        if(primo->brother==NULL){ //se lo stat in considerazione non ha fratelli è l'ultimo
-                            primo->brother=$4;//quindi gli attacco l'expr
-                            fine =0;
-                        }else{
-                                primo = primo->brother; //altrimenti il fratello diventa il nuovo primo e continuo
-                            }
-                     }while(fine);
+                     $$->child=nontermnode(N_STATLIST);
+                     $$->child->child=$2; 
+                     $$->child->brother=$4;
                     }
                     ;
 
 if-stat :           IF expr THEN stat-list opt-elsif-stat-list opt-else-stat END 
-                    {$$=nontermnode(N_IFSTAT);$$->child=$2;$2->brother=$4;
-                    $4->brother=nontermnode(N_OPTELSEIFSTAT);
-                    $4->brother->brother=$6;
-                    $4->brother->child=$5;}
+                    {$$=nontermnode(N_IFSTAT);$$->child=$2;$2->brother=nontermnode(N_STATLIST);
+                    $2->brother->child = $4;
+                    $2->brother->brother=nontermnode(N_OPTELSEIFSTAT);
+                    $2->brother->brother->brother=$6;
+                    $2->brother->brother->child=$5;}
                     ;
 
-opt-elsif-stat-list : ELSIF expr THEN stat-list opt-elsif-stat-list {$$=$2;$2->brother=$4;$4->brother=$5;}
+opt-elsif-stat-list : ELSIF expr THEN stat-list opt-elsif-stat-list {$$=$2;$2->brother=nontermnode(N_STATLIST);$2->brother->child=$4;$2->brother->brother=$5;}
                     | {$$=NULL;}
                     ;
 
-opt-else-stat :     ELSE stat-list {$$=$2;}
+opt-else-stat :     ELSE stat-list {$$=nontermnode(N_STATLIST);$$->child=$2;}
                     | {$$=NULL;}
                     ;
 

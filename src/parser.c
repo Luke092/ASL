@@ -485,12 +485,12 @@ static const yytype_uint16 yyrline[] =
      149,   149,   159,   159,   168,   169,   172,   173,   176,   179,
      180,   181,   184,   184,   184,   190,   190,   190,   196,   197,
      200,   201,   202,   203,   204,   205,   206,   207,   208,   209,
-     212,   215,   218,   218,   224,   227,   243,   250,   251,   254,
-     255,   258,   261,   262,   265,   268,   269,   272,   273,   276,
-     277,   280,   281,   282,   283,   284,   285,   288,   289,   292,
-     293,   296,   297,   300,   301,   304,   305,   306,   307,   308,
-     309,   312,   313,   316,   322,   323,   326,   326,   329,   330,
-     333,   334
+     212,   215,   218,   218,   225,   228,   236,   244,   245,   248,
+     249,   252,   255,   256,   259,   262,   263,   266,   267,   270,
+     271,   274,   275,   276,   277,   278,   279,   282,   283,   286,
+     287,   290,   291,   294,   295,   298,   299,   300,   301,   302,
+     303,   306,   307,   310,   316,   317,   320,   320,   323,   324,
+     327,   328
 };
 #endif
 
@@ -1873,318 +1873,312 @@ yyreduce:
   case 73:
 #line 219 "parser.y" /* yacc.c:1646  */
     {(yyval)=nontermnode(N_FORSTAT);
-                     (yyval)->child=(yyvsp[-7]); (yyvsp[-7])->brother=(yyvsp[-5]);(yyvsp[-5])->brother=(yyvsp[-3]);(yyvsp[-3])->brother=(yyvsp[-1]);   
+                     (yyval)->child=(yyvsp[-7]); (yyvsp[-7])->brother=(yyvsp[-5]);(yyvsp[-5])->brother=(yyvsp[-3]);(yyvsp[-3])->brother=nontermnode(N_STATLIST);
+                     (yyvsp[-3])->brother->child=(yyvsp[-1]);
                     }
-#line 1879 "parser.c" /* yacc.c:1646  */
+#line 1880 "parser.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 224 "parser.y" /* yacc.c:1646  */
-    {(yyval)=nontermnode(N_WHILESTAT);(yyval)->child=(yyvsp[-3]);(yyvsp[-3])->brother=(yyvsp[-1]);}
-#line 1885 "parser.c" /* yacc.c:1646  */
+#line 225 "parser.y" /* yacc.c:1646  */
+    {(yyval)=nontermnode(N_WHILESTAT);(yyval)->child=(yyvsp[-3]);(yyvsp[-3])->brother=nontermnode(N_STATLIST);(yyvsp[-3])->brother->child=(yyvsp[-1]);}
+#line 1886 "parser.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 228 "parser.y" /* yacc.c:1646  */
+#line 229 "parser.y" /* yacc.c:1646  */
     {(yyval)=nontermnode(N_REPEATSTAT);
-                     (yyval)->child=(yyvsp[-2]);
-                     pnode primo = (yyvsp[-2]); //prendo il primo stat (che forma la statlist)
-                     int fine=1;
-                     do{
-                        if(primo->brother==NULL){ //se lo stat in considerazione non ha fratelli è l'ultimo
-                            primo->brother=(yyvsp[0]);//quindi gli attacco l'expr
-                            fine =0;
-                        }else{
-                                primo = primo->brother; //altrimenti il fratello diventa il nuovo primo e continuo
-                            }
-                     }while(fine);
+                     (yyval)->child=nontermnode(N_STATLIST);
+                     (yyval)->child->child=(yyvsp[-2]); 
+                     (yyval)->child->brother=(yyvsp[0]);
                     }
-#line 1903 "parser.c" /* yacc.c:1646  */
+#line 1896 "parser.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 244 "parser.y" /* yacc.c:1646  */
-    {(yyval)=nontermnode(N_IFSTAT);(yyval)->child=(yyvsp[-5]);(yyvsp[-5])->brother=(yyvsp[-3]);
-                    (yyvsp[-3])->brother=nontermnode(N_OPTELSEIFSTAT);
-                    (yyvsp[-3])->brother->brother=(yyvsp[-1]);
-                    (yyvsp[-3])->brother->child=(yyvsp[-2]);}
-#line 1912 "parser.c" /* yacc.c:1646  */
+#line 237 "parser.y" /* yacc.c:1646  */
+    {(yyval)=nontermnode(N_IFSTAT);(yyval)->child=(yyvsp[-5]);(yyvsp[-5])->brother=nontermnode(N_STATLIST);
+                    (yyvsp[-5])->brother->child = (yyvsp[-3]);
+                    (yyvsp[-5])->brother->brother=nontermnode(N_OPTELSEIFSTAT);
+                    (yyvsp[-5])->brother->brother->brother=(yyvsp[-1]);
+                    (yyvsp[-5])->brother->brother->child=(yyvsp[-2]);}
+#line 1906 "parser.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 250 "parser.y" /* yacc.c:1646  */
-    {(yyval)=(yyvsp[-3]);(yyvsp[-3])->brother=(yyvsp[-1]);(yyvsp[-1])->brother=(yyvsp[0]);}
-#line 1918 "parser.c" /* yacc.c:1646  */
+#line 244 "parser.y" /* yacc.c:1646  */
+    {(yyval)=(yyvsp[-3]);(yyvsp[-3])->brother=nontermnode(N_STATLIST);(yyvsp[-3])->brother->child=(yyvsp[-1]);(yyvsp[-3])->brother->brother=(yyvsp[0]);}
+#line 1912 "parser.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 251 "parser.y" /* yacc.c:1646  */
+#line 245 "parser.y" /* yacc.c:1646  */
     {(yyval)=NULL;}
-#line 1924 "parser.c" /* yacc.c:1646  */
+#line 1918 "parser.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 254 "parser.y" /* yacc.c:1646  */
-    {(yyval)=(yyvsp[0]);}
-#line 1930 "parser.c" /* yacc.c:1646  */
+#line 248 "parser.y" /* yacc.c:1646  */
+    {(yyval)=nontermnode(N_STATLIST);(yyval)->child=(yyvsp[0]);}
+#line 1924 "parser.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 255 "parser.y" /* yacc.c:1646  */
+#line 249 "parser.y" /* yacc.c:1646  */
     {(yyval)=NULL;}
-#line 1936 "parser.c" /* yacc.c:1646  */
+#line 1930 "parser.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 258 "parser.y" /* yacc.c:1646  */
+#line 252 "parser.y" /* yacc.c:1646  */
     {(yyval)=nontermnode(N_ASSIGNSTAT);(yyval)->child=(yyvsp[-2]);(yyvsp[-2])->brother=(yyvsp[0]);}
-#line 1942 "parser.c" /* yacc.c:1646  */
+#line 1936 "parser.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 261 "parser.y" /* yacc.c:1646  */
+#line 255 "parser.y" /* yacc.c:1646  */
     {(yyval)=nontermnode(N_LHS);(yyvsp[0])=idnode();(yyval)->child=(yyvsp[0]);}
-#line 1948 "parser.c" /* yacc.c:1646  */
+#line 1942 "parser.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 262 "parser.y" /* yacc.c:1646  */
+#line 256 "parser.y" /* yacc.c:1646  */
     {(yyval)=nontermnode(N_LHS);(yyval)->child=(yyvsp[0]);}
-#line 1954 "parser.c" /* yacc.c:1646  */
+#line 1948 "parser.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 265 "parser.y" /* yacc.c:1646  */
+#line 259 "parser.y" /* yacc.c:1646  */
     {(yyval)=nontermnode(N_INDEXING);(yyval)->child=(yyvsp[-3]);(yyvsp[-3])->brother=(yyvsp[-1]);}
-#line 1960 "parser.c" /* yacc.c:1646  */
+#line 1954 "parser.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 268 "parser.y" /* yacc.c:1646  */
+#line 262 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-1]);(yyvsp[-1])->child=(yyvsp[-2]);(yyvsp[-2])->brother=(yyvsp[0]);}
-#line 1966 "parser.c" /* yacc.c:1646  */
+#line 1960 "parser.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 269 "parser.y" /* yacc.c:1646  */
+#line 263 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
-#line 1972 "parser.c" /* yacc.c:1646  */
+#line 1966 "parser.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 272 "parser.y" /* yacc.c:1646  */
+#line 266 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_LOGICEXPR,E_AND);}
-#line 1978 "parser.c" /* yacc.c:1646  */
+#line 1972 "parser.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 273 "parser.y" /* yacc.c:1646  */
+#line 267 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_LOGICEXPR,E_OR);}
-#line 1984 "parser.c" /* yacc.c:1646  */
+#line 1978 "parser.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 276 "parser.y" /* yacc.c:1646  */
+#line 270 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-1]);(yyvsp[-2])->brother=(yyvsp[0]);(yyvsp[-1])->child=(yyvsp[-2]);}
-#line 1990 "parser.c" /* yacc.c:1646  */
+#line 1984 "parser.c" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 277 "parser.y" /* yacc.c:1646  */
+#line 271 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
-#line 1996 "parser.c" /* yacc.c:1646  */
+#line 1990 "parser.c" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 280 "parser.y" /* yacc.c:1646  */
+#line 274 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_COMPEXPR,E_EQ);}
-#line 2002 "parser.c" /* yacc.c:1646  */
+#line 1996 "parser.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 281 "parser.y" /* yacc.c:1646  */
+#line 275 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_COMPEXPR,E_NE);}
-#line 2008 "parser.c" /* yacc.c:1646  */
+#line 2002 "parser.c" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 282 "parser.y" /* yacc.c:1646  */
+#line 276 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_COMPEXPR,E_GT);}
-#line 2014 "parser.c" /* yacc.c:1646  */
+#line 2008 "parser.c" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 283 "parser.y" /* yacc.c:1646  */
+#line 277 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_COMPEXPR,E_GE);}
-#line 2020 "parser.c" /* yacc.c:1646  */
+#line 2014 "parser.c" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 284 "parser.y" /* yacc.c:1646  */
+#line 278 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_COMPEXPR,E_LT);}
-#line 2026 "parser.c" /* yacc.c:1646  */
+#line 2020 "parser.c" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 285 "parser.y" /* yacc.c:1646  */
+#line 279 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_COMPEXPR,E_LE);}
-#line 2032 "parser.c" /* yacc.c:1646  */
+#line 2026 "parser.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 288 "parser.y" /* yacc.c:1646  */
+#line 282 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-1]);(yyvsp[-1])->child=(yyvsp[-2]);(yyvsp[-2])->brother=(yyvsp[0]);}
-#line 2038 "parser.c" /* yacc.c:1646  */
+#line 2032 "parser.c" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 289 "parser.y" /* yacc.c:1646  */
+#line 283 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
-#line 2044 "parser.c" /* yacc.c:1646  */
+#line 2038 "parser.c" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 292 "parser.y" /* yacc.c:1646  */
+#line 286 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_MATHEXPR,E_PLUS);}
-#line 2050 "parser.c" /* yacc.c:1646  */
+#line 2044 "parser.c" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 293 "parser.y" /* yacc.c:1646  */
+#line 287 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_MATHEXPR,E_MINUS);}
-#line 2056 "parser.c" /* yacc.c:1646  */
+#line 2050 "parser.c" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 296 "parser.y" /* yacc.c:1646  */
+#line 290 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-1]);(yyvsp[-1])->child=(yyvsp[-2]);(yyvsp[-2])->brother=(yyvsp[0]);}
-#line 2062 "parser.c" /* yacc.c:1646  */
+#line 2056 "parser.c" /* yacc.c:1646  */
     break;
 
   case 102:
-#line 297 "parser.y" /* yacc.c:1646  */
+#line 291 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
-#line 2068 "parser.c" /* yacc.c:1646  */
+#line 2062 "parser.c" /* yacc.c:1646  */
     break;
 
   case 103:
-#line 300 "parser.y" /* yacc.c:1646  */
+#line 294 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_MATHEXPR,E_MUL);}
-#line 2074 "parser.c" /* yacc.c:1646  */
+#line 2068 "parser.c" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 301 "parser.y" /* yacc.c:1646  */
+#line 295 "parser.y" /* yacc.c:1646  */
     {(yyval)=exprnode(T_MATHEXPR,E_DIV);}
-#line 2080 "parser.c" /* yacc.c:1646  */
+#line 2074 "parser.c" /* yacc.c:1646  */
     break;
 
   case 105:
-#line 304 "parser.y" /* yacc.c:1646  */
+#line 298 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-1]);(yyvsp[-1])->child=(yyvsp[0]);}
-#line 2086 "parser.c" /* yacc.c:1646  */
+#line 2080 "parser.c" /* yacc.c:1646  */
     break;
 
   case 106:
-#line 305 "parser.y" /* yacc.c:1646  */
+#line 299 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-1]);}
-#line 2092 "parser.c" /* yacc.c:1646  */
+#line 2086 "parser.c" /* yacc.c:1646  */
     break;
 
   case 107:
-#line 306 "parser.y" /* yacc.c:1646  */
+#line 300 "parser.y" /* yacc.c:1646  */
+    {(yyval)=(yyvsp[0]);}
+#line 2092 "parser.c" /* yacc.c:1646  */
+    break;
+
+  case 108:
+#line 301 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
 #line 2098 "parser.c" /* yacc.c:1646  */
     break;
 
-  case 108:
-#line 307 "parser.y" /* yacc.c:1646  */
+  case 109:
+#line 302 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
 #line 2104 "parser.c" /* yacc.c:1646  */
     break;
 
-  case 109:
-#line 308 "parser.y" /* yacc.c:1646  */
-    {(yyval)=(yyvsp[0]);}
+  case 110:
+#line 303 "parser.y" /* yacc.c:1646  */
+    {(yyval)=(yyvsp[0]);(yyvsp[0])->val.ival=E_FUNC;}
 #line 2110 "parser.c" /* yacc.c:1646  */
     break;
 
-  case 110:
-#line 309 "parser.y" /* yacc.c:1646  */
-    {(yyval)=(yyvsp[0]);(yyvsp[0])->val.ival=E_FUNC;}
+  case 111:
+#line 306 "parser.y" /* yacc.c:1646  */
+    {(yyval)=exprnode(T_NEGEXPR,E_UMINUS);}
 #line 2116 "parser.c" /* yacc.c:1646  */
     break;
 
-  case 111:
-#line 312 "parser.y" /* yacc.c:1646  */
-    {(yyval)=exprnode(T_NEGEXPR,E_UMINUS);}
+  case 112:
+#line 307 "parser.y" /* yacc.c:1646  */
+    {(yyval)=exprnode(T_NEGEXPR,E_NOT);}
 #line 2122 "parser.c" /* yacc.c:1646  */
     break;
 
-  case 112:
-#line 313 "parser.y" /* yacc.c:1646  */
-    {(yyval)=exprnode(T_NEGEXPR,E_NOT);}
-#line 2128 "parser.c" /* yacc.c:1646  */
-    break;
-
   case 113:
-#line 317 "parser.y" /* yacc.c:1646  */
+#line 311 "parser.y" /* yacc.c:1646  */
     {(yyval)=nontermnode(N_CONDEXPR);(yyval)->child=(yyvsp[-6]);(yyvsp[-6])->brother=(yyvsp[-4]);
                     (yyvsp[-4])->brother=nontermnode(N_OPTELSEIFEXPR);(yyvsp[-4])->brother->brother=(yyvsp[-1]);
                     (yyvsp[-4])->brother->child=(yyvsp[-3]);}
-#line 2136 "parser.c" /* yacc.c:1646  */
+#line 2130 "parser.c" /* yacc.c:1646  */
     break;
 
   case 114:
-#line 322 "parser.y" /* yacc.c:1646  */
+#line 316 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-3]);(yyvsp[-3])->brother=(yyvsp[-1]);(yyvsp[-1])->brother=(yyvsp[0]);}
-#line 2142 "parser.c" /* yacc.c:1646  */
+#line 2136 "parser.c" /* yacc.c:1646  */
     break;
 
   case 115:
-#line 323 "parser.y" /* yacc.c:1646  */
+#line 317 "parser.y" /* yacc.c:1646  */
     {(yyval)=NULL;}
-#line 2148 "parser.c" /* yacc.c:1646  */
+#line 2142 "parser.c" /* yacc.c:1646  */
     break;
 
   case 116:
-#line 326 "parser.y" /* yacc.c:1646  */
+#line 320 "parser.y" /* yacc.c:1646  */
     {(yyval)=idnode();}
-#line 2154 "parser.c" /* yacc.c:1646  */
+#line 2148 "parser.c" /* yacc.c:1646  */
     break;
 
   case 117:
-#line 326 "parser.y" /* yacc.c:1646  */
+#line 320 "parser.y" /* yacc.c:1646  */
     {(yyval)=newnode(T_MODCALL);(yyval)->child=(yyvsp[-3]);(yyvsp[-3])->brother=(yyvsp[-1]);}
-#line 2160 "parser.c" /* yacc.c:1646  */
+#line 2154 "parser.c" /* yacc.c:1646  */
     break;
 
   case 118:
-#line 329 "parser.y" /* yacc.c:1646  */
+#line 323 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
-#line 2166 "parser.c" /* yacc.c:1646  */
+#line 2160 "parser.c" /* yacc.c:1646  */
     break;
 
   case 119:
-#line 330 "parser.y" /* yacc.c:1646  */
+#line 324 "parser.y" /* yacc.c:1646  */
     {(yyval)=NULL;}
-#line 2172 "parser.c" /* yacc.c:1646  */
+#line 2166 "parser.c" /* yacc.c:1646  */
     break;
 
   case 120:
-#line 333 "parser.y" /* yacc.c:1646  */
+#line 327 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[-2]);(yyvsp[-2])->brother=(yyvsp[0]);}
-#line 2178 "parser.c" /* yacc.c:1646  */
+#line 2172 "parser.c" /* yacc.c:1646  */
     break;
 
   case 121:
-#line 334 "parser.y" /* yacc.c:1646  */
+#line 328 "parser.y" /* yacc.c:1646  */
     {(yyval)=(yyvsp[0]);}
-#line 2184 "parser.c" /* yacc.c:1646  */
+#line 2178 "parser.c" /* yacc.c:1646  */
     break;
 
 
-#line 2188 "parser.c" /* yacc.c:1646  */
+#line 2182 "parser.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2412,7 +2406,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 337 "parser.y" /* yacc.c:1906  */
+#line 331 "parser.y" /* yacc.c:1906  */
 
 
 int main(int argc,char* argv[]){
