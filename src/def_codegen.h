@@ -8,6 +8,8 @@
 #ifndef DEF_CODEGEN_H
 #define DEF_CODEGEN_H
 
+#include "def.h"
+
 enum Operator{
     PUSH,
     JUMP,
@@ -44,7 +46,9 @@ enum Operator{
     READ,
     WRIT,
     MODL,
-    RETN
+    RETN,
+    LOCS,
+    LOCI
 };
 
 char* s_op_code[]{
@@ -83,13 +87,15 @@ char* s_op_code[]{
     "READ",
     "WRIT",
     "MODL",
-    "RETN"
+    "RETN",
+    "LOCS",
+    "LOCI"
 };
 
 typedef struct{
     int address;
     Operator op;
-    int args[3];
+    Value args[3];
     Stat* next;
 } Stat;
 
@@ -99,8 +105,9 @@ typedef struct{
     Stat* tail;
 } Code;
 
-Code    relocate(Code code, int offset),
-        appcode(Code code1, Code code2),
+void    relocate(Code code, int offset);
+
+Code    appcode(Code code1, Code code2),
         endcode(),
         concode(Code code1, Code code2, ...),
         makecode(Operator op),
