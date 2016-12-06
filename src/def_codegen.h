@@ -94,8 +94,9 @@ typedef struct{
 } Stat;
 
 typedef struct{
-    Stat* head, tail;
+    Stat* head;
     int size;
+    Stat* tail;
 } Code;
 
 Code    relocate(Code code, int offset),
