@@ -10,6 +10,11 @@ program myprog
 begin myprog
 	x = 3 + intarr[y][z];
 	arr[4] = [true,false];
+	input y;
+	for x=y to "d" do
+		x=3;
+	end;
+
 end myprog.
 
 
