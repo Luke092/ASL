@@ -604,6 +604,8 @@ void nDomain(pnode n_domain, ptypeS* dom){
 void statList(pnode nStatList){
     //printf("nstatbody\n");
     pnode nStat = nStatList->child;
+    ptypeS exType=NULL;
+    pstLine p=NULL;
  
     while(nStat!=NULL){
         
@@ -621,11 +623,17 @@ void statList(pnode nStatList){
                 repeatStat(nStat->child);
                 break;
             case N_FORSTAT:
+                forStat(nStat->child);
                 break;
             case N_INPUTSTAT:
-                
+                p = controllaEsistenzaId(nStat->child->child);
+                if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
+                    printf("ERRORE #%d: l'id %s non è quello di una variabile\n",nStat->child->child->line,nStat->child->child->val.sval);
+                    exit(0);
+                }
                 break;
             case N_OUTPUTSTAT:
+                exprBody(nStat->child->child,&exType);
                 break;
             case E_PROC:
                 modCall(nStat->child,NULL);
@@ -721,6 +729,38 @@ void repeatStat(pnode nRepeatStat){
         printSemanticError();
         exit(0);
     }
+}
+
+/*
+ *
+ */
+void forStat(pnode nodoFor){
+    //printf("forstat\n");
+    pnode nId = nodoFor->child;
+    pstLine p = controllaEsistenzaId(nId);
+    if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
+        printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
+        exit(0);
+    }
+    
+    if(controllaCompatibilitaTipi(tipoIntero,p->root)==0){
+        printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
+        exit(0);
+    }
+    
+    ptypeS expr1 = NULL;
+    ptypeS expr2 = NULL;
+    
+    exprBody(nId->brother,&expr1);
+    exprBody(nId->brother->brother,&expr2);
+    
+    if(controllaCompatibilitaTipi(tipoIntero,expr1)==0 || controllaCompatibilitaTipi(tipoIntero,expr2)==0){
+        printf("ERRORE #%d: gli estremi della var %s nel for devono essere interi\n",nId->line,nId->val.sval);
+        exit(0);
+    }
+    
+    statList(nId->brother->brother->brother);
+    
 }
 
 /*
@@ -1117,7 +1157,6 @@ pstLine controllaEsistenzaId(pnode t_id){
             }
             
         }
-    
     return p;
     
 }
