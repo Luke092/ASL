@@ -8,6 +8,50 @@
 #include <stdlib.h>
 #include "def_codegen.h"
 
+char* s_op_code[] = 
+{
+    "ACODE",
+    "PUSH",
+    "JUMP",
+    "APOP",
+    "HALT",
+    "ADEF",
+    "SDEF",
+    "LOAD",
+    "PACK",
+    "LODA",
+    "IXAD",
+    "AIND",
+    "SIND",
+    "STOR",
+    "ISTO",
+    "SKIP",
+    "SKPF",
+    "EQUA",
+    "NEQU",
+    "IGRT",
+    "IGEQ",
+    "ILET",
+    "ILEQ",
+    "SGRT",
+    "SGEQ",
+    "SLET",
+    "SLEQ",
+    "ADDI",
+    "SUBI",
+    "MULI",
+    "DIVI",
+    "UMIN",
+    "NEGA",
+    "READ",
+    "WRIT",
+    "MODL",
+    "RETN",
+    "LOCS",
+    "LOCI",
+    "NOOP"
+};
+
 void relocate(Code code, int offset){
     Stat* pt = code.head;
     int i;
@@ -76,9 +120,20 @@ Code makecode2(Operator op, int arg1, int arg2){
     return code;
 }
 
-Code make_call(int nobj, int chain, int entry){
+Code makecode3(Operator op, int arg1, int arg2, int arg3){
+    Code code;
+    
+    code = makecode(op);
+    code.head->args[0].ival = arg1;
+    code.head->args[1].ival = arg2;
+    code.head->args[2].ival = arg3;
+    
+    return code;
+}
+
+Code make_call(int nformals_aux, int nlocals, int chain, int entry){
     return concode(
-            makecode2(PUSH, nobj, chain),
+            makecode3(PUSH, nformals_aux, nlocals, chain),
             makecode1(JUMP, entry),
             makecode(APOP),
             endcode()
@@ -105,4 +160,146 @@ Stat* newstat(Operator op){
     pstat->op = op;
     pstat->next = NULL;
     return pstat;
+}
+
+void print_code(FILE* file, Code code){
+    Stat* pt = code.head;
+    for(int i = 0; i < code.size; i++){
+        print_stat(file, pt);
+        pt = pt->next;
+    }
+}
+
+void print_stat(FILE* file, Stat* stat){
+    fprintf(file, "%s ", s_op_code[stat->op]);
+    switch(stat->op){
+        case ACODE:
+            fprintf(file, "%d\n", stat->args[0]);
+            break;
+        case PUSH:
+            fprintf(file, "%d %d %d\n", stat->args[0].ival,
+                    stat->args[1].ival,
+                    stat->args[2].ival);
+            break;
+        case JUMP:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case APOP:
+            fprintf(file, "\n");
+            break;
+        case HALT:
+            fprintf(file, "\n");
+            break;
+        case ADEF:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case SDEF:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case LOAD:
+            fprintf(file, "%d %d\n", stat->args[0].ival,
+                    stat->args[1].ival);
+            break;
+        case PACK:
+            fprintf(file, "%d %d\n", stat->args[0].ival,
+                    stat->args[1].ival);
+            break;
+        case LODA:
+            fprintf(file, "%d %d\n", stat->args[0].ival,
+                    stat->args[1].ival);
+            break;
+        case IXAD:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case AIND:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case SIND:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case STOR:
+            fprintf(file, "%d %d\n", stat->args[0].ival,
+                    stat->args[1].ival);
+            break;
+        case ISTO:
+            fprintf(file, "\n");
+            break;
+        case SKIP:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case SKPF:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case EQUA:
+            fprintf(file, "\n");
+            break;
+        case NEQU:
+            fprintf(file, "\n");
+            break;
+        case IGRT:
+            fprintf(file, "\n");
+            break;
+        case IGEQ:
+            fprintf(file, "\n");
+            break;
+        case ILET:
+            fprintf(file, "\n");
+            break;
+        case ILEQ:
+            fprintf(file, "\n");
+            break;
+        case SGRT:
+            fprintf(file, "\n");
+            break;
+        case SGEQ:
+            fprintf(file, "\n");
+            break;
+        case SLET:
+            fprintf(file, "\n");
+            break;
+        case SLEQ:
+            fprintf(file, "\n");
+            break;
+        case ADDI:
+            fprintf(file, "\n");
+            break;
+        case SUBI:
+            fprintf(file, "\n");
+            break;
+        case MULI:
+            fprintf(file, "\n");
+            break;
+        case DIVI:
+            fprintf(file, "\n");
+            break;
+        case UMIN:
+            fprintf(file, "\n");
+            break;
+        case NEGA:
+            fprintf(file, "\n");
+            break;
+        case READ:
+            fprintf(file, "%d %d \"%s\"\n", stat->args[0].ival,
+                    stat->args[1].ival,
+                    stat->args[2].sval);
+            break;
+        case WRIT:
+            fprintf(file, "\"%s\"\n", stat->args[0].sval);
+            break;
+        case MODL:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        case RETN:
+            fprintf(file, "\n");
+            break;
+        case LOCS:
+            fprintf(file, "%s\n", stat->args[0].sval);
+            break;
+        case LOCI:
+            fprintf(file, "%d\n", stat->args[0].ival);
+            break;
+        default:
+            fprintf(file, "OPERATORE NON RICONOSCIUTO!\n");
+            break;
+    }
 }

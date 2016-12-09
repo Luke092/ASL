@@ -6,7 +6,7 @@ extern char *yytext;
 extern Value lexval;
 extern int line;
 extern FILE *yyin;
-pnode root = NULL;
+extern pnode root;
 %}
 
 %token ASSIGN
@@ -329,21 +329,6 @@ expr-list :         expr ',' expr-list {$$=$1;$1->brother=$3;}
                     ;
 
 %%
-
-int main(int argc,char* argv[]){
-    int result;
-    
-    yyin = fopen(argv[1],"r");
-    
-    if((result = yyparse()) == 0)
-    {
-    treeprint(root, 0);
-    start(root,createSymbTab(NULL),NULL);
-    }
-    
-  return(result);
-    
-}
 
 void yyerror(){
     fprintf(stderr, "Syntax Error on symbol '%s' in line %d\n\n",yytext,line);

@@ -11,6 +11,8 @@
 #ifndef DEF_SYMBTAB_H
 #define DEF_SYMBTAB_H
 
+#include "def_codegen.h"
+
 typedef struct typeS{
     enum {S_INTEGER,S_STRING,S_BOOLEAN,S_ARRAY} domain;
     int costante;//se diventa 1 vuol dire che rappresenta il tipo di una costante
@@ -45,9 +47,7 @@ typedef struct st{
 typedef  symbolTable *pST;//pointer Symbol Table
 
 void stampa2(pstLine[]),
-        start(pnode,pST,ptypeS*),
         nDomain(pnode,ptypeS*),
-        decl(pST, pnode,int,ptypeS*),
         nArrayConst(pnode,ptypeS*),
         assignStat(pnode),
         ifStat(pnode),
@@ -61,10 +61,13 @@ void stampa2(pstLine[]),
         condExpr(pnode,ptypeS*),
         printSemanticError(),
         printType(ptypeS),
-        optTypeSect_var_const(pnode,int),
         optModuleList(pnode),
         statList(pnode),
         controllaParametroChiamata(pstLine, pnode);
+
+Code start(pnode,pST,ptypeS*),
+        optTypeSect_var_const(pnode,int),
+        decl(pST, pnode,int,ptypeS*);
         
 ptypeS 
         createType(int,ptypeS,int),

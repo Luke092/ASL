@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/CodeGen_Utility.o \
 	${OBJECTDIR}/functionHash.o \
+	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/print_utility.o \
 	${OBJECTDIR}/sintax_utility.o \
 	${OBJECTDIR}/symbtab.o
@@ -65,10 +67,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/src: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/src ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/CodeGen_Utility.o: CodeGen_Utility.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/CodeGen_Utility.o CodeGen_Utility.c
+
 ${OBJECTDIR}/functionHash.o: functionHash.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/functionHash.o functionHash.c
+
+${OBJECTDIR}/main.o: main.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
 
 ${OBJECTDIR}/print_utility.o: print_utility.c
 	${MKDIR} -p ${OBJECTDIR}

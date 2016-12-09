@@ -10,7 +10,8 @@
 
 #include "def.h"
 
-enum Operator{
+typedef enum {
+    ACODE,
     PUSH,
     JUMP,
     APOP,
@@ -48,55 +49,15 @@ enum Operator{
     MODL,
     RETN,
     LOCS,
-    LOCI
-};
+    LOCI,
+    NOOP
+} Operator;
 
-char* s_op_code[]{
-      "PUSH",
-    "JUMP",
-    "APOP",
-    "HALT",
-    "ADEF",
-    "SDEF",
-    "LOAD",
-    "PACK",
-    "LODA",
-    "IXAD",
-    "AIND",
-    "SIND",
-    "STOR",
-    "ISTO",
-    "SKIP",
-    "SKPF",
-    "EQUA",
-    "NEQU",
-    "IGRT",
-    "IGEQ",
-    "ILET",
-    "ILEQ",
-    "SGRT",
-    "SGEQ",
-    "SLET",
-    "SLEQ",
-    "ADDI",
-    "SUBI",
-    "MULI",
-    "DIVI",
-    "UMIN",
-    "NEGA",
-    "READ",
-    "WRIT",
-    "MODL",
-    "RETN",
-    "LOCS",
-    "LOCI"
-};
-
-typedef struct{
+typedef struct stat{
     int address;
     Operator op;
     Value args[3];
-    Stat* next;
+    struct stat* next;
 } Stat;
 
 typedef struct{
@@ -113,11 +74,15 @@ Code    appcode(Code code1, Code code2),
         makecode(Operator op),
         makecode1(Operator op, int arg),
         makecode2(Operator op, int arg1, int arg2),
-        make_call(int nobj, int chain, int entry),
+        makecode3(Operator op, int arg1, int arg2, int arg3),
+        make_call(int nformals_aux, int nlocals, int chain, int entry),
         make_loci(int i),
         make_locs(char* s);
 
 Stat* newstat(Operator op);
+
+void    print_code(FILE* file, Code code),
+        print_stat(FILE* file, Stat* stat);
 
 #endif /* DEF_CODEGEN_H */
 

@@ -71,7 +71,7 @@ extern char *yytext;
 extern Value lexval;
 extern int line;
 extern FILE *yyin;
-pnode root = NULL;
+extern pnode root;
 
 #line 77 "parser.c" /* yacc.c:339  */
 
@@ -2408,21 +2408,6 @@ yyreturn:
 }
 #line 331 "parser.y" /* yacc.c:1906  */
 
-
-int main(int argc,char* argv[]){
-    int result;
-    
-    yyin = fopen(argv[1],"r");
-    
-    if((result = yyparse()) == 0)
-    {
-    treeprint(root, 0);
-    start(root,createSymbTab(NULL),NULL);
-    }
-    
-  return(result);
-    
-}
 
 void yyerror(){
     fprintf(stderr, "Syntax Error on symbol '%s' in line %d\n\n",yytext,line);

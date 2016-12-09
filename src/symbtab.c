@@ -41,7 +41,10 @@ pST createSymbTab(pST back){
  * funzione che gestisce il prog, le definizioni di proc e func
  * torna qualcosa != da NULL solo in caso di una func
  */
-void start(pnode root, pST s, ptypeS* tipoRitornato){
+Code start(pnode root, pST s, ptypeS* tipoRitornato){
+    Code code;
+    code.size = 0;
+    
     printf("start\n");
     
     stab = s;
@@ -54,16 +57,25 @@ void start(pnode root, pST s, ptypeS* tipoRitornato){
     
     pnode nodoCorrente = idRoot->brother;
     while(nodoCorrente){
-      
+        Code tmp;
+        
         switch(nodoCorrente->val.ival){
             case N_OPTTYPESECT:
                 optTypeSect_var_const(nodoCorrente,0);
                 break;
             case N_OPTVARSECT: 
-                optTypeSect_var_const(nodoCorrente,1);
+                tmp = optTypeSect_var_const(nodoCorrente,1);
+                if (code.size != 0)
+                    code = concode(code, tmp, endcode());
+                else
+                    code = tmp;
                 break;
             case N_OPTCONSTSECT:
-                optTypeSect_var_const(nodoCorrente,2);
+                tmp = optTypeSect_var_const(nodoCorrente,2);
+                if (code.size != 0)
+                    code = concode(code, tmp, endcode());
+                else
+                    code = tmp;
                 break;
             case N_OPTMODULELIST:
                 optModuleList(nodoCorrente);
@@ -100,6 +112,19 @@ void start(pnode root, pST s, ptypeS* tipoRitornato){
         printf("Tipo ritornato da %s\n",nomeRoot);
         printType(*tipoRitornato);
     }
+    
+    if(root->val.ival == N_PROGRAM){
+        Code main_call = make_call(0,0,-1,3);
+        Code halt = makecode(HALT);
+        int code_size = 1 + main_call.size + halt.size + code.size;
+        code = concode(makecode1(ACODE, code_size),
+                main_call,
+                halt,
+                code,
+                endcode());
+    }
+    
+    return code;
 }
 
 void pulisciSymbTab(pST s){//settiamo tutti i campi della hash table a NULL per sicurezza
@@ -343,27 +368,70 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
 }
 
 //funzione che si occupa di: opt-type-sect, opt-var-sect, opt-const-sect
-void optTypeSect_var_const(pnode opttypesect_var,int classe){
+Code optTypeSect_var_const(pnode opttypesect_var,int classe){
+    Code code;
+    code.size = 0;
+    
     printf("opttypesect\n");
     pnode n_decl = opttypesect_var->child;//optypesect può essere opttype optvar o optconst
     
     while(n_decl){
        ptypeS type=NULL;
        char *idDecl = n_decl->child->child->val.sval;
-       decl(stab,n_decl,classe,&type);//recupero il tipo della decl per fare type check nel caso di costanti
+       
+       Code decl_code;
+       
+       decl_code = decl(stab,n_decl,classe,&type);//recupero il tipo della decl per fare type check nel caso di costanti
         n_decl = n_decl->brother;
         
         if(classe==2){//se ho classe=2 sono costanti;
              if(controlConstType(type,n_decl)){//se è una costante non è n_decl ma n_const
-               n_decl = n_decl->brother;//devo fare cosi perchè nell'albero le costanti hanno un fratello in più
+                // genero codice per la costante
+                 Code const_code;
+                 if(type == tipoIntero){
+                     const_code = make_loci(n_decl->child->val.ival);
+                     const_code = concode(const_code,
+                             makecode2(STOR, 0,findInSt(stab->tab, idDecl)->oid), // TODO: generalizzare
+                             endcode()
+                             );
+                 } else if (type == tipoBoolean){
+                     int bool = (n_decl->child->val.ival == TRUE) ? 1 : 0; 
+                     const_code = make_loci(bool);
+                     const_code = concode(const_code,
+                             makecode2(STOR, 0,findInSt(stab->tab, idDecl)->oid), // TODO: generalizzare
+                             endcode()
+                             );
+                 } else if (type == tipoString){
+                     const_code = make_locs(n_decl->child->val.sval);
+                     const_code = concode(const_code,
+                             makecode2(STOR, 0,findInSt(stab->tab, idDecl)->oid), // TODO: generalizzare
+                             endcode()
+                             );
+                 } else {
+                     //TODO: caricamento array
+                     const_code = makecode(NOOP);
+                 }
+                
+                decl_code = concode(
+                        decl_code,
+                        const_code,
+                        endcode());
+                
+                n_decl = n_decl->brother;//devo fare cosi perchè nell'albero le costanti hanno un fratello in più
              }else{
                  printf("ERRORE #%d: l'inizializzazione della costante %s non corrisponde al tipo",n_decl->child->child->line,idDecl);
                  exit(0);
              }
         }
        
+        if(code.size != 0)
+            code = concode(code, decl_code, endcode());
+        else
+            code = decl_code;;
+        
     }
-      
+    
+    return code;
 }
 
 void optModuleList(pnode optModuleList){
@@ -537,9 +605,35 @@ int controlConstType(ptypeS type,pnode n_const){
  * di una func/dec devo metterli nella symbTab della proc/func, che non è quella che ho in questo 
  * momento nella var globale ( quella è il padre)
  */
-void decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
+Code decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
+    Code code;
+    code.size = 0;
+    
     printf("decl OID %d:\n",stab->oidC);
-    nDomain(n_decl->child->brother,dom); 
+    nDomain(n_decl->child->brother,dom);
+    
+    int var_size;
+    int structured = 0;
+    if(*dom == tipoIntero || *dom == tipoBoolean){
+        var_size = sizeof(int);
+    }else if(*dom == tipoString){
+        var_size = sizeof(void);
+    } else {
+        //In questo caso il tipo è strutturato
+        structured = 1;
+        var_size = (*dom)->dim;
+        ptypeS pt = (*dom)->child;
+        while(pt != NULL){
+            if(pt == tipoIntero || pt == tipoBoolean){
+                var_size *= sizeof(int);
+            }else if(pt == tipoString){
+                var_size *= sizeof(void);
+            } else {
+                var_size *= pt->dim;
+            }
+            pt = pt->child;
+        }
+    }
     
     pnode t_id = n_decl->child->child;
     
@@ -553,8 +647,23 @@ void decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
             printf("ERRORE #%d: esiste già una var con l'id %s\n",t_id->line,t_id->val.sval);
             exit(0);
         }
-               
+        
+        if(structured){
+            // Tipo strutturato
+            if (code.size != 0)
+                code = concode(code, makecode1(SDEF, var_size), endcode());
+            else
+                code = makecode1(SDEF, var_size);
+        } else {
+            // Tipo semplice
+            if (code.size != 0)
+                code = concode(code, makecode1(ADEF, var_size), endcode());
+            else
+                code = makecode1(ADEF, var_size);
+        }
     }
+    
+    return code;
 }
 
 /*
