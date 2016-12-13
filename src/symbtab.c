@@ -368,8 +368,9 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
 
 //funzione che si occupa di: opt-type-sect, opt-var-sect, opt-const-sect
 Code optTypeSect_var_const(pnode opttypesect_var,int classe){
-    Code code;
-    code.size = 0;
+    Code d_code, c_code;
+    d_code.size = 0;
+    c_code.size = 0;
     
     printf("opttypesect\n");
     pnode n_decl = opttypesect_var->child;//optypesect può essere opttype optvar o optconst
@@ -424,10 +425,16 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                              endcode());
                  }
                 
-                decl_code = concode(
-                        decl_code,
-                        const_code,
-                        endcode());
+//                decl_code = concode(
+//                        decl_code,
+//                        const_code,
+//                        endcode());
+                 if(c_code.size == 0){
+                     c_code = const_code;
+                 } else {
+                     c_code = concode(c_code, const_code, endcode());
+                 }
+                 
                 
                 n_decl = n_decl->brother;//devo fare cosi perchè nell'albero le costanti hanno un fratello in più
              }else{
@@ -436,14 +443,17 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
              }
         }
        
-        if(code.size != 0)
-            code = concode(code, decl_code, endcode());
+        if(d_code.size != 0)
+            d_code = concode(d_code, decl_code, endcode());
         else
-            code = decl_code;;
+            d_code = decl_code;;
         
     }
     
-    return code;
+    if(c_code.size != 0)
+        return concode(d_code, c_code, endcode());
+    else
+        return d_code;
 }
 
 void optModuleList(pnode optModuleList){
