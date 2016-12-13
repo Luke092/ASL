@@ -77,7 +77,8 @@ Code    appcode(Code code1, Code code2),
         makecode3(Operator op, int arg1, int arg2, int arg3),
         make_call(int nformals_aux, int nlocals, int chain, int entry),
         make_loci(int i),
-        make_locs(char* s);
+        make_locs(char* s),
+        cg_array_const(pnode node);
 
 Stat* newstat(Operator op);
 

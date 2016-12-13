@@ -303,3 +303,24 @@ void print_stat(FILE* file, Stat* stat){
             break;
     }
 }
+
+Code cg_array_const(pnode node){
+    Code code;
+
+    if(node == NULL){
+        code = endcode();
+    } else if(node->type == T_INTCONST){
+        code = make_loci(node->val.ival);
+    } else if(node->type == T_STRCONST){
+        code = make_locs(node->val.sval);
+    } else if(node->type == T_BOOLCONST){
+        int i_const = (node->val.bval == 0)? 1 : 0;
+        code = make_loci(i_const);
+    } else {
+    code = concode(cg_array_const(node->child),
+            cg_array_const(node->brother),
+            endcode());
+    }
+    print_code(stdout, code);
+    return code;
+}

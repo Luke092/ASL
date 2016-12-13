@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "def.h"
 #include "def_symbtab.h"
 
 char *idErr;//id della var che da errore
@@ -408,8 +407,21 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                              endcode()
                              );
                  } else {
-                     //TODO: caricamento array
-                     const_code = makecode(NOOP);
+                     const_code = cg_array_const(n_decl->child);
+                     ptypeS tmp = type;
+                     int array_dim = 1;
+                     while(tmp->child != NULL){
+                         array_dim *= tmp->dim;
+                         tmp = tmp->child;
+                     }
+                     int size;
+                     if(tmp == tipoIntero || tmp == tipoBoolean)
+                         size = sizeof(int);
+                     else if(tmp == tipoString)
+                         size = sizeof(void);
+                     const_code = concode(const_code,
+                             makecode2(PACK, array_dim, size),
+                             endcode());
                  }
                 
                 decl_code = concode(
