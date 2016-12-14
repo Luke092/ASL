@@ -9,7 +9,7 @@ int main(int argc,char* argv[]){
     int result;
     
     yyin = fopen(argv[1],"r");
-    
+      
     if((result = yyparse()) == 0)
     {
         treeprint(root, 0);

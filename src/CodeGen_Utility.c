@@ -153,6 +153,37 @@ Code make_locs(char* s){
     return code;
 }
 
+Code insert_code(Code code1, Code code2, int offset){
+    Code result_code;
+    
+    if(offset > 0){
+        Stat* pt = code1.head;
+        for(int i = 1; i < offset; i++){
+            pt = pt->next;
+        }
+        Stat* tmp = pt->next;
+        relocate(code2, offset);
+        pt->next = code2.head;
+        code2.tail->next = tmp;
+        
+        // relocate the rest of the code
+        while(tmp != NULL){
+            tmp->address += offset;
+            tmp = tmp->next;
+        }
+        
+        result_code = code1;
+        result_code.size = code1.size + code2.size;
+    } else if (offset < 0){
+        int new_offset = code1.size + offset;
+        result_code = insert_code(code1, code2, new_offset);
+    } else {
+        result_code = appcode(code2, code1);
+    }
+    
+    return result_code;
+}
+
 Stat* newstat(Operator op){
     Stat *pstat;
     pstat = (Stat*)malloc(sizeof(Stat));
@@ -321,6 +352,5 @@ Code cg_array_const(pnode node){
             cg_array_const(node->brother),
             endcode());
     }
-    print_code(stdout, code);
     return code;
 }

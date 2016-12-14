@@ -54,6 +54,14 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     idErr = nomeRoot;
     line = idRoot->line;
     
+    //Definizione del modulo
+    if(stab->back == NULL){
+        code = makecode1(MODL, -1);
+    } else {
+//        code = makecode1(MODL, findInSt(stab->back->tab, idRoot)->oid);
+        //TODO: utilizzare oid come mid
+    }
+    
     pnode nodoCorrente = idRoot->brother;
     while(nodoCorrente){
         Code tmp;
@@ -78,6 +86,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 break;
             case N_OPTMODULELIST:
                 optModuleList(nodoCorrente);
+                //TODO: generare codice per i moduli
                 break;
             case N_STATBODY:
       
@@ -87,7 +96,14 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                     printf("ERRORE #%d: l'id %s non coincide con quello di begin e end\n",idRoot->line,nomeRoot);
                     exit(0);
                 }
-                statList(nodoCorrente->child->brother);
+                Code tmp;
+                
+                tmp = statList(nodoCorrente->child->brother);
+                
+                if (code.size != 0)
+                    code = concode(code, tmp, endcode());
+                else
+                    code = tmp;
                 break;
             case N_EXPRBODY:
                 if(strcmp(nomeRoot,nodoCorrente->child->val.sval)!=0){
@@ -120,6 +136,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 main_call,
                 halt,
                 code,
+                makecode(RETN),
                 endcode());
     }
     
@@ -156,7 +173,7 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
             
             switch(ex->val.ival){
                 case N_LHS:
-                    lhs(ex,&tipoRitornato2);
+                    lhs(ex,&tipoRitornato2, 0);
                 break;
                 case N_CONST:
                     switch(ex->child->type){
@@ -425,17 +442,12 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                              endcode());
                  }
                 
-//                decl_code = concode(
-//                        decl_code,
-//                        const_code,
-//                        endcode());
                  if(c_code.size == 0){
                      c_code = const_code;
                  } else {
                      c_code = concode(c_code, const_code, endcode());
                  }
                  
-                
                 n_decl = n_decl->brother;//devo fare cosi perchè nell'albero le costanti hanno un fratello in più
              }else{
                  printf("ERRORE #%d: l'inizializzazione della costante %s non corrisponde al tipo",n_decl->child->child->line,idDecl);
@@ -732,17 +744,26 @@ void nDomain(pnode n_domain, ptypeS* dom){
 /*
  * funzione che gestisce le stat list
  */
-void statList(pnode nStatList){
+Code statList(pnode nStatList){
+    Code code;
+    code.size = 0;
+    
     //printf("nstatbody\n");
     pnode nStat = nStatList->child;
     ptypeS exType=NULL;
     pstLine p=NULL;
  
     while(nStat!=NULL){
+        Code tmp;
         
         switch(nStat->child->val.ival){
             case N_ASSIGNSTAT://il figlio di un assign è un lhs, il fratello della lhs è una expr
-                assignStat(nStat);               
+                tmp = assignStat(nStat);
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
             case N_IFSTAT:
                 ifStat(nStat->child);
@@ -774,6 +795,8 @@ void statList(pnode nStatList){
         
         nStat = nStat->brother;
     }
+
+    return code;
 }
 
 /*
@@ -1018,7 +1041,10 @@ void controllaParametroChiamata(pstLine formale, pnode attuale){
      *      una expr->in questo caso devo calcolare il tipo della expr e in base a quello creare un tipo fittizio con 
      *                il quale chiamare il metodo per il controllo tra tipi di variabile
   */
-void assignStat(pnode nStat){
+Code assignStat(pnode nStat){
+    Code code,
+            ex_code,
+            lhs_code;
     //printf("assignStat\n");
     int risultato;
     
@@ -1027,7 +1053,7 @@ void assignStat(pnode nStat){
     ptypeS typeExpr = NULL;
     exprBody(ex,&typeExpr);
     ptypeS typeLhs = NULL;
-    lhs(nStat->child->child,&typeLhs);
+    lhs_code = lhs(nStat->child->child,&typeLhs, 0);
     
     risultato = controllaCompatibilitaTipi(typeLhs,typeExpr);//recuperati i due tipi controllo che coincidano
     
@@ -1035,14 +1061,25 @@ void assignStat(pnode nStat){
         printf("ERRORE #%d: tipi dell'assegnamento non compatibili\n",line);
         printSemanticError();
         exit(0);
-    }          
+    }
     
+    //STAB!
+    ex_code = makecode(NOOP);
+    
+    code = concode(
+            insert_code(lhs_code, ex_code, -1),
+            endcode()
+            );
+    
+    return code;
 }
 
 /*
  *lhs torna il tipo della lhs 
  */
-void lhs(pnode nLhs,ptypeS* tipoRitornato){
+Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
+    Code code;
+    
     printf("lhs\n");
     ptypeS tipoLhs = NULL;
     pnode figlio = nLhs->child;
@@ -1067,9 +1104,18 @@ void lhs(pnode nLhs,ptypeS* tipoRitornato){
             if(p->classe==S_CONST){
                 tipoLhs->costante=1;
             }            
-        }      
+        }
+        
+        if(level == 0){
+            code = makecode2(STOR, 0, findInSt(stab->tab, id)->oid); //TODO: make more general
+        } else {
+            code = makecode2(LODA, 0, findInSt(stab->tab, id)->oid); //TODO: make more general
+        }
     }
     else{//il figlio è un indexing
+        
+        Code lhs_code, ex_code;
+        
         //printf("lhs INDEXING\n");
         pnode nLhs2 = figlio->child;
         pnode expr2 = figlio->child->brother;
@@ -1092,7 +1138,7 @@ void lhs(pnode nLhs,ptypeS* tipoRitornato){
         }
            
         ptypeS parziale = NULL;
-        lhs(nLhs2,&parziale);
+        lhs_code = lhs(nLhs2,&parziale, level + 1);
         if(parziale->child!=NULL){
             tipoLhs = parziale->child;
         }
@@ -1102,10 +1148,66 @@ void lhs(pnode nLhs,ptypeS* tipoRitornato){
             exit(0);
         }
         
+        //generazione codice per indexing
+        //STAB
+        ex_code=makecode(NOOP);
+        
+        //
+        if(level == 0){
+            Code ixad;
+            ptypeS pt = parziale;
+            while(pt->child != NULL)
+                pt = pt->child;
+            
+            if(pt == tipoIntero || pt == tipoBoolean){
+                ixad = makecode1(IXAD, sizeof(int));
+            } else if (pt == tipoString){
+                ixad = makecode1(IXAD, sizeof(void));
+            }
+            
+            code=concode(
+                    lhs_code,
+                    ex_code,
+                    ixad,
+                    makecode(ISTO),
+                    endcode()
+                    );
+        } else {
+            Code ixad;
+            
+            ptypeS pt = parziale->child;
+            
+            if(pt == tipoIntero || pt == tipoBoolean){
+                ixad = makecode1(IXAD, sizeof(int));
+            } else if (pt == tipoString){
+                ixad = makecode1(IXAD, sizeof(void));
+            } else {
+                int size = 1;
+                while(pt->child != NULL){
+                    size *= pt->dim;
+                    pt = pt->child;
+                }
+                
+                if(pt == tipoIntero || pt == tipoBoolean){
+                    ixad = makecode1(IXAD, size * sizeof(int));
+                } else if (pt == tipoString){
+                    ixad = makecode1(IXAD, size * sizeof(void));
+                }
+            }
+            
+            code=concode(
+                    lhs_code,
+                    ex_code,
+                    ixad,
+                    endcode()
+                    );
+        }
+         
     }
     
     *tipoRitornato = tipoLhs;
     
+    return code;
 }
 
 

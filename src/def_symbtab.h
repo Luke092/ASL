@@ -49,12 +49,10 @@ typedef  symbolTable *pST;//pointer Symbol Table
 void stampa2(pstLine[]),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
-        assignStat(pnode),
         ifStat(pnode),
         whileStat(pnode),
         repeatStat(pnode),
         forStat(pnode),
-        lhs(pnode,ptypeS*),
         exprBody( pnode,ptypeS*),
         expr(pnode,ptypeS*),
         modCall(pnode,ptypeS*),
@@ -62,12 +60,14 @@ void stampa2(pstLine[]),
         printSemanticError(),
         printType(ptypeS),
         optModuleList(pnode),
-        statList(pnode),
         controllaParametroChiamata(pstLine, pnode);
 
 Code start(pnode,pST,ptypeS*),
         optTypeSect_var_const(pnode,int),
-        decl(pST, pnode,int,ptypeS*);
+        decl(pST, pnode,int,ptypeS*),
+        statList(pnode),
+        assignStat(pnode),
+        lhs(pnode,ptypeS*, int);
         
 ptypeS 
         createType(int,ptypeS,int),
