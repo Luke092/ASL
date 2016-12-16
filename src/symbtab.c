@@ -157,49 +157,84 @@ void pulisciSymbTab(pST s){//settiamo tutti i campi della hash table a NULL per 
 /*MANCA LA  CONDEXPR,
  * funzione che si occupa di gestire i casi compresi dalla clausola EXPR della BNF astratta
  */
-void exprBody(pnode ex,ptypeS* tipoRitornato){
+Code exprBody(pnode ex,ptypeS* tipoRitornato){
+    Code code;
+    code.size = 0;
+    
     //printf("exprBody\n");
     
     ptypeS tipoRitornato2 = NULL;
     
     switch(ex->type){
-        case T_LOGICEXPR:expr(ex,&tipoRitornato2);
-        break;
-        case T_COMPEXPR:expr(ex,&tipoRitornato2);
-        break;
-        case T_MATHEXPR:expr(ex,&tipoRitornato2);
-        break;
-        case T_NEGEXPR:expr(ex,&tipoRitornato2);
-        break;
-        case T_MODCALL:modCall(ex,&tipoRitornato2);
-        break;
+        case T_LOGICEXPR:
+            expr(ex,&tipoRitornato2);
+            break;
+        case T_COMPEXPR:
+            expr(ex,&tipoRitornato2);
+            break;
+        case T_MATHEXPR:
+            expr(ex,&tipoRitornato2);
+            break;
+        case T_NEGEXPR:
+            expr(ex,&tipoRitornato2);
+            break;
+        case T_MODCALL:
+            modCall(ex,&tipoRitornato2);
+            break;
         case T_NONTERM:
             
             switch(ex->val.ival){
                 case N_LHS:
-                    lhs(ex,&tipoRitornato2, 0);
+                    code = lhs(ex,&tipoRitornato2, 0);
                 break;
                 case N_CONST:
                     switch(ex->child->type){
                         case T_BOOLCONST:
                             idErr = "una costante booleana";
                             tipoRitornato2 = tipoBoolean;
-                        break;
+                            
+                            int bval = (ex->child->val.bval == 0)? 1 : 0;
+                            code = make_loci(bval);
+                            break;
                         case T_INTCONST:
                             idErr = "una costante intera";
                             tipoRitornato2 = tipoIntero;
-                        break;
+                            
+                            code = make_loci(ex->child->val.ival);
+                            break;
                         case T_STRCONST:
                             idErr = "una costante stringa";
                             tipoRitornato2 = tipoString;
-                        break;
+                            
+                            code = make_locs(ex->child->val.sval);
+                            break;
                         //se non è nessuno di questi sopra è un arrayconst
-                        default:nArrayConst(ex->child,&tipoRitornato2);
-                                break;
+                        default:
+                            nArrayConst(ex->child,&tipoRitornato2);
+                            
+                            code = cg_array_const(ex->child);
+                            
+                            //TODO: non sono sicuro sia corretto
+                            ptypeS tmp = tipoRitornato2;
+                            int array_dim = 1;
+                            while(tmp->child != NULL){
+                                array_dim *= tmp->dim;
+                                tmp = tmp->child;
+                            }
+                            int size;
+                            if(tmp == tipoIntero || tmp == tipoBoolean)
+                                size = sizeof(int);
+                            else if(tmp == tipoString)
+                                size = sizeof(void);
+                            code = concode(code,
+                                    makecode2(PACK, array_dim, size),
+                                    endcode());                            
+                            break;
                     };
-                break;
-                case N_CONDEXPR:condExpr(ex,&tipoRitornato2);
-                break;
+                    break;
+                case N_CONDEXPR:
+                    condExpr(ex,&tipoRitornato2);
+                    break;
             };
         break;
     }
@@ -219,6 +254,11 @@ void exprBody(pnode ex,ptypeS* tipoRitornato){
     printf("Tipo tornato dentro exprbody normale\n");
     printType(tipoRitornato2);
     
+    //TODO: change STAB
+    if(code.size == 0)
+        code = makecode(NOOP);
+    
+    return code;
 }
 
 /*
@@ -1055,9 +1095,36 @@ Code assignStat(pnode nStat){
     pnode ex = nStat->child->child->brother;
   
     ptypeS typeExpr = NULL;
-    exprBody(ex,&typeExpr);
+    ex_code = exprBody(ex,&typeExpr);
+    
     ptypeS typeLhs = NULL;
     lhs_code = lhs(nStat->child->child,&typeLhs, 0);
+    
+    pnode pt = nStat->child->child->child;
+    if(pt->type == T_ID){
+        if(typeLhs != tipoBoolean &&
+                typeLhs != tipoIntero &&
+                typeLhs != tipoString){
+            code = concode(
+                    makecode2(LODA, 0, findInSt(stab->tab, pt->val.sval)->oid), //TODO: generalizzare
+                    ex_code,
+                    endcode()
+                    );
+        } else {
+            code = concode(
+                    ex_code,
+                    makecode2(STOR, 0, findInSt(stab->tab, pt->val.sval)->oid), //TODO: generalizzare
+                    endcode()
+                    );
+        }
+    } else {
+        code = concode(
+                lhs_code,
+                ex_code,
+                makecode(ISTO),
+                endcode()
+                );
+    }
     
     risultato = controllaCompatibilitaTipi(typeLhs,typeExpr);//recuperati i due tipi controllo che coincidano
     
@@ -1066,15 +1133,6 @@ Code assignStat(pnode nStat){
         printSemanticError();
         exit(0);
     }
-    
-    //STAB!
-    ex_code = makecode(NOOP);
-    
-    code = concode(
-            insert_code(lhs_code, ex_code, -1),
-            endcode()
-            );
-    
     return code;
 }
 
@@ -1110,10 +1168,10 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
             }            
         }
         
-        if(level == 0){
-            code = makecode2(STOR, 0, findInSt(stab->tab, id)->oid); //TODO: make more general
-        } else {
+        if(level !=0) {
             code = makecode2(LODA, 0, findInSt(stab->tab, id)->oid); //TODO: make more general
+        } else {
+            code = endcode();
         }
     }
     else{//il figlio è un indexing
@@ -1134,7 +1192,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
         //perchè la si deve usare per restituire un numero da usare come indicizzatore dell'array
         
         ptypeS tipoExpr2 = NULL;
-        exprBody(expr2,&tipoExpr2);
+        ex_code = exprBody(expr2,&tipoExpr2);
         if(controllaCompatibilitaTipi(tipoExpr2, tipoIntero)==0){
             printf("ERRORE: l'expr usata per l'indexing non restituisce un intero\n");
             printSemanticError();
@@ -1153,12 +1211,8 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
         }
         
         //generazione codice per indexing
-        //STAB
-        ex_code=makecode(NOOP);
-        
-        //
+        Code ixad;
         if(level == 0){
-            Code ixad;
             ptypeS pt = parziale;
             while(pt->child != NULL)
                 pt = pt->child;
@@ -1168,17 +1222,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
             } else if (pt == tipoString){
                 ixad = makecode1(IXAD, sizeof(void));
             }
-            
-            code=concode(
-                    lhs_code,
-                    ex_code,
-                    ixad,
-                    makecode(ISTO),
-                    endcode()
-                    );
-        } else {
-            Code ixad;
-            
+        } else {            
             ptypeS pt = parziale->child;
             
             if(pt == tipoIntero || pt == tipoBoolean){
@@ -1198,14 +1242,14 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
                     ixad = makecode1(IXAD, size * sizeof(void));
                 }
             }
-            
-            code=concode(
-                    lhs_code,
-                    ex_code,
-                    ixad,
-                    endcode()
-                    );
         }
+        
+        code=concode(
+        lhs_code,
+        ex_code,
+        ixad,
+        endcode()
+        );
          
     }
     

@@ -5,7 +5,7 @@ program test
 		s : string;
 		b : boolean;
 		p : t1;
-		a : array [100] of integer;
+		a : array [6] of integer;
 	const	bool:boolean = true;
 		int:integer = 145;
 		str:string = "Ciao mondo";
@@ -14,5 +14,7 @@ program test
 		arr2:array[2] of array[2] of array[2] of integer = [[[1,2],[3,4]],[[5,6],[7,8]]];
 
 	begin test
-		a[5] = 20;
+		x = 2;
+		a = [1,2,3,4,5,6];
+		a[0] = 10;
 	end test.
