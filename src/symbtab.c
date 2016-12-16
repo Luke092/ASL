@@ -64,7 +64,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     
     pnode nodoCorrente = idRoot->brother;
     while(nodoCorrente){
-        Code tmp;
+        Code tmp = endcode();
         
         switch(nodoCorrente->val.ival){
             case N_OPTTYPESECT:
@@ -72,17 +72,21 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 break;
             case N_OPTVARSECT: 
                 tmp = optTypeSect_var_const(nodoCorrente,1);
-                if (code.size != 0)
-                    code = concode(code, tmp, endcode());
-                else
-                    code = tmp;
+                if(tmp.size != 0){
+                    if (code.size != 0)
+                        code = concode(code, tmp, endcode());
+                    else
+                        code = tmp;
+                }
                 break;
             case N_OPTCONSTSECT:
                 tmp = optTypeSect_var_const(nodoCorrente,2);
-                if (code.size != 0)
-                    code = concode(code, tmp, endcode());
-                else
-                    code = tmp;
+                if(tmp.size != 0){
+                    if (code.size != 0)
+                        code = concode(code, tmp, endcode());
+                    else
+                        code = tmp;
+                }
                 break;
             case N_OPTMODULELIST:
                 optModuleList(nodoCorrente);
@@ -96,14 +100,14 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                     printf("ERRORE #%d: l'id %s non coincide con quello di begin e end\n",idRoot->line,nomeRoot);
                     exit(0);
                 }
-                Code tmp;
-                
                 tmp = statList(nodoCorrente->child->brother);
                 
-                if (code.size != 0)
-                    code = concode(code, tmp, endcode());
-                else
-                    code = tmp;
+                if(tmp.size != 0){
+                    if (code.size != 0)
+                        code = concode(code, tmp, endcode());
+                    else
+                        code = tmp;
+                }
                 break;
             case N_EXPRBODY:
                 if(strcmp(nomeRoot,nodoCorrente->child->val.sval)!=0){
