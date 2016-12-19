@@ -186,6 +186,32 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             switch(ex->val.ival){
                 case N_LHS:
                     code = lhs(ex,&tipoRitornato2, 0);
+                    
+                    pnode pt = ex->child;
+                    if(pt->type == T_ID){
+                        if(tipoRitornato2 == tipoBoolean ||
+                                tipoRitornato2 == tipoIntero ||
+                                tipoRitornato2 == tipoString){
+                            code = makecode2(LOAD, 0, findInSt(stab->tab, pt->val.sval)->oid);
+                        } else {
+                            //TODO: cosa fare in caso di assegnamento array - array?
+                        }
+                    } else {
+                        int size;
+                        ptypeS t = tipoRitornato2;
+                        while(t->child != NULL){
+                            t = t->child;
+                        }
+                        if(t == tipoBoolean || t == tipoIntero){
+                            size = sizeof(int);
+                        } else if (t == tipoString){
+                            size = sizeof(void);
+                        }
+                        
+                        code = concode(code,
+                                makecode1(AIND, size),
+                                endcode());
+                    }
                 break;
                 case N_CONST:
                     switch(ex->child->type){
