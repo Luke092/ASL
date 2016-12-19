@@ -170,7 +170,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             code = expr(ex,&tipoRitornato2);
             break;
         case T_COMPEXPR:
-            expr(ex,&tipoRitornato2);
+            code = expr(ex,&tipoRitornato2);
             break;
         case T_MATHEXPR:
             code = expr(ex,&tipoRitornato2);
@@ -1473,6 +1473,52 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
                         endcode());
                 break;   
             case T_COMPEXPR: 
+                switch(nExpr->val.ival){
+                    case E_EQ:
+                        ex_code = makecode(EQUA);
+                        break;
+                    case E_NE:
+                        ex_code = makecode(NEQU);
+                        break;
+                    case E_GT:
+                        if(tr1 == tipoIntero){
+                            ex_code = makecode(IGRT);
+                        } else if(tr1 == tipoString){
+                            ex_code = makecode(SGRT);
+                        }
+                        break;
+                    case E_GE:
+                        if(tr1 == tipoIntero){
+                            ex_code = makecode(IGEQ);
+                        } else if(tr1 == tipoString){
+                            ex_code = makecode(SGEQ);
+                        }
+                        break;
+                    case E_LT:
+                        if(tr1 == tipoIntero){
+                            ex_code = makecode(ILET);
+                        } else if(tr1 == tipoString){
+                            ex_code = makecode(SLET);
+                        }
+                        break;
+                    case E_LE:
+                        if(tr1 == tipoIntero){
+                            ex_code = makecode(ILEQ);
+                        } else if(tr1 == tipoString){
+                            ex_code = makecode(SLEQ);
+                        }
+                        break;
+                    default:
+                        //Albero generato male!
+                        fprintf(stderr, "MATHEXPR not found!");
+                        exit(-1);
+                        break;
+                }
+                
+                res_code = concode(f1_code,
+                        f2_code,
+                        ex_code,
+                        endcode());
                 
                 break;
             case T_NEGEXPR:
