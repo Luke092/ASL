@@ -16,5 +16,5 @@ program test
 	begin test
 		x = 2;
 		a = [1,2,3,4,5,6];
-		a[0] = 10;
+		a[0] = x;
 	end test.

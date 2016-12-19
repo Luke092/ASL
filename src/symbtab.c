@@ -173,7 +173,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             expr(ex,&tipoRitornato2);
             break;
         case T_MATHEXPR:
-            expr(ex,&tipoRitornato2);
+            code = expr(ex,&tipoRitornato2);
             break;
         case T_NEGEXPR:
             expr(ex,&tipoRitornato2);
@@ -1315,7 +1315,12 @@ int controllaCompatibilitaTipi(ptypeS t1,ptypeS t2){
 /*
  * logic-expr, comp-expr,math-expr,neg-expr;
  */
-void expr(pnode nExpr,ptypeS* tipoRitornato){
+Code expr(pnode nExpr,ptypeS* tipoRitornato){
+    Code ex_code = endcode(),
+            f1_code = endcode(),
+            f2_code = endcode(),
+            res_code = endcode();
+    
     printf("expr\n");
     ptypeS tipoRitornato2;//tipo ritornato dall'expr
     
@@ -1332,6 +1337,27 @@ void expr(pnode nExpr,ptypeS* tipoRitornato){
             case T_MATHEXPR: 
                 tipoExpr= T_MATHEXPR;
                 tipoRitornato2=tipoIntero;//una math expr deve tornare un integer
+                
+                switch(nExpr->val.ival){
+                    case E_PLUS:
+                        ex_code = makecode(ADDI);
+                        break;
+                    case E_MINUS:
+                        ex_code = makecode(SUBI);
+                        break;
+                    case E_MUL:
+                        ex_code = makecode(MULI);
+                        break;
+                    case E_DIV:
+                        ex_code = makecode(DIVI);
+                        break;
+                    default:
+                        //Albero generato male!
+                        fprintf(stderr, "MATHEXPR not found!");
+                        exit(-1);
+                        break;
+                }
+                
                 break;   
             case T_COMPEXPR: 
                 tipoExpr= T_COMPEXPR;
@@ -1354,7 +1380,7 @@ void expr(pnode nExpr,ptypeS* tipoRitornato){
     
     //stabilisco il tipo del primo figlio
     ptypeS tr1 = NULL;
-    exprBody(f1,&tr1);
+    f1_code = exprBody(f1,&tr1);   
     printf("TIPO FIGLIO 1\n");
     printType(tr1);   
     //stabilisco iltipo del secondo figlio (fratello del primo figlio)
@@ -1362,7 +1388,7 @@ void expr(pnode nExpr,ptypeS* tipoRitornato){
     //altrimenti richiamo exprBody 
     ptypeS tr2 = tr1;
     if(!(tipoExpr==T_NEGEXPR)){
-        exprBody(f2,&tr2);
+        f2_code = exprBody(f2,&tr2);
     }
     
      printf("TIPO FIGLIO 2\n");
@@ -1412,7 +1438,21 @@ void expr(pnode nExpr,ptypeS* tipoRitornato){
             }
 
         }        
-    }    
+    }
+    
+    if(tipoExpr != T_NEGEXPR){
+        res_code = concode(f1_code,
+                f2_code,
+                ex_code,
+                endcode());
+    } else {
+        res_code = concode(f1_code,
+                ex_code,
+                endcode());
+    }
+    
+    return res_code;
+    
 }
 
 /*

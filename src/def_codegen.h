@@ -79,7 +79,7 @@ Code    appcode(Code code1, Code code2),
         make_loci(int i),
         make_locs(char* s),
         insert_code(Code code1, Code code2, int offset),
-        cg_array_const(pnode node);
+        cg_array_const(pnode);
 
 Stat* newstat(Operator op);
 
