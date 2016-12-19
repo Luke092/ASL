@@ -6,8 +6,8 @@ program test
 
 begin test
 	x = a[2];
-	y = x * (2 + 5) / 8;
+	y =  - (x * (2 + 5) / 8);
 	b = (true and false) or true;
-	b = 5 == 8;
+	b = not (5 == 8);
 	b = "hello" != "world";
 end test.

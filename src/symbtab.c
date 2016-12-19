@@ -176,7 +176,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             code = expr(ex,&tipoRitornato2);
             break;
         case T_NEGEXPR:
-            expr(ex,&tipoRitornato2);
+            code = expr(ex,&tipoRitornato2);
             break;
         case T_MODCALL:
             modCall(ex,&tipoRitornato2);
@@ -1522,13 +1522,25 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
                 
                 break;
             case T_NEGEXPR:
-                                
+                switch(nExpr->val.ival){
+                    case E_NOT:
+                        ex_code = makecode(NEGA);
+                        break;
+                    case E_UMINUS:
+                        ex_code = makecode(UMIN);
+                        break;
+                    default:
+                        //Albero generato male!
+                        fprintf(stderr, "MATHEXPR not found!");
+                        exit(-1);
+                        break;
+                }
+                res_code = concode(f1_code,
+                        ex_code,
+                        endcode()
+                        );
             break;
           }
-    
-    //TODO: STAB
-    if(res_code.size == 0)
-        res_code = makecode(NOOP);
     
     return res_code;
     
