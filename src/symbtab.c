@@ -167,7 +167,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
     
     switch(ex->type){
         case T_LOGICEXPR:
-            expr(ex,&tipoRitornato2);
+            code = expr(ex,&tipoRitornato2);
             break;
         case T_COMPEXPR:
             expr(ex,&tipoRitornato2);
@@ -1337,27 +1337,6 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
             case T_MATHEXPR: 
                 tipoExpr= T_MATHEXPR;
                 tipoRitornato2=tipoIntero;//una math expr deve tornare un integer
-                
-                switch(nExpr->val.ival){
-                    case E_PLUS:
-                        ex_code = makecode(ADDI);
-                        break;
-                    case E_MINUS:
-                        ex_code = makecode(SUBI);
-                        break;
-                    case E_MUL:
-                        ex_code = makecode(MULI);
-                        break;
-                    case E_DIV:
-                        ex_code = makecode(DIVI);
-                        break;
-                    default:
-                        //Albero generato male!
-                        fprintf(stderr, "MATHEXPR not found!");
-                        exit(-1);
-                        break;
-                }
-                
                 break;   
             case T_COMPEXPR: 
                 tipoExpr= T_COMPEXPR;
@@ -1440,16 +1419,70 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
         }        
     }
     
-    if(tipoExpr != T_NEGEXPR){
-        res_code = concode(f1_code,
-                f2_code,
-                ex_code,
-                endcode());
-    } else {
-        res_code = concode(f1_code,
-                ex_code,
-                endcode());
-    }
+    //stabilisco il tipo della expr per la generazione del codice
+    switch(nExpr->type){
+            case T_LOGICEXPR: 
+                switch(nExpr->val.ival){
+                    case E_AND:
+                        res_code = concode(f1_code,
+                                makecode1(SKPF, f2_code.size + 2),
+                                f2_code,
+                                makecode1(SKIP, 2),
+                                make_loci(0),
+                                endcode()
+                                );
+                        break;
+                    case E_OR:
+                        res_code = concode(f1_code,
+                                makecode1(SKPF, 3),
+                                make_loci(1),
+                                makecode1(SKIP, f2_code.size + 1),
+                                endcode()
+                                );
+                        break;
+                    default:
+                        //Albero generato male!
+                        fprintf(stderr, "MATHEXPR not found!");
+                        exit(-1);
+                        break;
+                }
+                break;              
+            case T_MATHEXPR: 
+                switch(nExpr->val.ival){
+                    case E_PLUS:
+                        ex_code = makecode(ADDI);
+                        break;
+                    case E_MINUS:
+                        ex_code = makecode(SUBI);
+                        break;
+                    case E_MUL:
+                        ex_code = makecode(MULI);
+                        break;
+                    case E_DIV:
+                        ex_code = makecode(DIVI);
+                        break;
+                    default:
+                        //Albero generato male!
+                        fprintf(stderr, "MATHEXPR not found!");
+                        exit(-1);
+                        break;
+                }
+                res_code = concode(f1_code,
+                        f2_code,
+                        ex_code,
+                        endcode());
+                break;   
+            case T_COMPEXPR: 
+                
+                break;
+            case T_NEGEXPR:
+                                
+            break;
+          }
+    
+    //TODO: STAB
+    if(res_code.size == 0)
+        res_code = makecode(NOOP);
     
     return res_code;
     

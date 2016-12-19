@@ -7,4 +7,5 @@ program test
 begin test
 	x = a[2];
 	y = x * (2 + 5) / 8;
+	b = (true and false) or true;
 end test.
