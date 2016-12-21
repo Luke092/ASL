@@ -180,6 +180,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             break;
         case T_MODCALL:
             modCall(ex,&tipoRitornato2);
+            //TODO: implement code generation
             break;
         case T_NONTERM:
             
@@ -259,7 +260,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                     };
                     break;
                 case N_CONDEXPR:
-                    condExpr(ex,&tipoRitornato2);
+                    code = condExpr(ex,&tipoRitornato2);
                     break;
             };
         break;
@@ -290,14 +291,18 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
 /*
  * funzione che gestisce le cond expr
  */
-void condExpr(pnode nCond,ptypeS* tipoRitornato){
+Code condExpr(pnode nCond,ptypeS* tipoRitornato){
+    Code res_code = endcode(),
+            if_code = endcode(),
+            elseif_code = endcode(),
+            else_code = endcode();
     //printf("condexpr\n");
     
     line = nCond->child->line;
     
     //exprIf= la condizione dell'if
     ptypeS exprIf = NULL;
-    exprBody(nCond->child,&exprIf);
+    if_code = exprBody(nCond->child,&exprIf);
     
     if(controllaCompatibilitaTipi(exprIf,tipoBoolean)==0){
         //l'exprIf deve essere per forza un booleano, se no è errore
@@ -308,21 +313,45 @@ void condExpr(pnode nCond,ptypeS* tipoRitornato){
     
     //expr1= expr dopo l'if
     ptypeS expr1 = NULL;
-    exprBody(nCond->child->brother,&expr1);
+    Code cond_code = exprBody(nCond->child->brother,&expr1);
+    if_code = concode(if_code,
+            makecode1(SKPF, cond_code.size + 1),
+            cond_code,
+            endcode());
     
     //ora inizia la serie dei possibili fratelli optelsifexprlist
     pnode nElseIf = nCond->child->brother->brother;
     pnode nExprElseIf = nElseIf->child;
     
-    while(nExprElseIf!=NULL){
+    //expr3 è l'expr dopo l'else finale
+    ptypeS expr3 = NULL;
+    else_code = exprBody(nElseIf->brother, &expr3);
+    
+    int else_if_count = 0;
+    
+    pnode tmp_node = nExprElseIf;
+    while(tmp_node != NULL){
+        else_if_count++;
+        tmp_node = tmp_node->brother->brother;
+    }
+    
+    for(int i = else_if_count - 1; i >= 0; i--){
+        Code elseif_cond_code = endcode(),
+                elseif_then_code = endcode();
         
-        line = nExprElseIf->child->line;
+        tmp_node = nExprElseIf;
+        
+        for(int j = 0; j < i; j++){
+            tmp_node = tmp_node->brother->brother;
+        }
+        
+        line = tmp_node->child->line;
         
         //exprElseIf espressione (che deve tornare un bool) dell'elsif
         ptypeS exprElseIf = NULL;
-        exprBody(nElseIf->child,&exprElseIf);
+        elseif_cond_code = exprBody(tmp_node, &exprElseIf);
         
-        if(controllaCompatibilitaTipi(exprElseIf,tipoBoolean)==0){
+        if(controllaCompatibilitaTipi(exprElseIf, tipoBoolean)==0){
             //l'exprIf deve essere per forza un booleano, se no è errore
             printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
             printSemanticError();
@@ -331,21 +360,25 @@ void condExpr(pnode nCond,ptypeS* tipoRitornato){
         
         //expr2 = espressione dopo elsif
         ptypeS expr2 = NULL;
-        exprBody(nExprElseIf->brother,&expr2);
+        elseif_then_code = exprBody(tmp_node->brother,&expr2);
         
-        if(controllaCompatibilitaTipi(expr2,expr1)==0){
+        if(controllaCompatibilitaTipi(expr2, expr1)==0){
             //l'expr2 deve essere dello stesso tipo di expr1, se no è errore
             printf("ERRORE #%d: il tipo dell'expr di un elseif non coincide con quella dell'if\n",line);
             printSemanticError();
             exit(0);
         }
         
-        nExprElseIf = nExprElseIf->brother->brother;
+        elseif_code = concode(
+                elseif_cond_code,
+                makecode1(SKPF, elseif_then_code.size + 1),
+                elseif_then_code,
+                makecode1(SKIP, else_code.size + elseif_code.size),
+                elseif_code,
+                endcode());
     }
     
-    //expr3 è l'expr dopo l'else finale
-    ptypeS expr3 = NULL;
-    exprBody(nElseIf->brother,&expr3);
+    if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size), endcode());
     
     if(controllaCompatibilitaTipi(expr3,expr1)==0){
         //l'expr2 deve essere dello stesso tipo di expr1, se no è errore
@@ -358,6 +391,9 @@ void condExpr(pnode nCond,ptypeS* tipoRitornato){
     *tipoRitornato = expr1;
     printf("tipo tornato COND_EXPR\n");
     printType(*tipoRitornato);
+    
+    res_code = concode(if_code, elseif_code, else_code, endcode());
+    return res_code;
 }
 
 /*

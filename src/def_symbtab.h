@@ -54,7 +54,6 @@ void stampa2(pstLine[]),
         repeatStat(pnode),
         forStat(pnode),
         modCall(pnode,ptypeS*),
-        condExpr(pnode,ptypeS*),
         printSemanticError(),
         printType(ptypeS),
         optModuleList(pnode),
@@ -67,7 +66,8 @@ Code start(pnode,pST,ptypeS*),
         assignStat(pnode),
         lhs(pnode,ptypeS*, int),
         exprBody( pnode,ptypeS*),
-        expr(pnode,ptypeS*);
+        expr(pnode,ptypeS*),
+        condExpr(pnode,ptypeS*);
         
 ptypeS 
         createType(int,ptypeS,int),
