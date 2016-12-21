@@ -11,4 +11,6 @@ begin test
 		else 
 			true
 		end;
+	output b;
+	input b;
 end test.

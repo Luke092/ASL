@@ -860,7 +860,7 @@ Code statList(pnode nStatList){
     pstLine p=NULL;
  
     while(nStat!=NULL){
-        Code tmp;
+        Code tmp = endcode();
         
         switch(nStat->child->val.ival){
             case N_ASSIGNSTAT://il figlio di un assign è un lhs, il fratello della lhs è una expr
@@ -889,11 +889,51 @@ Code statList(pnode nStatList){
                     printf("ERRORE #%d: l'id %s non è quello di una variabile\n",nStat->child->child->line,nStat->child->child->val.sval);
                     exit(0);
                 }
+                
+                tmp = makecode2(READ, 0, p->oid);
+                
+                if(p->root == tipoIntero){
+                    tmp.head->args[2].sval = "i";
+                } else if (p->root == tipoBoolean){
+                    tmp.head->args[2].sval = "b";
+                } else if (p->root == tipoString){
+                    tmp.head->args[2].sval = "s";
+                } else {
+                  //TODO: implementare formato per tipo strutturato
+                }   
+                
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
             case N_OUTPUTSTAT:
-                exprBody(nStat->child->child,&exType);
+                tmp = exprBody(nStat->child->child,&exType);
+                Code write_stmn = endcode();
+                if(exType == tipoIntero){
+                    write_stmn = makecode(WRIT);
+                    write_stmn.head->args[0].sval = "i";
+                } else if (exType == tipoBoolean){
+                    write_stmn = makecode(WRIT);
+                    write_stmn.head->args[0].sval = "b";
+                } else if (exType == tipoString){
+                    write_stmn = makecode(WRIT);
+                    write_stmn.head->args[0].sval = "s";
+                } else {
+                    //TODO: implementare formato per tipo strutturato
+                }
+                
+                tmp = concode(tmp, write_stmn, endcode());
+                
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
             case E_PROC:
+                //TODO: write code for procedure call
                 modCall(nStat->child,NULL);
                 break;
           }
