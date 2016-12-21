@@ -872,7 +872,13 @@ Code statList(pnode nStatList){
                 }
                 break;
             case N_IFSTAT:
-                ifStat(nStat->child);
+                tmp = ifStat(nStat->child);
+                
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
             case N_WHILESTAT:
                 whileStat(nStat->child);
@@ -948,14 +954,18 @@ Code statList(pnode nStatList){
 /*
  * funzione che gestisce una if-stat
  */
-void ifStat(pnode nIfStat){
+Code ifStat(pnode nIfStat){
+    Code res_code = endcode(),
+            if_code = endcode(),
+            elseif_code = endcode(),
+            else_code = endcode();
     //printf("nIfStat\n");
     
     line = nIfStat->child->line;
     
     //exprIf deve tornare un bool se no è errore
     ptypeS exprIf = NULL;
-    exprBody(nIfStat->child,&exprIf);
+    if_code = exprBody(nIfStat->child,&exprIf);
     
     if(controllaCompatibilitaTipi(exprIf,tipoBoolean)==0){
         //l'exprIf deve essere per forza un booleano, se no è errore
@@ -964,15 +974,47 @@ void ifStat(pnode nIfStat){
         exit(0);
     }
     
+    Code cond_code = endcode();
     pnode nStatList = nIfStat->child->brother;
-    statList(nStatList);
+    cond_code = statList(nStatList);
+    
+    if_code = concode(if_code,
+            makecode1(SKPF, cond_code.size + 1),
+            cond_code,
+            endcode()
+            );
     
     pnode nOptElsif = nStatList->brother;
     pnode nOptExpr = nOptElsif->child;
     
-    while(nOptExpr!=NULL){
+    pnode nElseStatList = nOptElsif->brother;
+    
+    //se nElseStatList è != NULL svuol dire che c'è l'else finale
+    if(nElseStatList!=NULL){
+        else_code = statList(nElseStatList);
+    }
+    
+    int else_if_count = 0;
+    
+    pnode tmp_node = nOptExpr;
+    while(tmp_node != NULL){
+        else_if_count++;
+        tmp_node = tmp_node->brother->brother;
+    }
+    
+    for(int i = else_if_count - 1; i >= 0; i--){
+        Code elseif_cond_code = endcode(),
+                elseif_then_code = endcode();
+        
+        tmp_node = nOptElsif;
+        
+        for(int j = 0; j < i; j++){
+            tmp_node = tmp_node->brother->brother;
+        }
+        
         ptypeS exprElsif = NULL;
-        exprBody(nOptExpr,&exprElsif);
+        elseif_cond_code = exprBody(nOptExpr, &exprElsif);
+        
         if(controllaCompatibilitaTipi(exprElsif,tipoBoolean)==0){
             line = nOptExpr->child->line;
             //l'exprElsif deve essere per forza un booleano, se no è errore
@@ -980,16 +1022,22 @@ void ifStat(pnode nIfStat){
             printSemanticError();
             exit(0);
         }
-        statList(nOptExpr->brother);
-        nOptExpr = nOptExpr->brother->brother;
+        
+        elseif_then_code = statList(nOptExpr->brother);
+        
+        elseif_code = concode(
+                elseif_cond_code,
+                makecode1(SKPF, elseif_then_code.size + 1),
+                elseif_then_code,
+                makecode1(SKIP, else_code.size + elseif_code.size),
+                elseif_code,
+                endcode());
     }
     
-    pnode nElseStatList = nOptElsif->brother;
+    if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size), endcode());
     
-    //se nElseStatList è != NULL svuol dire che c'è l'else finale
-    if(nElseStatList!=NULL){
-        statList(nElseStatList);
-    }
+    res_code = concode(if_code, elseif_code, else_code, endcode());
+    return res_code;
 }
 
 /*
