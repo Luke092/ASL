@@ -12,4 +12,8 @@ begin test
 	while x == y do
 		x = x + 1;
 	end;
+
+	repeat
+		y = y + 2;
+	until y > x;
 end test.

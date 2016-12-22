@@ -890,7 +890,13 @@ Code statList(pnode nStatList){
                 }
                 break;
             case N_REPEATSTAT:
-                repeatStat(nStat->child);
+                tmp = repeatStat(nStat->child);
+                
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
             case N_FORSTAT:
                 forStat(nStat->child);
@@ -1082,20 +1088,32 @@ Code whileStat(pnode nWhileStat){
 /*
  * funzione che gestisce i repeat
  */
-void repeatStat(pnode nRepeatStat){
+Code repeatStat(pnode nRepeatStat){
+    Code res_code = endcode(),
+            cond_code = endcode(),
+            repeat_code = endcode();
     //printf("repeatstat\n");
     
-    statList(nRepeatStat->child);
+    repeat_code = statList(nRepeatStat->child);
     
     //exprRep deve tornare un bool se no è errore
     ptypeS exprRep = NULL;
-    exprBody(nRepeatStat->child->brother,&exprRep);
+    cond_code = exprBody(nRepeatStat->child->brother,&exprRep);
     if(controllaCompatibilitaTipi(exprRep,tipoBoolean)==0){
         line = nRepeatStat->child->line;
         printf("ERRORE #%d: l'expr di un repeat deve tornare un booleano\n",line);
         printSemanticError();
         exit(0);
     }
+    
+    res_code = concode(
+            repeat_code,
+            cond_code,
+            makecode1(SKPF, -(repeat_code.size + cond_code.size)),
+            endcode()
+            );
+    
+    return res_code;
 }
 
 /*
