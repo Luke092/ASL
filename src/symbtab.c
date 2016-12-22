@@ -881,7 +881,13 @@ Code statList(pnode nStatList){
                 }
                 break;
             case N_WHILESTAT:
-                whileStat(nStat->child);
+                tmp = whileStat(nStat->child);
+                
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
             case N_REPEATSTAT:
                 repeatStat(nStat->child);
@@ -1043,12 +1049,15 @@ Code ifStat(pnode nIfStat){
 /*
  * funzione che gestisce i while 
  */
-void whileStat(pnode nWhileStat){
+Code whileStat(pnode nWhileStat){
+    Code res_code = endcode(),
+            cond_code = endcode(),
+            while_code = endcode();
     //printf("whilestat\n");
     
     //exprWhile deve tornare un bool se no è errore
     ptypeS exprWhile = NULL;
-    exprBody(nWhileStat->child,&exprWhile);
+    cond_code = exprBody(nWhileStat->child,&exprWhile);
     if(controllaCompatibilitaTipi(exprWhile,tipoBoolean)==0){
         line = nWhileStat->child->line;
         printf("ERRORE #%d: l'expr di un while deve tornare un booleano\n",line);
@@ -1056,7 +1065,17 @@ void whileStat(pnode nWhileStat){
         exit(0);
     }
     
-    statList(nWhileStat->child->brother);
+    while_code = statList(nWhileStat->child->brother);
+    
+    res_code = concode(
+            cond_code,
+            makecode1(SKPF, while_code.size + 1),
+            while_code,
+            makecode1(SKIP, -(cond_code.size + 1 + while_code.size)),
+            endcode()
+            );
+    
+    return res_code;
     
 }
 

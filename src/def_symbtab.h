@@ -49,7 +49,6 @@ typedef  symbolTable *pST;//pointer Symbol Table
 void stampa2(pstLine[]),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
-        whileStat(pnode),
         repeatStat(pnode),
         forStat(pnode),
         modCall(pnode,ptypeS*),
@@ -67,7 +66,8 @@ Code start(pnode,pST,ptypeS*),
         exprBody( pnode,ptypeS*),
         expr(pnode,ptypeS*),
         condExpr(pnode,ptypeS*),
-        ifStat(pnode);
+        ifStat(pnode),
+        whileStat(pnode);
         
 ptypeS 
         createType(int,ptypeS,int),

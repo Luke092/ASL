@@ -8,4 +8,8 @@ begin test
 		x = y - 1;
 		y = y + 1;
 	end;
+
+	while x == y do
+		x = x + 1;
+	end;
 end test.
