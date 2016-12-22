@@ -16,4 +16,8 @@ begin test
 	repeat
 		y = y + 2;
 	until y > x;
+
+	for x = 0 to 6 do
+		y = x * 2;
+	end;
 end test.

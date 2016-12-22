@@ -899,7 +899,13 @@ Code statList(pnode nStatList){
                 }
                 break;
             case N_FORSTAT:
-                forStat(nStat->child);
+                tmp = forStat(nStat->child);
+                
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
             case N_INPUTSTAT:
                 p = controllaEsistenzaId(nStat->child->child);
@@ -1119,7 +1125,12 @@ Code repeatStat(pnode nRepeatStat){
 /*
  *
  */
-void forStat(pnode nodoFor){
+Code forStat(pnode nodoFor){
+    Code res_code = endcode(),
+            start_value_code = endcode(),
+            end_value_code = endcode(),
+            for_code = endcode();
+    
     //printf("forstat\n");
     pnode nId = nodoFor->child;
     pstLine p = controllaEsistenzaId(nId);
@@ -1136,15 +1147,37 @@ void forStat(pnode nodoFor){
     ptypeS expr1 = NULL;
     ptypeS expr2 = NULL;
     
-    exprBody(nId->brother,&expr1);
-    exprBody(nId->brother->brother,&expr2);
+    start_value_code = exprBody(nId->brother,&expr1);
+    end_value_code = exprBody(nId->brother->brother,&expr2);
     
     if(controllaCompatibilitaTipi(tipoIntero,expr1)==0 || controllaCompatibilitaTipi(tipoIntero,expr2)==0){
         printf("ERRORE #%d: gli estremi della var %s nel for devono essere interi\n",nId->line,nId->val.sval);
         exit(0);
     }
     
-    statList(nId->brother->brother->brother);
+    for_code = statList(nId->brother->brother->brother);
+    
+    int addr_tmp = stab->oidC + 1;
+    res_code = concode(
+            start_value_code,
+            makecode2(STOR, 0, p->oid), //TODO: generalizzare
+            end_value_code,
+            //TODO: store nella stab locale
+            makecode2(STOR, 0, addr_tmp), //Store del temporaneo
+            makecode2(LOAD, 0, p->oid), //TODO: generalizzare
+            makecode2(LOAD, 0, addr_tmp),
+            makecode(ILEQ),
+            makecode1(SKPF, for_code.size + 5),
+            for_code,
+            makecode2(LOAD, 0, p->oid), //TODO: generalizzare
+            make_loci(1),
+            makecode(ADDI),
+            makecode2(STOR, 0, p->oid), //TODO: generalizzare
+            makecode1(SKIP, -(for_code.size + 7)),
+            endcode()
+            );
+    
+    return res_code;
     
 }
 
