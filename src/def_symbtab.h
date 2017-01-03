@@ -33,7 +33,8 @@ typedef struct stLine{ //stLine = symbol table line
     int formals1;
     struct stLine **formals2;//array di puntatori ai parametri formali/attuali
     struct stLine *next;//puntatore al nodo successivo della hash table
-   
+    
+    int mid; // module id, univoco in tutto il codice
 } StructstLine;
 
 typedef  StructstLine *pstLine;
@@ -49,10 +50,8 @@ typedef  symbolTable *pST;//pointer Symbol Table
 void stampa2(pstLine[]),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
-        modCall(pnode,ptypeS*),
         printSemanticError(),
         printType(ptypeS),
-        optModuleList(pnode),
         controllaParametroChiamata(pstLine, pnode);
 
 Code start(pnode,pST,ptypeS*),
@@ -67,7 +66,9 @@ Code start(pnode,pST,ptypeS*),
         ifStat(pnode),
         whileStat(pnode),
         repeatStat(pnode),
-        forStat(pnode);
+        forStat(pnode),
+        optModuleList(pnode),
+        modCall(pnode,ptypeS*);
         
 ptypeS 
         createType(int,ptypeS,int),
@@ -86,6 +87,8 @@ int controlConstType(ptypeS,pnode),
         
         
 pstLine* recuperaFormali(pST,int);
+
+int count_local_objs(pstLine[]); // funzione per contare gli oggetti locali
 
 #endif /* DEF_SYMBTAB_H */
 

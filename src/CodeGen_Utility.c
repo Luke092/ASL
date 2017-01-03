@@ -354,3 +354,30 @@ Code cg_array_const(pnode node){
     }
     return code;
 }
+
+Code subs_jump_address(Code code){
+    for(int i = 0; i < code.size; i++){
+        Stat* j = getStat_by_address(code, i);
+        if(j->op == JUMP){
+            int mid = j->args[0].ival;
+            for(int k = 0; k < code.size; k++){
+                Stat* m = getStat_by_address(code, k);
+                if(m->op == MODL && m->args[0].ival == mid){
+                    j->args[0].ival = m->address;
+                }
+            }
+        }
+    }
+    return code;
+}
+
+Stat* getStat_by_address(Code code, int addr){
+    Stat* pt = code.head;
+    for(int i = 0; i < code.size; i++){
+        if(pt->address == addr){
+            return pt;
+        }
+        pt = pt->next;
+    }
+    return NULL;
+}

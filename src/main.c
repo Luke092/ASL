@@ -1,6 +1,6 @@
 #include "def.h"
 #include "def_symbtab.h"
-#include "def_codegen.h"
+//#include "def_codegen.h"
 
 FILE *yyin;
 pnode root = NULL;

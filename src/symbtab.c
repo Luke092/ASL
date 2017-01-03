@@ -10,6 +10,8 @@
 char *idErr;//id della var che da errore
 int line;//linea dell'errore
 
+int mid = 0; //l'id del modulo è univoco per tutto il programma
+
 void printSemanticError(){
     printf("ERRORE #%d: causato probabilmente da %s\n",line,idErr);
 }
@@ -20,12 +22,17 @@ ptypeS tipoIntero;//ptypeS che rappresenta un intero
 ptypeS tipoString;//ptypeS che rappresenta una stringa
 ptypeS tipoBoolean;//ptypeS che rappresenta un bool
 
+int primoGiro = 1;
+
 pST createSymbTab(pST back){
     printf("createSymbTab\n");
     
-    tipoIntero=createType(0,NULL,0);
-    tipoString=createType(1,NULL,0);
-    tipoBoolean=createType(2,NULL,0);
+    if(primoGiro){
+        tipoIntero=createType(0,NULL,0);
+        tipoString=createType(1,NULL,0);
+        tipoBoolean=createType(2,NULL,0);
+        primoGiro = 0;
+    }
     
     pST s=malloc(sizeof(symbolTable));//symbol table
     pulisciSymbTab(s);//settiamo a NULL le celle della hash table per sicurezza
@@ -41,8 +48,8 @@ pST createSymbTab(pST back){
  * torna qualcosa != da NULL solo in caso di una func
  */
 Code start(pnode root, pST s, ptypeS* tipoRitornato){
-    Code code;
-    code.size = 0;
+    Code code = endcode(),
+            modl_code = endcode();
     
     printf("start\n");
     
@@ -56,10 +63,9 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     
     //Definizione del modulo
     if(stab->back == NULL){
-        code = makecode1(MODL, -1);
+        code = makecode1(MODL, mid++);
     } else {
-//        code = makecode1(MODL, findInSt(stab->back->tab, idRoot)->oid);
-        //TODO: utilizzare oid come mid
+        code = makecode1(MODL, findInSt(stab->back->tab, nomeRoot)->mid);
     }
     
     pnode nodoCorrente = idRoot->brother;
@@ -89,8 +95,14 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 }
                 break;
             case N_OPTMODULELIST:
-                optModuleList(nodoCorrente);
+                tmp = optModuleList(nodoCorrente);
                 //TODO: generare codice per i moduli
+                if(tmp.size != 0){
+                    if (modl_code.size != 0)
+                        modl_code = concode(code, tmp, endcode());
+                    else
+                        modl_code = tmp;
+                }
                 break;
             case N_STATBODY:
       
@@ -115,13 +127,27 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                     exit(0);
                 }
                 //*tipoRitornato = exprBody(nodoCorrente->child->brother);
-                exprBody(nodoCorrente->child->brother,tipoRitornato);
+                tmp = exprBody(nodoCorrente->child->brother,tipoRitornato);
+                
+                if(tmp.size != 0){
+                    if (code.size != 0)
+                        code = concode(code, tmp, endcode());
+                    else
+                        code = tmp;
+                }
+                
                 printf("Tipo ritornato da exprbody\n");
                 printType(*tipoRitornato);
                 break;
           }
         nodoCorrente = nodoCorrente->brother;
     }
+    
+    // metto un return alla fine del codice
+    code = concode(code, makecode(RETN), endcode());
+    
+    // appendo in fondo la definizione dei moduli
+    code = concode(code, modl_code, endcode());
    
     printf("\t \tSYMBTAB DI %s\n",nomeRoot);
     stampa(stab->tab);//stampa la hash table
@@ -133,15 +159,20 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     }
     
     if(root->val.ival == N_PROGRAM){
-        Code main_call = make_call(0,0,-1,3);
+        int local_objs = count_local_objs(s->tab);
+        /*
+         * mid = 0 per main
+         * num-formals-aux = num-locals in quanto non ho parametri formali per il main
+         */
+        Code main_call = make_call(local_objs, local_objs,-1, 0);
         Code halt = makecode(HALT);
-        int code_size = 1 + main_call.size + halt.size + code.size;
-        code = concode(makecode1(ACODE, code_size),
-                main_call,
+        int code_size = main_call.size + halt.size + code.size;
+        code = concode(main_call,
                 halt,
                 code,
-                makecode(RETN),
                 endcode());
+        code = subs_jump_address(code); // sostituisco il module id con l'address effettivo dell'inizio del modulo
+        code = concode(makecode1(ACODE, code_size), code, endcode());
     }
     
     return code;
@@ -179,7 +210,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             code = expr(ex,&tipoRitornato2);
             break;
         case T_MODCALL:
-            modCall(ex,&tipoRitornato2);
+            code = modCall(ex,&tipoRitornato2);
             //TODO: implement code generation
             break;
         case T_NONTERM:
@@ -196,6 +227,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                             code = makecode2(LOAD, 0, findInSt(stab->tab, pt->val.sval)->oid);
                         } else {
                             //TODO: cosa fare in caso di assegnamento array - array?
+                            // Copia array!
                         }
                     } else {
                         int size;
@@ -574,11 +606,13 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
         return d_code;
 }
 
-void optModuleList(pnode optModuleList){
+Code optModuleList(pnode optModuleList){
+    Code code = endcode();
     printf("\noptmodulelist\n");
     
     pnode procFuncDecl = optModuleList->child; //nodo n_procdecl o n_funcdecl
     while(procFuncDecl){//finchè ci sono fratelli ossia nodi n_procdecl o n_funcdecl
+        Code tmp = endcode();
         
         ptypeS tipoRitornato = NULL;
         
@@ -632,8 +666,14 @@ void optModuleList(pnode optModuleList){
             pstLine *formals2 = (pstLine*)malloc(sizeof(pstLine)*formals1);
             formals2 = recuperaFormali(stabLocal,formals1);//recuperiamo l'array di puntatori ai parametri
             printf("ID: %s\n",idFD);
-            insertFindLine(stab->tab,hash(idFD),idFD,stab->oidC,classe,tipoTornatoFunc,stabLocal,formals1,formals2);
-            start(procFuncDecl,stabLocal, &tipoRitornato);
+            pstLine newLine = insertFindLine(stab->tab,hash(idFD),idFD,stab->oidC,classe,tipoTornatoFunc,stabLocal,formals1,formals2);
+            newLine->mid = mid++;
+            tmp = start(procFuncDecl,stabLocal, &tipoRitornato);
+            if(code.size != 0){
+                code = concode(code, tmp, endcode());
+            } else {
+                code = tmp;
+            }
             
             printf("RITORNO\n");
                        
@@ -662,6 +702,7 @@ void optModuleList(pnode optModuleList){
             
     }   
     
+    return code;
 }
 
 /*  
@@ -924,6 +965,7 @@ Code statList(pnode nStatList){
                     tmp.head->args[2].sval = "s";
                 } else {
                   //TODO: implementare formato per tipo strutturato
+                    //"a_t_dim1_dim2_..."
                 }   
                 
                 if(code.size == 0){
@@ -1185,7 +1227,8 @@ Code forStat(pnode nodoFor){
  * funzione che gestisce la chiamata a una func o proc;
  * se è una func, viene settato il tipo ritornato;
  */
-void modCall(pnode nodoModcall,ptypeS* tipoRitornato){
+Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
+    Code code = endcode();
     printf("modCall\n");
     
     //if da levare è solo per controllo
@@ -1255,7 +1298,12 @@ void modCall(pnode nodoModcall,ptypeS* tipoRitornato){
         *tipoRitornato = tipoRitornato2;
         printf("Tipo ritornato dentro modcall\n");
         printType(*tipoRitornato);
-    }  
+    }
+    
+    pstLine modLine = findInSt(stab, nodoIdMod->val.sval);
+    int objs = count_local_objs(modLine->local);
+    code = make_call(modLine->formals1 + objs, objs, 0, modLine->mid); //TODO: more general   
+    return code;
 }
 
 /*
@@ -1322,6 +1370,9 @@ Code assignStat(pnode nStat){
     
     pnode pt = nStat->child->child->child;
     if(pt->type == T_ID){
+        //TODO: Debug!
+        printf("DEBUG: %d\n", typeLhs);
+        
         if(typeLhs != tipoBoolean &&
                 typeLhs != tipoIntero &&
                 typeLhs != tipoString){
@@ -1353,6 +1404,9 @@ Code assignStat(pnode nStat){
         printSemanticError();
         exit(0);
     }
+    
+    print_code(stdout, code);
+    
     return code;
 }
 
@@ -1833,7 +1887,7 @@ pstLine findInSt(pstLine stab[],char *id){
             }else{ //se il nodo ha stringa diversa passo oltre        
                 
                     if(parente->next != 0){ // se il puntatore è assegnato passo al nodo successivo
-                    
+
                         parente = parente->next;
                     
                     }else{//altrimenti sono arrivato in fondo senza trovare un nodo con la stringa uguale  e devo uscire dal while e crearne uno nuovo nodo
@@ -1922,3 +1976,16 @@ pstLine createLine(char *id,int oid,int classe,ptypeS root,pstLine local,int for
 }
 
 
+int count_local_objs(pstLine s[]){
+    int objs = 0;
+    for (int i = 0; i < TOT; i++){
+        pstLine l = s[i];
+        while(l != NULL){
+            if(l->classe == S_VAR || l->classe == S_CONST){
+                objs++;
+            }
+            l = l->next;
+        }
+    }
+    return objs;
+}
