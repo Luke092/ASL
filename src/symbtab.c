@@ -322,6 +322,8 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
 
 /*
  * funzione che gestisce le cond expr
+ * 
+ * Ragiona esattamente come la funzione ifStat
  */
 Code condExpr(pnode nCond,ptypeS* tipoRitornato){
     Code res_code = endcode(),
@@ -1013,6 +1015,15 @@ Code statList(pnode nStatList){
 
 /*
  * funzione che gestisce una if-stat
+ * 
+ * Essendo che la generazione del codice di tale controllo di flusso necessita
+ * di sapere di quanto saltare tra una condizione ed un altra il codice è generato
+ * in maniera inversa rispetto agli altri, partendo quindi con la generazione
+ * dell'eventuale clausola else per poi tornare indietro e infine collegare i vari
+ * pezzi di codice generato.
+ * 
+ * Dato che il codice per l'analisi semantica è stato pensato in maniera iterativa
+ * la parte di generazione di codice è stata pensata per aderire a questa filosofia.
  */
 Code ifStat(pnode nIfStat){
     Code res_code = endcode(),
@@ -1025,7 +1036,7 @@ Code ifStat(pnode nIfStat){
     
     //exprIf deve tornare un bool se no è errore
     ptypeS exprIf = NULL;
-    if_code = exprBody(nIfStat->child,&exprIf);
+    if_code = exprBody(nIfStat->child,&exprIf); // Genero codice per la condizione dell'IF
     
     if(controllaCompatibilitaTipi(exprIf,tipoBoolean)==0){
         //l'exprIf deve essere per forza un booleano, se no è errore
@@ -1036,10 +1047,10 @@ Code ifStat(pnode nIfStat){
     
     Code cond_code = endcode();
     pnode nStatList = nIfStat->child->brother;
-    cond_code = statList(nStatList);
+    cond_code = statList(nStatList); // Genero codice per la statList del THEN
     
     if_code = concode(if_code,
-            makecode1(SKPF, cond_code.size + 1),
+            makecode1(SKPF, cond_code.size + 1), // Salto all'else o all'else-if successivo
             cond_code,
             endcode()
             );
@@ -1051,17 +1062,30 @@ Code ifStat(pnode nIfStat){
     
     //se nElseStatList è != NULL svuol dire che c'è l'else finale
     if(nElseStatList!=NULL){
-        else_code = statList(nElseStatList);
+        else_code = statList(nElseStatList); // Genero il codice per l'else
     }
     
+    // Conto il numero di else-if presenti
     int else_if_count = 0;
     
     pnode tmp_node = nOptExpr;
     while(tmp_node != NULL){
         else_if_count++;
+        /* 
+         * Ogni else-if è composto da una coppia di nodi quindi mi devo ogni
+         * volta spostare di 2 elementi.
+         */
         tmp_node = tmp_node->brother->brother;
     }
     
+    /*
+     * Ora devo costruire il codice dei vari else-if in maniera inversa rispetto
+     * alla navigazione iterativa dell'albero.
+     * Per fare ciò parto dall'ultimo else-if, spostando il puntatore di un numero
+     * di passi che parte dal massimo numero di else-if a 0.
+     * Ogni volta che sposto il puntatore genero il codice per l'else-if attualmente
+     * puntato.
+     */
     for(int i = else_if_count - 1; i >= 0; i--){
         Code elseif_cond_code = endcode(),
                 elseif_then_code = endcode();
@@ -1087,15 +1111,20 @@ Code ifStat(pnode nIfStat){
         
         elseif_code = concode(
                 elseif_cond_code,
-                makecode1(SKPF, elseif_then_code.size + 1),
+                makecode1(SKPF, elseif_then_code.size + 1), // Vado al prossimo else-if o all'else
                 elseif_then_code,
-                makecode1(SKIP, else_code.size + elseif_code.size),
+                makecode1(SKIP, else_code.size + elseif_code.size), // Salto fuori dall'if
                 elseif_code,
                 endcode());
     }
     
+    /*
+     * Ora che ho generato il codice per tutti gli elementi posso sapere di quanto
+     * saltare per uscire dopo l'esecuzione del codice per il THEN
+     */
     if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size), endcode());
     
+    // Infine ritorno il codice così generato
     res_code = concode(if_code, elseif_code, else_code, endcode());
     return res_code;
 }

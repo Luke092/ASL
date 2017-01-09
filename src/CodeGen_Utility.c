@@ -355,6 +355,10 @@ Code cg_array_const(pnode node){
     return code;
 }
 
+/*
+ * Funzione che sostituisce l'mid utilizzato come segnaposto nell'istruzione
+ * JUMP con l'effettivo indirizzo a cui il modulo è definito.
+ */
 Code subs_jump_address(Code code){
     for(int i = 0; i < code.size; i++){
         Stat* j = getStat_by_address(code, i);
@@ -371,6 +375,9 @@ Code subs_jump_address(Code code){
     return code;
 }
 
+/*
+ * Ritorna l'istruzione associata ad un dato indirizzo
+ */
 Stat* getStat_by_address(Code code, int addr){
     Stat* pt = code.head;
     for(int i = 0; i < code.size; i++){
