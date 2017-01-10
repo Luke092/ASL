@@ -1,6 +1,6 @@
 # Main
-compiler: parser.o sintax_utility.o lex.o  functionHash.o print_utility.o CodeGen_Utility.o symbtab.o main.c
-	cc -g -o asl_compiler lex.o sintax_utility.o parser.o functionHash.o print_utility.o CodeGen_Utility.o symbtab.o main.c
+compiler: parser.o sintax_utility.o lex.o  functionHash.o print_utility.o CodeGen_Utility.o symbtab.o utilities.o main.c
+	cc -g -o asl_compiler lex.o sintax_utility.o parser.o functionHash.o print_utility.o CodeGen_Utility.o symbtab.o utilities.o main.c
 
 # utilities
 sintax_utility.o: sintax_utility.c
@@ -14,6 +14,9 @@ print_utility.o: print_utility.c
 	
 CodeGen_Utility.o: CodeGen_Utility.c
 	cc -g -c CodeGen_Utility.c
+
+utilities.o: utilities.c
+	cc -g -c utilities.c
 
 # symbtab
 symbtab.o: symbtab.c

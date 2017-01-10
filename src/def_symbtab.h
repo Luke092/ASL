@@ -12,6 +12,7 @@
 #define DEF_SYMBTAB_H
 
 #include "def_codegen.h"
+#include "utilities.h"
 
 typedef struct typeS{
     enum {S_INTEGER,S_STRING,S_BOOLEAN,S_ARRAY} domain;

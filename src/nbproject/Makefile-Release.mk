@@ -40,7 +40,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/print_utility.o \
 	${OBJECTDIR}/sintax_utility.o \
-	${OBJECTDIR}/symbtab.o
+	${OBJECTDIR}/symbtab.o \
+	${OBJECTDIR}/utilities.o
 
 
 # C Compiler Flags
@@ -96,6 +97,11 @@ ${OBJECTDIR}/symbtab.o: symbtab.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/symbtab.o symbtab.c
+
+${OBJECTDIR}/utilities.o: utilities.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/utilities.o utilities.c
 
 # Subprojects
 .build-subprojects:

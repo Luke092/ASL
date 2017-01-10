@@ -236,6 +236,9 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                         } else {
                             //TODO: cosa fare in caso di assegnamento array - array?
                             // Copia array!
+                            
+                            //TODO: caricare sullo stack l'intero array
+                            
                         }
                     } else {
                         int size;
@@ -984,9 +987,40 @@ Code statList(pnode nStatList){
                 } else if (p->root == tipoString){
                     tmp.head->args[2].sval = "s";
                 } else {
-                  //TODO: implementare formato per tipo strutturato
-                    //"a_t_dim1_dim2_..."
-                }   
+                    char* sep = " "; // separatore
+                    char* start = "a"; // è un tipo strutturato, la prima lettera del formato è una "a"
+                    
+                    char* res = string_cat(start, sep);
+                    char* dimensions = "";
+                    
+                    ptypeS pt = exType;
+                    while(pt->child != NULL){
+                        dimensions = string_cat(dimensions,
+                                string_cat(sep, itoa(pt->dim))
+                                );
+                        pt = pt->child;
+                    }
+                    
+                    char* t;
+                    if(pt == tipoBoolean){
+                        t = "b";
+                    } else if(pt == tipoIntero){
+                        t = "i";
+                    } else if(pt == tipoString){
+                        t = "s";
+                    } else {
+                        fprintf(stderr, "ERRORE!"); // qualcosa non va
+                        exit(-1);
+                    }
+                    res = string_cat(
+                            res,
+                            string_cat(
+                            t,
+                            dimensions
+                            )
+                            );
+                    tmp.head->args[2].sval = res;
+                }
                 
                 if(code.size == 0){
                     code = tmp;
@@ -996,18 +1030,47 @@ Code statList(pnode nStatList){
                 break;
             case N_OUTPUTSTAT:
                 tmp = exprBody(nStat->child->child,&exType);
-                Code write_stmn = endcode();
+                Code write_stmn = makecode(WRIT);;
                 if(exType == tipoIntero){
-                    write_stmn = makecode(WRIT);
                     write_stmn.head->args[0].sval = "i";
                 } else if (exType == tipoBoolean){
-                    write_stmn = makecode(WRIT);
                     write_stmn.head->args[0].sval = "b";
                 } else if (exType == tipoString){
-                    write_stmn = makecode(WRIT);
                     write_stmn.head->args[0].sval = "s";
                 } else {
-                    //TODO: implementare formato per tipo strutturato
+                    char* sep = " "; // separatore
+                    char* start = "a"; // è un tipo strutturato, la prima lettera del formato è una "a"
+                    
+                    char* res = string_cat(start, sep);
+                    char* dimensions = "";
+                    
+                    ptypeS pt = exType;
+                    while(pt->child != NULL){
+                        dimensions = string_cat(dimensions,
+                                string_cat(sep, itoa(pt->dim))
+                                );
+                        pt = pt->child;
+                    }
+                    
+                    char* t;
+                    if(pt == tipoBoolean){
+                        t = "b";
+                    } else if(pt == tipoIntero){
+                        t = "i";
+                    } else if(pt == tipoString){
+                        t = "s";
+                    } else {
+                        fprintf(stderr, "ERRORE!"); // qualcosa non va
+                        exit(-1);
+                    }
+                    res = string_cat(
+                            res,
+                            string_cat(
+                            t,
+                            dimensions
+                            )
+                            );
+                    write_stmn.head->args[0].sval = res;
                 }
                 
                 tmp = concode(tmp, write_stmn, endcode());
@@ -1416,10 +1479,7 @@ Code assignStat(pnode nStat){
     lhs_code = lhs(nStat->child->child,&typeLhs, 0);
     
     pnode pt = nStat->child->child->child;
-    if(pt->type == T_ID){
-        //TODO: Debug!
-        printf("DEBUG: %d\n", typeLhs);
-        
+    if(pt->type == T_ID){        
         if(typeLhs != tipoBoolean &&
                 typeLhs != tipoIntero &&
                 typeLhs != tipoString){
@@ -1453,9 +1513,6 @@ Code assignStat(pnode nStat){
         printSemanticError();
         exit(0);
     }
-    
-    print_code(stdout, code);
-    
     return code;
 }
 

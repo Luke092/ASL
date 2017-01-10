@@ -1,5 +1,6 @@
 program test
 	var b:boolean;
+	    a: array [10] of array[100] of string;
 
 begin test
 	b = if true then
@@ -13,4 +14,6 @@ begin test
 		end;
 	output b;
 	input b;
+	output a;
+	input a;
 end test.
