@@ -1,4 +1,6 @@
 program test
+	type	t:integer;
+		t1:string;
 	var 	a,b:integer;
 
 	proc beta()

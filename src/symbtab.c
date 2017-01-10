@@ -24,6 +24,12 @@ ptypeS tipoBoolean;//ptypeS che rappresenta un bool
 
 int primoGiro = 1;
 
+int offset = 0; // offset oid per la SymbTab locale
+/*
+ * L'indirizzo di una variabile sullo stack degli oggetti è definito come
+ * oid - offset - 1
+ */
+
 pST createSymbTab(pST back){
     printf("createSymbTab\n");
     
@@ -54,6 +60,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     printf("start\n");
     
     stab = s;
+    offset = 0;
     
     pnode idRoot = root->child;
     char *nomeRoot = idRoot->val.sval;
@@ -224,7 +231,8 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                         if(tipoRitornato2 == tipoBoolean ||
                                 tipoRitornato2 == tipoIntero ||
                                 tipoRitornato2 == tipoString){
-                            code = makecode2(LOAD, 0, findInSt(stab->tab, pt->val.sval)->oid);
+                            int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
+                            code = makecode2(LOAD, 0, addr);
                         } else {
                             //TODO: cosa fare in caso di assegnamento array - array?
                             // Copia array!
@@ -533,6 +541,11 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
     pnode n_decl = opttypesect_var->child;//optypesect può essere opttype optvar o optconst
     
     while(n_decl){
+        
+        if(classe == 0){
+            offset++;
+        }
+        
        ptypeS type=NULL;
        char *idDecl = n_decl->child->child->val.sval;
        
@@ -547,21 +560,24 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                  Code const_code;
                  if(type == tipoIntero){
                      const_code = make_loci(n_decl->child->val.ival);
+                     int addr = findInSt(stab->tab, idDecl)->oid - offset - 1;
                      const_code = concode(const_code,
-                             makecode2(STOR, 0,findInSt(stab->tab, idDecl)->oid), // TODO: generalizzare
+                             makecode2(STOR, 0, addr), // TODO: generalizzare
                              endcode()
                              );
                  } else if (type == tipoBoolean){
                      int bool = (n_decl->child->val.ival == TRUE) ? 1 : 0; 
                      const_code = make_loci(bool);
+                     int addr = findInSt(stab->tab, idDecl)->oid - offset - 1;
                      const_code = concode(const_code,
-                             makecode2(STOR, 0,findInSt(stab->tab, idDecl)->oid), // TODO: generalizzare
+                             makecode2(STOR, 0, addr), // TODO: generalizzare
                              endcode()
                              );
                  } else if (type == tipoString){
                      const_code = make_locs(n_decl->child->val.sval);
+                     int addr = findInSt(stab->tab, idDecl)->oid - offset - 1;
                      const_code = concode(const_code,
-                             makecode2(STOR, 0,findInSt(stab->tab, idDecl)->oid), // TODO: generalizzare
+                             makecode2(STOR, 0, addr), // TODO: generalizzare
                              endcode()
                              );
                  } else {
@@ -614,6 +630,7 @@ Code optModuleList(pnode optModuleList){
     
     pnode procFuncDecl = optModuleList->child; //nodo n_procdecl o n_funcdecl
     while(procFuncDecl){//finchè ci sono fratelli ossia nodi n_procdecl o n_funcdecl
+        int old_offset = offset; // salvo l'offset delle variabili locale
         Code tmp = endcode();
         
         ptypeS tipoRitornato = NULL;
@@ -701,7 +718,8 @@ Code optModuleList(pnode optModuleList){
         if(stab->back!=NULL){
             stab = stab->back;//devo fare cosi per rimettere nella var globale stab la symbtab corretta
         }
-            
+        
+        offset = old_offset; // ripristino l'offset locale
     }   
     
     return code;
@@ -1405,15 +1423,17 @@ Code assignStat(pnode nStat){
         if(typeLhs != tipoBoolean &&
                 typeLhs != tipoIntero &&
                 typeLhs != tipoString){
+            int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
             code = concode(
-                    makecode2(LODA, 0, findInSt(stab->tab, pt->val.sval)->oid), //TODO: generalizzare
+                    makecode2(LODA, 0, addr), //TODO: generalizzare
                     ex_code,
                     endcode()
                     );
         } else {
+            int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
             code = concode(
                     ex_code,
-                    makecode2(STOR, 0, findInSt(stab->tab, pt->val.sval)->oid), //TODO: generalizzare
+                    makecode2(STOR, 0, addr), //TODO: generalizzare
                     endcode()
                     );
         }
@@ -1472,7 +1492,8 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
         }
         
         if(level !=0) {
-            code = makecode2(LODA, 0, findInSt(stab->tab, id)->oid); //TODO: make more general
+            int addr = findInSt(stab->tab, id)->oid - offset - 1;
+            code = makecode2(LODA, 0, addr); //TODO: make more general
         } else {
             code = endcode();
         }
