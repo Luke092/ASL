@@ -228,33 +228,66 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                     
                     pnode pt = ex->child;
                     if(pt->type == T_ID){
+                        
+                        int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
+                        
                         if(tipoRitornato2 == tipoBoolean ||
                                 tipoRitornato2 == tipoIntero ||
                                 tipoRitornato2 == tipoString){
-                            int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
-                            code = makecode2(LOAD, 0, addr);
+                            code = makecode2(LOAD, 0, addr); // TODO: more general
                         } else {
-                            //TODO: cosa fare in caso di assegnamento array - array?
-                            // Copia array!
-                            
-                            //TODO: caricare sullo stack l'intero array
-                            
+                            int size = 1;
+                            ptypeS t = tipoRitornato2;
+                            while(t->child != NULL){
+                                size *= t->dim;
+                                t = t->child;
+                            }
+                            if(t == tipoIntero || t == tipoBoolean){
+                                size *= sizeof(int);
+                            } else if (t == tipoString){
+                                size *= sizeof(void*);
+                            }
+                            code = concode(
+                                    makecode2(LODA, 0, addr), //TODO: more general
+                                    makecode1(SIND, size),
+                                    endcode()
+                                    );
                         }
                     } else {
                         int size;
                         ptypeS t = tipoRitornato2;
-                        while(t->child != NULL){
-                            t = t->child;
-                        }
                         if(t == tipoBoolean || t == tipoIntero){
                             size = sizeof(int);
-                        } else if (t == tipoString){
-                            size = sizeof(void);
-                        }
-                        
-                        code = concode(code,
+                            code = concode(code,
                                 makecode1(AIND, size),
                                 endcode());
+                        } else if (t == tipoString){
+                            size = sizeof(void*);
+                            code = concode(code,
+                                makecode1(AIND, size),
+                                endcode());
+                        } else {
+                            /* 
+                             * Il tipo dell'espressione non è atomico, quindi
+                             * devo fare un caricamento indiretto del tipo strutturato
+                             * corrispondente
+                             */
+                            size = 1;
+                            while(t->child != NULL){
+                                size *= t->dim;
+                                t = t->child;
+                            }
+                            if(t == tipoIntero || t == tipoBoolean){
+                                size *= sizeof(int);
+                            } else if (t == tipoString){
+                                size *= sizeof(void*);
+                            }
+                            code = concode(code,
+                                makecode1(SIND, size),
+                                endcode());
+                        }
+                        
+                        
                     }
                 break;
                 case N_CONST:
@@ -283,22 +316,6 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                             nArrayConst(ex->child,&tipoRitornato2);
                             
                             code = cg_array_const(ex->child);
-                            
-                            //TODO: non sono sicuro sia corretto
-                            ptypeS tmp = tipoRitornato2;
-                            int array_dim = 1;
-                            while(tmp->child != NULL){
-                                array_dim *= tmp->dim;
-                                tmp = tmp->child;
-                            }
-                            int size;
-                            if(tmp == tipoIntero || tmp == tipoBoolean)
-                                size = sizeof(int);
-                            else if(tmp == tipoString)
-                                size = sizeof(void);
-                            code = concode(code,
-                                    makecode2(PACK, array_dim, size),
-                                    endcode());                            
                             break;
                     };
                     break;
@@ -595,7 +612,7 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                      if(tmp == tipoIntero || tmp == tipoBoolean)
                          size = sizeof(int);
                      else if(tmp == tipoString)
-                         size = sizeof(void);
+                         size = sizeof(void*);
                      const_code = concode(const_code,
                              makecode2(PACK, array_dim, size),
                              endcode());
@@ -821,7 +838,7 @@ Code decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
     if(*dom == tipoIntero || *dom == tipoBoolean){
         var_size = sizeof(int);
     }else if(*dom == tipoString){
-        var_size = sizeof(void);
+        var_size = sizeof(void*);
     } else {
         //In questo caso il tipo è strutturato
         structured = 1;
@@ -831,7 +848,7 @@ Code decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
             if(pt == tipoIntero || pt == tipoBoolean){
                 var_size *= sizeof(int);
             }else if(pt == tipoString){
-                var_size *= sizeof(void);
+                var_size *= sizeof(void*);
             } else {
                 var_size *= pt->dim;
             }
@@ -1474,6 +1491,23 @@ Code assignStat(pnode nStat){
   
     ptypeS typeExpr = NULL;
     ex_code = exprBody(ex,&typeExpr);
+    if(typeExpr != tipoBoolean &&
+                typeExpr != tipoIntero &&
+                typeExpr != tipoString){
+        Code pack = endcode();
+        int atomic_elems = 1;
+        ptypeS t = typeExpr;
+        while(t->child != NULL){
+            atomic_elems *= t->dim;
+            t = t->child;
+        }
+        if(t == tipoIntero || t == tipoBoolean){
+            pack = makecode2(PACK, atomic_elems, sizeof(int));
+        } else if(t == tipoString) {
+            pack = makecode2(PACK, atomic_elems, sizeof(void*));
+        }
+        ex_code = concode(ex_code, pack, endcode());
+    }
     
     ptypeS typeLhs = NULL;
     lhs_code = lhs(nStat->child->child,&typeLhs, 0);
@@ -1601,7 +1635,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
             if(pt == tipoIntero || pt == tipoBoolean){
                 ixad = makecode1(IXAD, sizeof(int));
             } else if (pt == tipoString){
-                ixad = makecode1(IXAD, sizeof(void));
+                ixad = makecode1(IXAD, sizeof(void*));
             }
         } else {            
             ptypeS pt = parziale->child;
@@ -1609,7 +1643,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
             if(pt == tipoIntero || pt == tipoBoolean){
                 ixad = makecode1(IXAD, sizeof(int));
             } else if (pt == tipoString){
-                ixad = makecode1(IXAD, sizeof(void));
+                ixad = makecode1(IXAD, sizeof(void*));
             } else {
                 int size = 1;
                 while(pt->child != NULL){
@@ -1620,7 +1654,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
                 if(pt == tipoIntero || pt == tipoBoolean){
                     ixad = makecode1(IXAD, size * sizeof(int));
                 } else if (pt == tipoString){
-                    ixad = makecode1(IXAD, size * sizeof(void));
+                    ixad = makecode1(IXAD, size * sizeof(void*));
                 }
             }
         }
