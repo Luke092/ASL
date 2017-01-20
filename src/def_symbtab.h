@@ -78,7 +78,7 @@ ptypeS
 
 pstLine createLine(char*,int,int,ptypeS,pstLine,int,pstLine[],pstLine),
         insertFindLine(pstLine[],int , char*, int,int,ptypeS,pstLine,int,pstLine[]),
-        controllaEsistenzaId(pnode),
+        controllaEsistenzaId(char*, int*),
         findInSt(pstLine[],char *id);
 
 pST createSymbTab(pST);

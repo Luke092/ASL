@@ -24,6 +24,7 @@ ptypeS tipoBoolean;//ptypeS che rappresenta un bool
 
 int primoGiro = 1;
 
+//TODO: cambiare modo di gestire l'offset, non funziona se si cercano variabili in ST superiori
 int offset = 0; // offset oid per la SymbTab locale
 /*
  * L'indirizzo di una variabile sullo stack degli oggetti è definito come
@@ -229,12 +230,14 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                     pnode pt = ex->child;
                     if(pt->type == T_ID){
                         
-                        int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
+                        int env_distance;
+                        pstLine line = controllaEsistenzaId(pt->val.sval, &env_distance);
+                        int addr = line->oid - offset - 1;
                         
                         if(tipoRitornato2 == tipoBoolean ||
                                 tipoRitornato2 == tipoIntero ||
                                 tipoRitornato2 == tipoString){
-                            code = makecode2(LOAD, 0, addr); // TODO: more general
+                            code = makecode2(LOAD, env_distance, addr);
                         } else {
                             int size = 1;
                             ptypeS t = tipoRitornato2;
@@ -248,7 +251,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                                 size *= sizeof(void*);
                             }
                             code = concode(
-                                    makecode2(LODA, 0, addr), //TODO: more general
+                                    makecode2(LODA, env_distance, addr),
                                     makecode1(SIND, size),
                                     endcode()
                                     );
@@ -578,26 +581,28 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
              if(controlConstType(type,n_decl)){//se è una costante non è n_decl ma n_const
                 // genero codice per la costante
                  Code const_code;
+                 
+                 int env_distance;
+                 pstLine line = controllaEsistenzaId(idDecl, &env_distance);
+                 int addr = line->oid - offset - 1;
+                 
                  if(type == tipoIntero){
                      const_code = make_loci(n_decl->child->val.ival);
-                     int addr = findInSt(stab->tab, idDecl)->oid - offset - 1;
                      const_code = concode(const_code,
-                             makecode2(STOR, 0, addr), // TODO: generalizzare
+                             makecode2(STOR, env_distance, addr),
                              endcode()
                              );
                  } else if (type == tipoBoolean){
                      int bool = (n_decl->child->val.ival == TRUE) ? 1 : 0; 
                      const_code = make_loci(bool);
-                     int addr = findInSt(stab->tab, idDecl)->oid - offset - 1;
                      const_code = concode(const_code,
-                             makecode2(STOR, 0, addr), // TODO: generalizzare
+                             makecode2(STOR, env_distance, addr),
                              endcode()
                              );
                  } else if (type == tipoString){
                      const_code = make_locs(n_decl->child->val.sval);
-                     int addr = findInSt(stab->tab, idDecl)->oid - offset - 1;
                      const_code = concode(const_code,
-                             makecode2(STOR, 0, addr), // TODO: generalizzare
+                             makecode2(STOR, env_distance, addr),
                              endcode()
                              );
                  } else {
@@ -989,7 +994,7 @@ Code statList(pnode nStatList){
                 }
                 break;
             case N_INPUTSTAT:
-                p = controllaEsistenzaId(nStat->child->child);
+                p = controllaEsistenzaId(nStat->child->child->val.sval, NULL);
                 if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
                     printf("ERRORE #%d: l'id %s non è quello di una variabile\n",nStat->child->child->line,nStat->child->child->val.sval);
                     exit(0);
@@ -1295,6 +1300,7 @@ Code repeatStat(pnode nRepeatStat){
  *
  */
 Code forStat(pnode nodoFor){
+    //TODO: migliorare gestione temporaneo del ciclio for
     Code res_code = endcode(),
             start_value_code = endcode(),
             end_value_code = endcode(),
@@ -1302,7 +1308,7 @@ Code forStat(pnode nodoFor){
     
     //printf("forstat\n");
     pnode nId = nodoFor->child;
-    pstLine p = controllaEsistenzaId(nId);
+    pstLine p = controllaEsistenzaId(nId->val.sval, NULL);
     if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
         printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
         exit(0);
@@ -1370,7 +1376,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     line = nodoIdMod->line;
     
     //controlliamo che l'id della func/proc esista
-    pstLine p = controllaEsistenzaId(nodoIdMod);
+    pstLine p = controllaEsistenzaId(nodoIdMod->val.sval, NULL);
     if(p==NULL){
         printf("ERRORE #%d: la func/proc %s non esiste\n",line,idErr);
         exit(0);
@@ -1429,7 +1435,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     
     pstLine modLine = findInSt(stab, nodoIdMod->val.sval);
     int objs = count_local_objs(modLine->local);
-    code = make_call(modLine->formals1 + objs, objs, 0, modLine->mid); //TODO: more general   
+    code = make_call(modLine->formals1 + objs, objs, 0, modLine->mid); //TODO: static chain more general   
     return code;
 }
 
@@ -1513,21 +1519,25 @@ Code assignStat(pnode nStat){
     lhs_code = lhs(nStat->child->child,&typeLhs, 0);
     
     pnode pt = nStat->child->child->child;
-    if(pt->type == T_ID){        
+    
+    if(pt->type == T_ID){
+        
+        int env_distance;
+        pstLine line = controllaEsistenzaId(pt->val.sval, &env_distance);
+        int addr = line->oid - offset - 1;
+        
         if(typeLhs != tipoBoolean &&
                 typeLhs != tipoIntero &&
                 typeLhs != tipoString){
-            int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
             code = concode(
-                    makecode2(LODA, 0, addr), //TODO: generalizzare
+                    makecode2(LODA, env_distance, addr),
                     ex_code,
                     endcode()
                     );
         } else {
-            int addr = findInSt(stab->tab, pt->val.sval)->oid - offset - 1;
             code = concode(
                     ex_code,
-                    makecode2(STOR, 0, addr), //TODO: generalizzare
+                    makecode2(STOR, env_distance, addr),
                     endcode()
                     );
         }
@@ -1563,7 +1573,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
     if(figlio->type == T_ID){//se il figlio del lhs è un id
         
         char *id = figlio->val.sval;
-        pstLine p = controllaEsistenzaId(figlio);
+        pstLine p = controllaEsistenzaId(figlio->val.sval, NULL);
         
         idErr = figlio->val.sval;
         line = figlio->line;
@@ -1583,8 +1593,10 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
         }
         
         if(level !=0) {
-            int addr = findInSt(stab->tab, id)->oid - offset - 1;
-            code = makecode2(LODA, 0, addr); //TODO: make more general
+            int env_distanve;
+            pstLine line = controllaEsistenzaId(id, &env_distanve);
+            int addr = line->oid - offset - 1;
+            code = makecode2(LODA, env_distanve, addr);
         } else {
             code = endcode();
         }
@@ -1965,8 +1977,9 @@ ptypeS controllaEsistenzaTipo(pnode n_domain){
 /*
  * funzione che controlla la presenza di un elemento nella symbtab, anche ai livelli precedenti
  */
-pstLine controllaEsistenzaId(pnode t_id){
+pstLine controllaEsistenzaId(char* id, int* env_distance){
     //printf("controllaEsistenzaId\n");
+    int distance = 0;
     
     pST s = stab;
     
@@ -1974,16 +1987,20 @@ pstLine controllaEsistenzaId(pnode t_id){
     
     while(s){//oltre che nella stab locale devo anche controllare in quelle dei genitori
             
-            p = findInSt(s->tab,t_id->val.sval);
+            p = findInSt(s->tab, id);
          
             if(p){//se trovo una corrispondenza
                 
                 break; //saltimao fuori dal while se abbiamo trovato una precedente dichiarazione
             }else{
                 s = s->back;
+                distance++;
             }
             
         }
+    if(env_distance != NULL){
+        *env_distance = distance;
+    }
     return p;
     
 }
