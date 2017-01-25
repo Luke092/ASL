@@ -1160,7 +1160,7 @@ Code ifStat(pnode nIfStat){
     cond_code = statList(nStatList); // Genero codice per la statList del THEN
     
     if_code = concode(if_code,
-            makecode1(SKPF, cond_code.size + 1), // Salto all'else o all'else-if successivo
+            makecode1(SKPF, cond_code.size + 1 + 1), // Salto all'else o all'else-if successivo
             cond_code,
             endcode()
             );
@@ -1235,7 +1235,11 @@ Code ifStat(pnode nIfStat){
     if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size), endcode());
     
     // Infine ritorno il codice così generato
-    res_code = concode(if_code, elseif_code, else_code, endcode());
+    if(elseif_code.size != 0){
+        res_code = concode(if_code, elseif_code, else_code, endcode());
+    } else {
+        res_code = concode(if_code, else_code, endcode());
+    }
     return res_code;
 }
 
