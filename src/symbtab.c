@@ -26,6 +26,9 @@ int primoGiro = 1;
 
 //TODO: cambiare modo di gestire l'offset, non funziona se si cercano variabili in ST superiori
 int offset = 0; // offset oid per la SymbTab locale
+
+int tmp_count = 0; // numero di temporanei per i cicli for
+int for_level = 0;
 /*
  * L'indirizzo di una variabile sullo stack degli oggetti è definito come
  * oid - offset - 1
@@ -56,7 +59,12 @@ pST createSymbTab(pST back){
  */
 Code start(pnode root, pST s, ptypeS* tipoRitornato){
     Code code = endcode(),
-            modl_code = endcode();
+            var_code = endcode(),
+            const_code = endcode(),
+            modl_code = endcode(),
+            temp_code = endcode(),
+            stat_code = endcode(),
+            exprBody_code = endcode();
     
     printf("start\n");
     
@@ -87,19 +95,19 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
             case N_OPTVARSECT: 
                 tmp = optTypeSect_var_const(nodoCorrente,1);
                 if(tmp.size != 0){
-                    if (code.size != 0)
-                        code = concode(code, tmp, endcode());
+                    if (var_code.size != 0)
+                        var_code = concode(var_code, tmp, endcode());
                     else
-                        code = tmp;
+                        var_code = tmp;
                 }
                 break;
             case N_OPTCONSTSECT:
                 tmp = optTypeSect_var_const(nodoCorrente,2);
                 if(tmp.size != 0){
-                    if (code.size != 0)
-                        code = concode(code, tmp, endcode());
+                    if (const_code.size != 0)
+                        const_code = concode(const_code, tmp, endcode());
                     else
-                        code = tmp;
+                        const_code = tmp;
                 }
                 break;
             case N_OPTMODULELIST:
@@ -107,7 +115,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 //TODO: generare codice per i moduli
                 if(tmp.size != 0){
                     if (modl_code.size != 0)
-                        modl_code = concode(code, tmp, endcode());
+                        modl_code = concode(modl_code, tmp, endcode());
                     else
                         modl_code = tmp;
                 }
@@ -122,12 +130,24 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 }
                 tmp = statList(nodoCorrente->child->brother);
                 
-                if(tmp.size != 0){
-                    if (code.size != 0)
-                        code = concode(code, tmp, endcode());
-                    else
-                        code = tmp;
+                for(int i = 0; i < tmp_count; i++){
+                    // i temporanei sono interi
+                    if(temp_code.size == 0){
+                        temp_code = makecode1(ADEF, sizeof(int));
+                    } else {
+                        temp_code = concode(temp_code,
+                                makecode1(ADEF, sizeof(int)),
+                                endcode()
+                                );
+                    }
                 }
+                
+                if(tmp.size != 0){
+                    if (stat_code.size != 0)
+                        stat_code = concode(stat_code, tmp, endcode());
+                    else
+                        stat_code = tmp;
+                }                
                 break;
             case N_EXPRBODY:
                 if(strcmp(nomeRoot,nodoCorrente->child->val.sval)!=0){
@@ -138,10 +158,10 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 tmp = exprBody(nodoCorrente->child->brother,tipoRitornato);
                 
                 if(tmp.size != 0){
-                    if (code.size != 0)
-                        code = concode(code, tmp, endcode());
+                    if (exprBody_code.size != 0)
+                        exprBody_code = concode(exprBody_code, tmp, endcode());
                     else
-                        code = tmp;
+                        exprBody_code = tmp;
                 }
                 
                 printf("Tipo ritornato da exprbody\n");
@@ -150,6 +170,13 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
           }
         nodoCorrente = nodoCorrente->brother;
     }
+    
+    // compongo il codice
+    code = concode(code, var_code, endcode()); // aggiungo il codice per le variabili
+    code = concode(code, const_code, endcode()); // aggiungo il codice per le costanti
+    code = concode(code, temp_code, endcode()); // aggiungo la definizione delle var temporanee
+    code = concode(code, stat_code, endcode()); // aggiungo il codice per la StatList
+    code = concode(code, exprBody_code, endcode()); // aggiungo il codice per la ExprBody
     
     // metto un return alla fine del codice
     code = concode(code, makecode(RETN), endcode());
@@ -1312,6 +1339,8 @@ Code repeatStat(pnode nRepeatStat){
  */
 Code forStat(pnode nodoFor){
     //TODO: migliorare gestione temporaneo del ciclio for
+    tmp_count++;
+    for_level++;
     Code res_code = endcode(),
             start_value_code = endcode(),
             end_value_code = endcode(),
@@ -1343,7 +1372,7 @@ Code forStat(pnode nodoFor){
     
     for_code = statList(nId->brother->brother->brother);
     
-    int addr_tmp = stab->oidC + 1;
+    int addr_tmp = stab->oidC + for_level;
     res_code = concode(
             start_value_code,
             makecode2(STOR, 0, p->oid), //TODO: generalizzare
@@ -1363,6 +1392,7 @@ Code forStat(pnode nodoFor){
             endcode()
             );
     
+    for_level--;
     return res_code;
     
 }
