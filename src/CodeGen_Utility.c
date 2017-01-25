@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include "def_codegen.h"
+#include "def_symbtab.h"
 
 char* s_op_code[] = 
 {

@@ -91,5 +91,7 @@ pstLine* recuperaFormali(pST,int);
 
 int count_local_objs(pstLine[]); // funzione per contare gli oggetti locali
 
+char* getArrayFormat(ptypeS);
+
 #endif /* DEF_SYMBTAB_H */
 

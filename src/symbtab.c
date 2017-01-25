@@ -130,6 +130,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 }
                 tmp = statList(nodoCorrente->child->brother);
                 
+                temp_code = endcode();
                 for(int i = 0; i < tmp_count; i++){
                     // i temporanei sono interi
                     if(temp_code.size == 0){
@@ -975,6 +976,7 @@ Code statList(pnode nStatList){
  
     while(nStat!=NULL){
         Code tmp = endcode();
+        int addr, env_distance;
         
         switch(nStat->child->val.ival){
             case N_ASSIGNSTAT://il figlio di un assign è un lhs, il fratello della lhs è una expr
@@ -1022,13 +1024,13 @@ Code statList(pnode nStatList){
                 }
                 break;
             case N_INPUTSTAT:
-                p = controllaEsistenzaId(nStat->child->child->val.sval, NULL);
+                p = controllaEsistenzaId(nStat->child->child->val.sval, &env_distance);
                 if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
                     printf("ERRORE #%d: l'id %s non è quello di una variabile\n",nStat->child->child->line,nStat->child->child->val.sval);
                     exit(0);
                 }
-                
-                tmp = makecode2(READ, 0, p->oid);
+                addr = p->oid - offset - 1;
+                tmp = makecode2(READ, env_distance, addr);
                 
                 if(p->root == tipoIntero){
                     tmp.head->args[2].sval = "i";
@@ -1037,38 +1039,8 @@ Code statList(pnode nStatList){
                 } else if (p->root == tipoString){
                     tmp.head->args[2].sval = "s";
                 } else {
-                    char* sep = " "; // separatore
-                    char* start = "a"; // è un tipo strutturato, la prima lettera del formato è una "a"
-                    
-                    char* res = string_cat(start, sep);
-                    char* dimensions = "";
-                    
-                    ptypeS pt = exType;
-                    while(pt->child != NULL){
-                        dimensions = string_cat(dimensions,
-                                string_cat(sep, itoa(pt->dim))
-                                );
-                        pt = pt->child;
-                    }
-                    
-                    char* t;
-                    if(pt == tipoBoolean){
-                        t = "b";
-                    } else if(pt == tipoIntero){
-                        t = "i";
-                    } else if(pt == tipoString){
-                        t = "s";
-                    } else {
-                        fprintf(stderr, "ERRORE!"); // qualcosa non va
-                        exit(-1);
-                    }
-                    res = string_cat(
-                            res,
-                            string_cat(
-                            t,
-                            dimensions
-                            )
-                            );
+                    char* res;
+                    res = getArrayFormat(p->root);
                     tmp.head->args[2].sval = res;
                 }
                 
@@ -1088,38 +1060,8 @@ Code statList(pnode nStatList){
                 } else if (exType == tipoString){
                     write_stmn.head->args[0].sval = "s";
                 } else {
-                    char* sep = " "; // separatore
-                    char* start = "a"; // è un tipo strutturato, la prima lettera del formato è una "a"
-                    
-                    char* res = string_cat(start, sep);
-                    char* dimensions = "";
-                    
-                    ptypeS pt = exType;
-                    while(pt->child != NULL){
-                        dimensions = string_cat(dimensions,
-                                string_cat(sep, itoa(pt->dim))
-                                );
-                        pt = pt->child;
-                    }
-                    
-                    char* t;
-                    if(pt == tipoBoolean){
-                        t = "b";
-                    } else if(pt == tipoIntero){
-                        t = "i";
-                    } else if(pt == tipoString){
-                        t = "s";
-                    } else {
-                        fprintf(stderr, "ERRORE!"); // qualcosa non va
-                        exit(-1);
-                    }
-                    res = string_cat(
-                            res,
-                            string_cat(
-                            t,
-                            dimensions
-                            )
-                            );
+                    char* res;
+                    res = getArrayFormat(exType);
                     write_stmn.head->args[0].sval = res;
                 }
                 
@@ -1339,8 +1281,8 @@ Code repeatStat(pnode nRepeatStat){
  */
 Code forStat(pnode nodoFor){
     //TODO: migliorare gestione temporaneo del ciclio for
-    tmp_count++;
     for_level++;
+    tmp_count = (tmp_count < for_level)? for_level : tmp_count;
     Code res_code = endcode(),
             start_value_code = endcode(),
             end_value_code = endcode(),
@@ -1348,7 +1290,8 @@ Code forStat(pnode nodoFor){
     
     //printf("forstat\n");
     pnode nId = nodoFor->child;
-    pstLine p = controllaEsistenzaId(nId->val.sval, NULL);
+    int env_distance;
+    pstLine p = controllaEsistenzaId(nId->val.sval, &env_distance);
     if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
         printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
         exit(0);
@@ -1372,23 +1315,24 @@ Code forStat(pnode nodoFor){
     
     for_code = statList(nId->brother->brother->brother);
     
-    int addr_tmp = stab->oidC + for_level;
+    int addr_tmp = stab->oidC + for_level - 1;
+    int addr = p->oid - offset - 1;
     res_code = concode(
             start_value_code,
-            makecode2(STOR, 0, p->oid), //TODO: generalizzare
+            makecode2(STOR, env_distance, addr),
             end_value_code,
             //TODO: store nella stab locale
             makecode2(STOR, 0, addr_tmp), //Store del temporaneo
-            makecode2(LOAD, 0, p->oid), //TODO: generalizzare
+            makecode2(LOAD, env_distance, addr),
             makecode2(LOAD, 0, addr_tmp),
             makecode(ILEQ),
-            makecode1(SKPF, for_code.size + 5),
+            makecode1(SKPF, for_code.size + 5 + 1),
             for_code,
-            makecode2(LOAD, 0, p->oid), //TODO: generalizzare
+            makecode2(LOAD, env_distance, addr),
             make_loci(1),
             makecode(ADDI),
-            makecode2(STOR, 0, p->oid), //TODO: generalizzare
-            makecode1(SKIP, -(for_code.size + 7)),
+            makecode2(STOR, env_distance, addr),
+            makecode1(SKIP, -(for_code.size + 8)),
             endcode()
             );
     
@@ -1476,9 +1420,15 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     
     pstLine modLine = findInSt(stab, nodoIdMod->val.sval);
     int objs = count_local_objs(modLine->local);
-    code = make_call(modLine->formals1 + objs, objs, 0, modLine->mid); //TODO: static chain more general   
-//    print_code(stdout, code);
-//    exit(0);
+    int formal_aux = modLine->formals1;
+    pstLine pt = modLine->formals2;
+    while(pt != NULL){
+        if(pt->classe == S_OUT || pt->classe == S_INOUT){
+            formal_aux++;
+        }
+        pt = pt->next;
+    } 
+    code = make_call(formal_aux, objs, 0, modLine->mid); //TODO: static chain more general   
     return code;
 }
 
@@ -2194,4 +2144,23 @@ int count_local_objs(pstLine s[]){
         }
     }
     return objs;
+}
+
+char* getArrayFormat(ptypeS type){
+    char* res;
+    if(type == tipoIntero){
+        res = "i";
+    } else if (type == tipoBoolean){
+        res = "b";
+    } else if (type == tipoString){
+        res = "s";
+    } else {
+        char* t = "[";
+        t = string_cat(t, itoa(type->dim));
+        t = string_cat(t, ",");
+        t = string_cat(t, getArrayFormat(type->child));
+        t = string_cat(t, "]");
+        res = t;
+    }
+    return res;
 }
