@@ -1510,24 +1510,26 @@ Code assignStat(pnode nStat){
   
     ptypeS typeExpr = NULL;
     ex_code = exprBody(ex,&typeExpr);
-    if(typeExpr != tipoBoolean &&
-                typeExpr != tipoIntero &&
-                typeExpr != tipoString){
-        Code pack = endcode();
-        int atomic_elems = 1;
-        ptypeS t = typeExpr;
-        while(t->child != NULL){
-            atomic_elems *= t->dim;
-            t = t->child;
+    if(ex->child->val.ival == N_ARRAYCONST){
+        if(typeExpr != tipoBoolean &&
+                    typeExpr != tipoIntero &&
+                    typeExpr != tipoString){
+            Code pack = endcode();
+            int atomic_elems = 1;
+            ptypeS t = typeExpr;
+            while(t->child != NULL){
+                atomic_elems *= t->dim;
+                t = t->child;
+            }
+            if(t == tipoIntero || t == tipoBoolean){
+                pack = makecode2(PACK, atomic_elems, sizeof(int));
+            } else if(t == tipoString) {
+                pack = makecode2(PACK, atomic_elems, sizeof(void*));
+            }
+            ex_code = concode(ex_code, 
+                    pack,
+                    endcode());
         }
-        if(t == tipoIntero || t == tipoBoolean){
-            pack = makecode2(PACK, atomic_elems, sizeof(int));
-        } else if(t == tipoString) {
-            pack = makecode2(PACK, atomic_elems, sizeof(void*));
-        }
-        ex_code = concode(ex_code, 
-                pack,
-                endcode());
     }
     
     ptypeS typeLhs = NULL;
