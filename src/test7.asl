@@ -9,5 +9,6 @@ program test
 		x = a + 3;
 	end beta;
 begin test
+	beta();
 	b = a * 2;
 end test.

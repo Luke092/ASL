@@ -1,0 +1,10 @@
+program arr
+	var x: array[3] of integer;
+	    y: array[3] of array[3] of integer;
+	    z: array[3] of array[3] of integer;
+begin arr
+	z = [[1,2,3],[4,5,6],[7,8,9]];
+	x = [1,2,3];
+	x[x[0]] = x[2] * 10;
+	y[1] = z[2];
+end arr.

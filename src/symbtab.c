@@ -172,7 +172,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
          * mid = 0 per main
          * num-formals-aux = num-locals in quanto non ho parametri formali per il main
          */
-        Code main_call = make_call(local_objs, local_objs,-1, 0);
+        Code main_call = make_call(0, local_objs,-1, 0);
         Code halt = makecode(HALT);
         int code_size = main_call.size + halt.size + code.size;
         code = concode(main_call,
@@ -225,7 +225,7 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             
             switch(ex->val.ival){
                 case N_LHS:
-                    code = lhs(ex,&tipoRitornato2, 0);
+                    code = lhs(ex,&tipoRitornato2);
                     
                     pnode pt = ex->child;
                     if(pt->type == T_ID){
@@ -620,6 +620,7 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                          size = sizeof(void*);
                      const_code = concode(const_code,
                              makecode2(PACK, array_dim, size),
+                             makecode2(STOR, env_distance, addr),
                              endcode());
                  }
                 
@@ -1105,7 +1106,13 @@ Code statList(pnode nStatList){
                 break;
             case E_PROC:
                 //TODO: write code for procedure call
-                modCall(nStat->child,NULL);
+                tmp = modCall(nStat->child,NULL);
+                
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
                 break;
           }
         
@@ -1436,6 +1443,8 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     pstLine modLine = findInSt(stab, nodoIdMod->val.sval);
     int objs = count_local_objs(modLine->local);
     code = make_call(modLine->formals1 + objs, objs, 0, modLine->mid); //TODO: static chain more general   
+//    print_code(stdout, code);
+//    exit(0);
     return code;
 }
 
@@ -1512,11 +1521,13 @@ Code assignStat(pnode nStat){
         } else if(t == tipoString) {
             pack = makecode2(PACK, atomic_elems, sizeof(void*));
         }
-        ex_code = concode(ex_code, pack, endcode());
+        ex_code = concode(ex_code, 
+                pack,
+                endcode());
     }
     
     ptypeS typeLhs = NULL;
-    lhs_code = lhs(nStat->child->child,&typeLhs, 0);
+    lhs_code = lhs(nStat->child->child,&typeLhs);
     
     pnode pt = nStat->child->child->child;
     
@@ -1530,8 +1541,9 @@ Code assignStat(pnode nStat){
                 typeLhs != tipoIntero &&
                 typeLhs != tipoString){
             code = concode(
-                    makecode2(LODA, env_distance, addr),
+                    //makecode2(LODA, env_distance, addr),
                     ex_code,
+                    makecode2(STOR, env_distance, addr),
                     endcode()
                     );
         } else {
@@ -1563,7 +1575,7 @@ Code assignStat(pnode nStat){
 /*
  *lhs torna il tipo della lhs 
  */
-Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
+Code lhs(pnode nLhs,ptypeS* tipoRitornato){
     Code code;
     
     printf("lhs\n");
@@ -1578,7 +1590,11 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
         idErr = figlio->val.sval;
         line = figlio->line;
         
-        if(!p || (p->classe != S_VAR && p->classe != S_CONST)){
+        //TODO: errore semantico!
+        if(!p || (p->classe != S_VAR &&
+                p->classe != S_CONST &&
+                p->classe != S_IN &&
+                p->classe != S_INOUT)){
             printf("ERRORE #%d: %s usato come lhs non è una variabile\n",figlio->line,figlio->val.sval);
             exit(0);
         }else{
@@ -1592,7 +1608,9 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
             }            
         }
         
-        if(level !=0) {
+        if(tipoLhs != tipoIntero &&
+                tipoLhs != tipoBoolean &&
+                tipoLhs != tipoString) {
             int env_distanve;
             pstLine line = controllaEsistenzaId(id, &env_distanve);
             int addr = line->oid - offset - 1;
@@ -1627,7 +1645,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
         }
            
         ptypeS parziale = NULL;
-        lhs_code = lhs(nLhs2,&parziale, level + 1);
+        lhs_code = lhs(nLhs2,&parziale);
         if(parziale->child!=NULL){
             tipoLhs = parziale->child;
         }
@@ -1639,16 +1657,10 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato, int level){
         
         //generazione codice per indexing
         Code ixad;
-        if(level == 0){
-            ptypeS pt = parziale;
-            while(pt->child != NULL)
-                pt = pt->child;
-            
-            if(pt == tipoIntero || pt == tipoBoolean){
-                ixad = makecode1(IXAD, sizeof(int));
-            } else if (pt == tipoString){
-                ixad = makecode1(IXAD, sizeof(void*));
-            }
+        if(parziale == tipoIntero || parziale == tipoBoolean){
+            ixad = makecode1(IXAD, sizeof(int));
+        } else if (parziale == tipoString){
+            ixad = makecode1(IXAD, sizeof(void*));
         } else {            
             ptypeS pt = parziale->child;
             

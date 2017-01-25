@@ -367,7 +367,7 @@ Code subs_jump_address(Code code){
             for(int k = 0; k < code.size; k++){
                 Stat* m = getStat_by_address(code, k);
                 if(m->op == MODL && m->args[0].ival == mid){
-                    j->args[0].ival = m->address;
+                    j->args[0].ival = m->address + 1;
                 }
             }
         }

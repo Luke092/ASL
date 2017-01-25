@@ -88,7 +88,7 @@ int newstring(char *s)
 }
 
 void stampaErrore(int l){
-    printf("Errore alla linea %d\n",l);
+    printf("Errore lessicale alla linea %d\n",l);
 
 }
 
