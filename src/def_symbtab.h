@@ -44,6 +44,7 @@ typedef struct st{
     pstLine tab[TOT];//hash table
     struct st *back;//puntatore alla hash del padre
     int oidC;//counter per gli oid
+    int aux_count; // numero di paramentri ausiliari
 } symbolTable;
 
 typedef  symbolTable *pST;//pointer Symbol Table
@@ -52,8 +53,7 @@ void stampa2(pstLine[]),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
         printSemanticError(),
-        printType(ptypeS),
-        controllaParametroChiamata(pstLine, pnode);
+        printType(ptypeS);
 
 Code start(pnode,pST,ptypeS*),
         optTypeSect_var_const(pnode,int),
@@ -69,7 +69,8 @@ Code start(pnode,pST,ptypeS*),
         repeatStat(pnode),
         forStat(pnode),
         optModuleList(pnode),
-        modCall(pnode,ptypeS*);
+        modCall(pnode,ptypeS*),
+        controllaParametroChiamata(pstLine, pnode);
         
 ptypeS 
         createType(int,ptypeS,int),

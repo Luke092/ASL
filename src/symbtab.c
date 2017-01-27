@@ -261,6 +261,9 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                         int env_distance;
                         pstLine line = controllaEsistenzaId(pt->val.sval, &env_distance);
                         int addr = line->oid - offset - 1;
+                        if(line->classe == S_VAR || line->classe == S_CONST){
+                            addr += stab->aux_count;
+                        }
                         
                         if(tipoRitornato2 == tipoBoolean ||
                                 tipoRitornato2 == tipoIntero ||
@@ -613,6 +616,9 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                  int env_distance;
                  pstLine line = controllaEsistenzaId(idDecl, &env_distance);
                  int addr = line->oid - offset - 1;
+                 if(line->classe == S_VAR || line->classe == S_CONST){
+                    addr += stab->aux_count;
+                }
                  
                  if(type == tipoIntero){
                      const_code = make_loci(n_decl->child->val.ival);
@@ -738,6 +744,17 @@ Code optModuleList(pnode optModuleList){
             int formals1 = optFormalList(stabLocal,procFuncDecl->child->brother);//recuperiamo il numero di parametri
             pstLine *formals2 = (pstLine*)malloc(sizeof(pstLine)*formals1);
             formals2 = recuperaFormali(stabLocal,formals1);//recuperiamo l'array di puntatori ai parametri
+            
+            // recupero il numero di parametri ausiliari necessario per la generazione di codice
+            int i = 0;
+            int aux_count = 0;
+            for(i = 0; i < formals1; i++){
+                if(formals2[i]->classe == S_OUT || formals2[i]->classe == S_INOUT){
+                    aux_count++;
+                }
+            }
+            stabLocal->aux_count = aux_count;
+            
             printf("ID: %s\n",idFD);
             pstLine newLine = insertFindLine(stab->tab,hash(idFD),idFD,stab->oidC,classe,tipoTornatoFunc,stabLocal,formals1,formals2);
             newLine->mid = mid++;
@@ -1317,6 +1334,9 @@ Code forStat(pnode nodoFor){
     
     int addr_tmp = stab->oidC + for_level - 1;
     int addr = p->oid - offset - 1;
+    if(p->classe == S_VAR || p->classe == S_CONST){
+        addr += stab->aux_count;
+    }
     res_code = concode(
             start_value_code,
             makecode2(STOR, env_distance, addr),
@@ -1346,7 +1366,10 @@ Code forStat(pnode nodoFor){
  * se è una func, viene settato il tipo ritornato;
  */
 Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
-    Code code = endcode();
+    Code code = endcode(),
+            param_code = endcode(),
+            aux_code = endcode();
+    int aux_count = 0;
     printf("modCall\n");
     
     //if da levare è solo per controllo
@@ -1361,7 +1384,8 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     line = nodoIdMod->line;
     
     //controlliamo che l'id della func/proc esista
-    pstLine p = controllaEsistenzaId(nodoIdMod->val.sval, NULL);
+    int env_distance;
+    pstLine p = controllaEsistenzaId(nodoIdMod->val.sval, &env_distance);
     if(p==NULL){
         printf("ERRORE #%d: la func/proc %s non esiste\n",line,idErr);
         exit(0);
@@ -1385,16 +1409,51 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
         //ora bisogna controllare i parametri passati 
         // che devono essere giusti sia in numero, che in tipo, che in modalità di passaggio
         //es. un parametro out o inout non può essere una costante
-        pstLine *formali = (pstLine*)malloc(sizeof(pstLine)*p->formals1);
+        pstLine *formali;
         printf("NUMER FOR %d\n",p->formals1);
         formali = p->formals2;
         pnode nodoParamAttuale = nodoIdMod->brother;
         int i;
-        
+        Code tmp_param = endcode();
         for(i=0;i<p->formals1;i++){
             printf("SENTRO FOR %d\n",i);
             printf("%d***************NOME %s\n",i,formali[i]->name);
-            controllaParametroChiamata(formali[i],nodoParamAttuale);
+            tmp_param = controllaParametroChiamata(formali[i],nodoParamAttuale);
+            
+            if(tmp_param.size != 0){
+                if(param_code.size != 0){
+                    param_code = concode(param_code, tmp_param, endcode());
+                } else {
+                    param_code = tmp_param;
+                }
+            }
+            
+            // genero ausiliari
+            Code tmp_aux = endcode();
+            if(formali[i]->classe == S_OUT || formali[i]->classe == S_INOUT){
+                aux_count++;
+                if(nodoParamAttuale->type == T_NONTERM && nodoParamAttuale->child->type == T_ID){
+                    //caso parametro attuale inout/out sia ID
+                    int env_distance;
+                    pstLine line = controllaEsistenzaId(nodoParamAttuale->child->val.sval, &env_distance);
+                    int addr = line->oid - offset - 1;
+                    if(line->classe == S_VAR || line->classe == S_CONST){
+                        addr += stab->aux_count;
+                    }
+                    tmp_aux = makecode2(LODA, env_distance, addr);
+                } else {
+                    //caso parametro attuale inout/out sia INDEXING
+                    ptypeS t;
+                    tmp_aux = lhs(nodoParamAttuale, &t);
+                }
+            }
+            
+            if(aux_code.size != 0){
+                aux_code = concode(aux_code, tmp_aux, endcode());
+            } else {
+                aux_code = tmp_aux;
+            }
+            
             nodoParamAttuale = nodoParamAttuale->brother;
         }
         
@@ -1418,24 +1477,29 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
         printType(*tipoRitornato);
     }
     
-    pstLine modLine = findInSt(stab, nodoIdMod->val.sval);
-    int objs = count_local_objs(modLine->local);
-    int formal_aux = modLine->formals1;
-    pstLine pt = modLine->formals2;
-    while(pt != NULL){
-        if(pt->classe == S_OUT || pt->classe == S_INOUT){
-            formal_aux++;
+    // genero il codice della chiamata
+    int objs = count_local_objs(p->local);
+    
+    code = make_call(p->formals1 + aux_count, objs, env_distance, p->mid);
+    if(param_code.size != 0){
+        if(aux_code.size != 0){
+            code = concode(param_code, aux_code, code, endcode());
+        } else {
+            code = concode(param_code, code, endcode());
         }
-        pt = pt->next;
-    } 
-    code = make_call(formal_aux, objs, 0, modLine->mid); //TODO: static chain more general   
+    } else {
+        if(aux_code.size != 0){
+            code = concode(aux_code, code, endcode());
+        }
+    }
     return code;
 }
 
 /*
  * funzione che controlla che il parametro attuale e formale passati abbiano stesso tipo
  */
-void controllaParametroChiamata(pstLine formale, pnode attuale){
+Code controllaParametroChiamata(pstLine formale, pnode attuale){
+    Code param_code = endcode();
     printf("controllaParametroChiamata\n");
     
     //id della proc/func 
@@ -1449,7 +1513,27 @@ void controllaParametroChiamata(pstLine formale, pnode attuale){
     char *nomeFormale = formale->name;
    
     ptypeS typeAttuale = NULL;
-    exprBody(attuale,&typeAttuale);
+    param_code = exprBody(attuale,&typeAttuale);
+    if(formale->classe == S_OUT){
+        if(typeAttuale == tipoBoolean || typeAttuale == tipoIntero){
+            param_code = makecode1(ADEF, sizeof(int));
+        } else if (typeAttuale == tipoString) {
+            param_code = makecode1(ADEF, sizeof(void *));
+        } else {
+            int size = 1;
+            ptypeS pt = typeAttuale;
+            while(pt->child != NULL){
+                size *= pt->dim;
+                pt = pt->child;
+            }
+            if(typeAttuale == tipoBoolean || typeAttuale == tipoIntero){
+                size *= sizeof(int);
+            } else if (typeAttuale == tipoString) {
+                size *= sizeof(void *);
+            }
+            param_code = makecode1(SDEF, size);
+        }
+    }
 
     /*
      * A questo punto in typeAttuale dovremmo avere (qualsiasi cosa fosse il param attuale) un tipo
@@ -1469,6 +1553,7 @@ void controllaParametroChiamata(pstLine formale, pnode attuale){
         exit(0);
     }
     
+    return param_code;
 }
 
 /*
@@ -1522,6 +1607,9 @@ Code assignStat(pnode nStat){
         int env_distance;
         pstLine line = controllaEsistenzaId(pt->val.sval, &env_distance);
         int addr = line->oid - offset - 1;
+        if(line->classe == S_VAR || line->classe == S_CONST){
+            addr += stab->aux_count;
+        }
         
         if(typeLhs != tipoBoolean &&
                 typeLhs != tipoIntero &&
@@ -1580,7 +1668,8 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
         if(!p || (p->classe != S_VAR &&
                 p->classe != S_CONST &&
                 p->classe != S_IN &&
-                p->classe != S_INOUT)){
+                p->classe != S_INOUT &&
+                p->classe != S_OUT)){
             printf("ERRORE #%d: %s usato come lhs non è una variabile\n",figlio->line,figlio->val.sval);
             exit(0);
         }else{
@@ -1600,6 +1689,9 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
             int env_distanve;
             pstLine line = controllaEsistenzaId(id, &env_distanve);
             int addr = line->oid - offset - 1;
+            if(line->classe == S_VAR || line->classe == S_CONST){
+                addr += stab->aux_count;
+            }
             code = makecode2(LODA, env_distanve, addr);
         } else {
             code = endcode();
