@@ -1526,9 +1526,9 @@ Code controllaParametroChiamata(pstLine formale, pnode attuale){
                 size *= pt->dim;
                 pt = pt->child;
             }
-            if(typeAttuale == tipoBoolean || typeAttuale == tipoIntero){
+            if(pt == tipoBoolean || pt == tipoIntero){
                 size *= sizeof(int);
-            } else if (typeAttuale == tipoString) {
+            } else if (pt == tipoString) {
                 size *= sizeof(void *);
             }
             param_code = makecode1(SDEF, size);
