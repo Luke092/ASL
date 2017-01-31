@@ -179,6 +179,38 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     code = concode(code, stat_code, endcode()); // aggiungo il codice per la StatList
     code = concode(code, exprBody_code, endcode()); // aggiungo il codice per la ExprBody
     
+    // genero codice per l'assegnazione dei parametri out e inout delle procedure
+    if(root->val.ival == N_PROCDECL){
+        Code out_param = endcode();
+        pstLine line = findInSt(stab->back->tab, nomeRoot);
+        int i = 0;
+        int aux = 0;
+        for(i = 0; i < line->formals1; i++){
+            Code tmp = endcode();
+            if(line->formals2[i]->classe == S_INOUT || 
+                    line->formals2[i]->classe == S_OUT){
+                aux++;
+                pstLine param = findInSt(stab->tab, line->formals2[i]->name);
+                int addr_aux = line->formals1 + aux - 1;
+                int addr_param = param->oid - offset - 1;
+                tmp = concode( makecode2(LODA, 0, addr_aux),
+                        makecode2(LOAD, 0, addr_param),
+                        makecode(ISTO),
+                        endcode()
+                        );
+                if(out_param.size == 0){
+                    out_param = tmp;
+                } else {
+                    out_param = concode(out_param,
+                            tmp,
+                            endcode()
+                            );
+                }
+            }
+        }
+        code = concode(code, out_param, endcode());
+    }
+    
     // metto un return alla fine del codice
     code = concode(code, makecode(RETN), endcode());
     
