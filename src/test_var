@@ -1,0 +1,24 @@
+program t
+	type t1, t2 : integer;
+		t3 : boolean;
+	var x,y: integer;
+	
+	proc p(a:integer, out b:integer)
+		type t:integer;
+		var c:t;
+
+		proc p1()
+			type a, b:string;
+			var x:b;
+		begin p1
+			x = "Ciao!";
+			c = 12;
+			y = 21;
+		end p1;
+
+	begin p
+		c = a + y;
+	end p;
+begin t
+	p(1,y);
+end t.

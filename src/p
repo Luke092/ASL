@@ -1,0 +1,7 @@
+program t
+	var x: integer;
+		a : array [11] of array[5] of integer;
+	const MAX:integer = 10;
+begin t
+	a[5][MAX] = x;
+end t.

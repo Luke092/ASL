@@ -30,7 +30,7 @@ typedef struct stLine{ //stLine = symbol table line
     enum {S_TYPE,S_VAR,S_CONST,S_FUNC,S_PROC,S_IN, S_OUT,S_INOUT} classe;
     ptypeS root;//puntatore al tipo
     struct stLine *local;//puntatore alla symb tab locale
-    struct stLine *back;//puntatore alla symb tab del padre
+    //struct stLine *back;//puntatore alla symb tab del padre
     int formals1;
     struct stLine **formals2;//array di puntatori ai parametri formali/attuali
     struct stLine *next;//puntatore al nodo successivo della hash table
@@ -45,6 +45,7 @@ typedef struct st{
     struct st *back;//puntatore alla hash del padre
     int oidC;//counter per gli oid
     int aux_count; // numero di paramentri ausiliari
+    int offset;
 } symbolTable;
 
 typedef  symbolTable *pST;//pointer Symbol Table
@@ -79,7 +80,7 @@ ptypeS
 
 pstLine createLine(char*,int,int,ptypeS,pstLine,int,pstLine[],pstLine),
         insertFindLine(pstLine[],int , char*, int,int,ptypeS,pstLine,int,pstLine[]),
-        controllaEsistenzaId(char*, int*),
+        controllaEsistenzaId(char*, int*, int*, int*),
         findInSt(pstLine[],char *id);
 
 pST createSymbTab(pST);
