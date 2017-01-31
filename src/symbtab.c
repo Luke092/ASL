@@ -24,9 +24,6 @@ ptypeS tipoBoolean;//ptypeS che rappresenta un bool
 
 int primoGiro = 1;
 
-//TODO: cambiare modo di gestire l'offset, non funziona se si cercano variabili in ST superiori
-//int offset = 0; // offset oid per la SymbTab locale
-
 int tmp_count = 0; // numero di temporanei per i cicli for
 int for_level = 0;
 /*
@@ -112,7 +109,6 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 break;
             case N_OPTMODULELIST:
                 tmp = optModuleList(nodoCorrente);
-                //TODO: generare codice per i moduli
                 if(tmp.size != 0){
                     if (modl_code.size != 0)
                         modl_code = concode(modl_code, tmp, endcode());
@@ -279,7 +275,6 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
             break;
         case T_MODCALL:
             code = modCall(ex,&tipoRitornato2);
-            //TODO: implement code generation
             break;
         case T_NONTERM:
             
@@ -407,10 +402,6 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
     
     printf("Tipo tornato dentro exprbody normale\n");
     printType(tipoRitornato2);
-    
-    //TODO: change STAB
-    if(code.size == 0)
-        code = makecode(NOOP);
     
     return code;
 }
@@ -1126,7 +1117,6 @@ Code statList(pnode nStatList){
                 }
                 break;
             case E_PROC:
-                //TODO: write code for procedure call
                 tmp = modCall(nStat->child,NULL);
                 
                 if(code.size == 0){
@@ -1332,7 +1322,6 @@ Code repeatStat(pnode nRepeatStat){
  *
  */
 Code forStat(pnode nodoFor){
-    //TODO: migliorare gestione temporaneo del ciclio for
     for_level++;
     tmp_count = (tmp_count < for_level)? for_level : tmp_count;
     Code res_code = endcode(),
@@ -1376,7 +1365,6 @@ Code forStat(pnode nodoFor){
             start_value_code,
             makecode2(STOR, env_distance, addr),
             end_value_code,
-            //TODO: store nella stab locale
             makecode2(STOR, 0, addr_tmp), //Store del temporaneo
             makecode2(LOAD, env_distance, addr),
             makecode2(LOAD, 0, addr_tmp),
