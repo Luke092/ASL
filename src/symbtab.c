@@ -517,7 +517,11 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
     printf("tipo tornato COND_EXPR\n");
     printType(*tipoRitornato);
     
-    res_code = concode(if_code, elseif_code, else_code, endcode());
+    if(elseif_code.size != 0){
+        res_code = concode(if_code, elseif_code, else_code, endcode());
+    } else {
+        res_code = concode(if_code, else_code, endcode());
+    }
     return res_code;
 }
 
