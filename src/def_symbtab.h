@@ -14,6 +14,17 @@
 #include "def_codegen.h"
 #include "utilities.h"
 
+/*
+ * Lista concatenata per le varibili che non si possono assegnare
+ */
+typedef struct varS{
+    char *varId;
+    struct varS *next;
+   
+} varStruct;
+
+typedef  varStruct *pvarS;
+
 typedef struct typeS{
     enum {S_INTEGER,S_STRING,S_BOOLEAN,S_ARRAY} domain;
     int costante;//se diventa 1 vuol dire che rappresenta il tipo di una costante
@@ -54,7 +65,9 @@ void stampa2(pstLine[]),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
         printSemanticError(),
-        printType(ptypeS);
+        printType(ptypeS),
+        aggiungiProibita(pnode),
+        rimuoviProibita(pnode);
 
 Code start(pnode,pST,ptypeS*),
         optTypeSect_var_const(pnode,int),
@@ -91,7 +104,8 @@ int controlConstType(ptypeS,pnode),
         
 pstLine* recuperaFormali(pST,int);
 
-int count_local_objs(pstLine[]); // funzione per contare gli oggetti locali
+int controllaProibite(pnode),
+    count_local_objs(pstLine[]); // funzione per contare gli oggetti locali
 
 char* getArrayFormat(ptypeS);
 

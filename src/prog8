@@ -1,0 +1,32 @@
+
+program p
+	type arr : array [2] of array [1] of integer;
+	var x,y,z : integer;
+		s : string;
+	a : arr;
+	const MAX : integer = 3;
+		AR : arr = [[1],[1]];
+begin p
+
+	a[y][z] = x;
+
+	if (MAX == 3) then
+		z = y;
+	end;
+
+	for x = 1 to 100 do
+		y = x;
+		x = 4;
+		a[y][x] = 3;	
+	
+		for z = 1 to 100 do
+        	        y = x;
+			y = z;
+	        end;
+		z=3;
+
+	end;
+
+	x = 6;
+
+end p.

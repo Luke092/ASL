@@ -18,6 +18,8 @@ void printSemanticError(){
 
 pST stab;//puntatore alla symbtab locale
 
+pvarS testaProibite;//puntatore alla testa della lista delle varibili non assegnabili
+
 ptypeS tipoIntero;//ptypeS che rappresenta un intero
 ptypeS tipoString;//ptypeS che rappresenta una stringa
 ptypeS tipoBoolean;//ptypeS che rappresenta un bool
@@ -38,6 +40,9 @@ pST createSymbTab(pST back){
         tipoIntero=createType(0,NULL,0);
         tipoString=createType(1,NULL,0);
         tipoBoolean=createType(2,NULL,0);
+        testaProibite = malloc(sizeof(varStruct));
+        testaProibite->next = NULL;
+        testaProibite->varId = NULL;
         primoGiro = 0;
     }
     
@@ -1333,6 +1338,7 @@ Code forStat(pnode nodoFor){
     pnode nId = nodoFor->child;
     int env_distance, offset, aux;
     pstLine p = controllaEsistenzaId(nId->val.sval, &env_distance, &offset, &aux);
+    
     if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
         printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
         exit(0);
@@ -1342,6 +1348,14 @@ Code forStat(pnode nodoFor){
         printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
         exit(0);
     }
+    
+    if(controllaProibite(nId) == 2){
+        printf("ERRORE #%d: non puoi assegnare il counter %s\n",nId->line,nId->val.sval);
+        exit(0);
+    }
+    
+    //aggiungiamo la var alla lista di quelle non assegnabili
+    aggiungiProibita(nId);
     
     ptypeS expr1 = NULL;
     ptypeS expr2 = NULL;
@@ -1380,6 +1394,9 @@ Code forStat(pnode nodoFor){
             );
     
     for_level--;
+    
+    rimuoviProibita(nId);
+    
     return res_code;
     
 }
@@ -1621,9 +1638,17 @@ Code assignStat(pnode nStat){
     }
     
     ptypeS typeLhs = NULL;
+    
+    /*
+     * controlliamo che non si stia assegnando una var proibita
+     */
+    if(nStat->child->child->child->type == T_ID && controllaProibite(nStat->child->child->child) == 2){
+        printf("ERRORE #%d: non puoi modificare il valore del counter %s.\n",nStat->child->child->child->line,nStat->child->child->child->val.sval);
+        exit(-1);
+    }
+    
     lhs_code = lhs(nStat->child->child,&typeLhs);
-    printf("DEBUG: STAMPA TIPO\n");
-    printType(typeLhs);
+   
     if(typeLhs->costante == 1){
         printf("ERRORE #%d: non puoi modificare il valore di una costante %s.\n", line, idErr);
         exit(-1);
@@ -1711,7 +1736,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
                 tipoLhs->costante=1;
             } else {
                 printf("costante=0\n");
-                tipoLhs->costante=0;
+                tipoLhs->costante=2;
             }      
         }
         
@@ -1758,6 +1783,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
         lhs_code = lhs(nLhs2,&parziale);
         if(parziale->child!=NULL){
             tipoLhs = parziale->child;
+            tipoLhs->costante = parziale->costante;
         }
         else{
             printf("ERRORE: l'array non è cosy grande\n");
@@ -2292,4 +2318,93 @@ char* getArrayFormat(ptypeS type){
         res = t;
     }
     return res;
+}
+
+/*
+ * funzione che aggiunge una var alla lista di quelle non assegnabili
+ */
+void aggiungiProibita(pnode nId){
+    
+    pvarS successivo = testaProibite->next;
+    pvarS precedente = testaProibite;
+    
+    char *id = nId->val.sval;
+    
+    printf("DENTRO PROIBITE %s\n",id);
+    
+    while(successivo != NULL){
+        
+        if(strcmp(id,successivo->varId) == 0){
+            return ;
+        }else{
+             
+            precedente = successivo;
+            successivo = successivo->next;
+            
+        }
+        
+    }
+    
+    pvarS nuovo = malloc(sizeof(varStruct));
+    nuovo->varId = id;
+    nuovo->next = NULL;
+    precedente->next = nuovo;
+    
+    printf("FUORI PROIBITE %s\n",testaProibite->next->varId);
+    
+    return;
+    
+}
+
+/*
+ * funzione che controlla se una var è tra quelle non assegnabili
+ * 1 = non c'è
+ * 2 = c'è
+ */
+int controllaProibite(pnode nId){
+    printf("controlla proibite %s\n",nId->val.sval);
+    
+    pvarS successivo = testaProibite->next;
+    
+    char *id = nId->val.sval;
+    
+    while(successivo != NULL){
+        
+        printf("PRIBITA %s\n",successivo->varId);
+        
+        if(strcmp(id,successivo->varId) == 0){
+            return 2;
+        }
+        
+        successivo = successivo->next;
+    }
+    
+    return 1;
+    
+}
+
+/*
+ * funzione che rimuove una var dalla lista di quelle non assegnabili
+ */
+void rimuoviProibita(pnode nId){
+    
+    pvarS successivo = testaProibite->next;
+    pvarS precedente = testaProibite;
+    
+    char *id = nId->val.sval;
+    
+    while(successivo != NULL){
+        
+        if(strcmp(id,successivo->varId) == 0){
+            
+            
+            
+            precedente->next = successivo->next;
+            free(successivo);
+            
+            return ;
+        }       
+        successivo = successivo->next;
+    }
+    
 }

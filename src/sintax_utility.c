@@ -85,5 +85,5 @@ pnode newnode(Typenode tnode){
 
 void printError(char *id){
     printf("ERRORE: l'id %s non coincide tra begin e end\n",id);
-    exit(0);
+    exit(-1);
 }
