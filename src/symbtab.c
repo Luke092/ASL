@@ -440,7 +440,7 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
     ptypeS expr1 = NULL;
     Code cond_code = exprBody(nCond->child->brother,&expr1);
     if_code = concode(if_code,
-            makecode1(SKPF, cond_code.size + 1),
+            makecode1(SKPF, cond_code.size + 1 + 1),
             cond_code,
             endcode());
     
@@ -503,7 +503,7 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
                 endcode());
     }
     
-    if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size), endcode());
+    if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size + 1), endcode());
     
     if(controllaCompatibilitaTipi(expr3,expr1)==0){
         //l'expr2 deve essere dello stesso tipo di expr1, se no è errore
@@ -1252,7 +1252,7 @@ Code ifStat(pnode nIfStat){
      * Ora che ho generato il codice per tutti gli elementi posso sapere di quanto
      * saltare per uscire dopo l'esecuzione del codice per il THEN
      */
-    if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size), endcode());
+    if_code = concode(if_code, makecode1(SKIP, else_code.size + elseif_code.size + 1), endcode());
     
     // Infine ritorno il codice così generato
     if(elseif_code.size != 0){
