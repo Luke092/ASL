@@ -1990,6 +1990,7 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
                                 makecode1(SKPF, 3),
                                 make_loci(1),
                                 makecode1(SKIP, f2_code.size + 1),
+                                f2_code,
                                 endcode()
                                 );
                         break;
