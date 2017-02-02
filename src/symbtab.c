@@ -194,7 +194,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 pstLine param = findInSt(stab->tab, line->formals2[i]->name);
                 int addr_aux = line->formals1 + aux - 1;
                 int addr_param = param->oid - stab->offset - 1;
-                tmp = concode( makecode2(LODA, 0, addr_aux),
+                tmp = concode( makecode2(LOAD, 0, addr_aux),
                         makecode2(LOAD, 0, addr_param),
                         makecode(ISTO),
                         endcode()
@@ -1136,6 +1136,17 @@ Code statList(pnode nStatList){
                 break;
           }
         
+        // genero codice per EXIT
+        if(nStat->child->type == T_EXIT){
+            tmp = makecode(HALT);
+            if(code.size == 0){
+                code = tmp;
+            } else {
+                code = concode(code, tmp, endcode());
+            }
+        } else if (nStat->child->type == T_BREAK){
+            //TODO: implement
+        }
         
         nStat = nStat->brother;
     }
@@ -1286,7 +1297,7 @@ Code whileStat(pnode nWhileStat){
     
     res_code = concode(
             cond_code,
-            makecode1(SKPF, while_code.size + 1),
+            makecode1(SKPF, while_code.size + 1 + 1),
             while_code,
             makecode1(SKIP, -(cond_code.size + 1 + while_code.size)),
             endcode()
