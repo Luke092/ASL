@@ -1,4 +1,4 @@
-	 	SYMBTAB DI pr
+	 	SYMBTAB DI pf
 
  
  *******STAMPA STAB******** 
@@ -20,9 +20,6 @@
 
 #7
 
-oid:1
-id:k 
-	 classe:S_IN
 #8
 
 #9
@@ -47,66 +44,15 @@ id:k
 
 #19
 
- 
- *******FINE******** 
- 
-
-
-	 	SYMBTAB DI fn
-
- 
- *******STAMPA STAB******** 
- 
-
-#0
-
-#1
-
-#2
-
-#3
-
-#4
-
-#5
-
-#6
-
-#7
-
 oid:1
-id:k 
+id:bo 
 	 classe:S_IN
-#8
-
-#9
-
-#10
-
-#11
-
-#12
-
-#13
-
-#14
-
-#15
-
-#16
-
-#17
-
-#18
-
-#19
-
  
  *******FINE******** 
  
 
 
-	 	SYMBTAB DI ifstat
+	 	SYMBTAB DI arrai
 
  
  *******STAMPA STAB******** 
@@ -114,32 +60,33 @@ id:k
 
 #0
 
-oid:1
+oid:4
 id:x 
 	 classe:S_VAR
 #1
 
-oid:2
+oid:5
 id:y 
 	 classe:S_VAR
 #2
 
-oid:3
-id:z 
+oid:8
+id:a2 
 	 classe:S_VAR
- 	 oid:6 id:fn 
-	n formali:1	classe:S_FUNC
 #3
 
 #4
 
 #5
 
+oid:1
+id:A 
+	 classe:S_TYPE
 #6
 
-oid:5
-id:pr 
-	n formali:1	 classe:S_PROC
+oid:2
+id:B 
+	 classe:S_TYPE
 #7
 
 #8
@@ -148,6 +95,9 @@ id:pr
 
 #10
 
+oid:3
+id:A2 
+	 classe:S_TYPE
 #11
 
 #12
@@ -156,15 +106,28 @@ id:pr
 
 #14
 
+oid:10
+id:ARR 
+	 classe:S_CONST
+ 	 oid:11 id:ARR2 
+	classe:S_CONST
+ 	 oid:12 id:pf 
+	n formali:1	classe:S_FUNC
 #15
 
+oid:9
+id:s 
+	 classe:S_VAR
 #16
 
 #17
 
+oid:7
+id:a 
+	 classe:S_VAR
 #18
 
-oid:4
+oid:6
 id:b 
 	 classe:S_VAR
 #19

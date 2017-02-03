@@ -1,12 +1,16 @@
 #include "def.h"
 #include "def_symbtab.h"
 //#include "def_codegen.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 FILE *yyin;
 pnode root = NULL;
 
-int stampaSymbtab=3;
+int stampaSymbtab=2;
 FILE *sp;
+FILE *file;
+FILE *fileCode;
 
 int main(int argc,char* argv[]){
     int result;
@@ -19,13 +23,16 @@ int main(int argc,char* argv[]){
         int i = 3;
         
         while(i<=argc){
-            
-            
+                     
             if(strcmp("-tree",argv[i-1])==0){
-                FILE *fp;
-                fp = fopen("tree.txt", "w");
-                treeprint(root, 0,fp);
-                fclose(fp);
+             
+                file = fopen("tree.txt", "w");
+                if (file == NULL) {
+                    printf("qwertyu\n");
+                }
+                treeprint(root, 0, file);
+                
+                fclose(file);
             }else if(strcmp("-symb",argv[i-1])==0){
                 stampaSymbtab = 1;
                 sp = fopen("symb.txt", "w");
@@ -41,9 +48,12 @@ int main(int argc,char* argv[]){
         if(sp!=NULL){
             fclose(sp);
         }
-        print_code(stdout, code); //Stampo ACODE nello standard output
+        //print_code(stdout, code); //Stampo ACODE nello standard output
+        char *nomeProg = strcat(argv[1],".code");
+        fileCode = fopen(nomeProg,"w");
+        print_code(fileCode, code);
     }
     
-  return(result);
+  return result;
     
 }

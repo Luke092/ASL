@@ -7,9 +7,6 @@
 #include <string.h>
 #include "def_symbtab.h"
 
-//int stampaSymbtab;
-//FILE *sp;
-
 char *idErr;//id della var che da errore
 int line;//linea dell'errore
 
@@ -54,6 +51,7 @@ pST createSymbTab(pST back){
     s->back=back;//puntatore alla symb tab padre
     s->oidC = 0;
     s->offset = 0;
+    s->aux_count = 0;
     
     return s;
     
@@ -221,17 +219,14 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     
     // appendo in fondo la definizione dei moduli
     code = concode(code, modl_code, endcode());
-    printf("CIAOOOOOO\n");
+    
     if(stampaSymbtab==1){
-        printf("STAMPA %d\n",stampaSymbtab);
-        printf("CIAOOOOOO2\n");
+       
         fprintf(sp,"\t \tSYMBTAB DI %s\n",nomeRoot);
         //stampa(stab->tab);//stampa la hash table
         stampa2(stab->tab,sp);//stampa la symbol tabel
         fprintf(sp,"\n\n");
     }
-    
-    printf("STAMPA %d\n",stampaSymbtab);
     
     if(tipoRitornato!=NULL && *tipoRitornato != NULL){
         printf("Tipo ritornato da %s\n",nomeRoot);

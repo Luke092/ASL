@@ -4,6 +4,7 @@
 
 #include "def.h"
 #include "def_symbtab.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -115,14 +116,12 @@ char* tabnonterm[] =
 };
 
 void treeprint(pnode root, int indent,FILE *fp)
-{
-      
-  int i;
+{      
+  int j;
   pnode p;
   
-  for(i=0; i<indent; i++)
+  for(j=0; j<indent; j++)
     fprintf(fp,"    ");
-
   
   fprintf(fp,"%s", (root->type == T_NONTERM ? tabnonterm[root->val.ival] : tabtypes[root->type]));
   if(root->type == T_ID || root->type == T_STRCONST)
@@ -131,11 +130,9 @@ void treeprint(pnode root, int indent,FILE *fp)
     fprintf(fp," (%d)", root->val.ival);
   else if(root->type == T_BOOLCONST)
     fprintf(fp," (%s)", (root->val.ival == TRUE ? "true" : "false"));
-  else if(root->type == T_ATOMICDOMAIN){
-      
+  else if(root->type == T_ATOMICDOMAIN){      
       fprintf(fp," (%s)", domaintypes[root->val.ival]);}
-  else if(root->type == T_MODE){
-      
+  else if(root->type == T_MODE){    
       fprintf(fp," (%s)",modetypes[root->val.ival]);
   }
   else if(root->type == T_LOGICEXPR || root->type == T_COMPEXPR || root->type == T_MATHEXPR || root->type == T_NEGEXPR || root->type == T_MODCALL){
@@ -143,7 +140,9 @@ void treeprint(pnode root, int indent,FILE *fp)
   }
   fprintf(fp,"\n");
   for(p=root->child; p != NULL; p = p->brother)
-    treeprint(p, indent+1,fp);
+  {
+      treeprint(p, indent+1,fp);
+  }
 }
 
 char* domtypes[]=

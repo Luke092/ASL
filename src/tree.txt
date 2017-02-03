@@ -1,12 +1,38 @@
 N_PROGRAM
-    T_ID (ifstat)
+    T_ID (arrai)
     N_OPTTYPESECT
+        N_DECL
+            N_IDLIST
+                T_ID (A)
+            N_DOMAIN
+                N_ARRAYDOMAIN
+                    T_INTCONST (2)
+                    N_DOMAIN
+                        N_ARRAYDOMAIN
+                            T_INTCONST (1)
+                            N_DOMAIN
+                                T_ATOMICDOMAIN (D_STRING)
+        N_DECL
+            N_IDLIST
+                T_ID (B)
+            N_DOMAIN
+                N_ARRAYDOMAIN
+                    T_INTCONST (3)
+                    N_DOMAIN
+                        T_ATOMICDOMAIN (D_INTEGER)
+        N_DECL
+            N_IDLIST
+                T_ID (A2)
+            N_DOMAIN
+                N_ARRAYDOMAIN
+                    T_INTCONST (2)
+                    N_DOMAIN
+                        T_ID (A)
     N_OPTVARSECT
         N_DECL
             N_IDLIST
                 T_ID (x)
                 T_ID (y)
-                T_ID (z)
             N_DOMAIN
                 T_ATOMICDOMAIN (D_INTEGER)
         N_DECL
@@ -14,178 +40,136 @@ N_PROGRAM
                 T_ID (b)
             N_DOMAIN
                 T_ATOMICDOMAIN (D_BOOLEAN)
+        N_DECL
+            N_IDLIST
+                T_ID (a)
+            N_DOMAIN
+                T_ID (A)
+        N_DECL
+            N_IDLIST
+                T_ID (a2)
+            N_DOMAIN
+                T_ID (A2)
+        N_DECL
+            N_IDLIST
+                T_ID (s)
+            N_DOMAIN
+                T_ATOMICDOMAIN (D_STRING)
     N_OPTCONSTSECT
+        N_DECL
+            N_IDLIST
+                T_ID (ARR)
+            N_DOMAIN
+                T_ID (A)
+        N_CONST
+            N_ARRAYCONST
+                N_CONST
+                    N_ARRAYCONST
+                        N_CONST
+                            T_STRCONST ("c")
+                N_CONST
+                    N_ARRAYCONST
+                        N_CONST
+                            T_STRCONST ("4")
+        N_DECL
+            N_IDLIST
+                T_ID (ARR2)
+            N_DOMAIN
+                T_ID (B)
+        N_CONST
+            N_ARRAYCONST
+                N_CONST
+                    T_INTCONST (7)
+                N_CONST
+                    T_INTCONST (7)
+                N_CONST
+                    T_INTCONST (6)
     N_OPTMODULELIST
-        N_PROCDECL
-            T_ID (pr)
-            N_OPTFORMALLIST
-                N_FORMALDECL
-                    T_MODE (M_IN)
-                    N_DECL
-                        N_IDLIST
-                            T_ID (k)
-                        N_DOMAIN
-                            T_ATOMICDOMAIN (D_INTEGER)
-            N_OPTTYPESECT
-            N_OPTVARSECT
-            N_OPTCONSTSECT
-            N_OPTMODULELIST
-            N_STATBODY
-                T_ID (pr)
-                N_STATLIST
-                    N_STAT
-                        N_ASSIGNSTAT
-                            N_LHS
-                                T_ID (x)
-                            N_LHS
-                                T_ID (y)
-                    N_STAT
-                        N_REPEATSTAT
-                            N_STATLIST
-                                N_STAT
-                                    N_ASSIGNSTAT
-                                        N_LHS
-                                            T_ID (x)
-                                        N_LHS
-                                            T_ID (y)
-                                N_STAT
-                                    N_ASSIGNSTAT
-                                        N_LHS
-                                            T_ID (y)
-                                        N_LHS
-                                            T_ID (x)
-                            T_COMPEXPR (E_GT)
-                                N_LHS
-                                    T_ID (x)
-                                N_LHS
-                                    T_ID (y)
-                T_ID (pr)
         N_FUNCDECL
-            T_ID (fn)
+            T_ID (pf)
             N_OPTFORMALLIST
                 N_FORMALDECL
                     T_MODE (M_IN)
                     N_DECL
                         N_IDLIST
-                            T_ID (k)
+                            T_ID (bo)
                         N_DOMAIN
                             T_ATOMICDOMAIN (D_BOOLEAN)
             N_DOMAIN
-                T_ATOMICDOMAIN (D_INTEGER)
+                N_ARRAYDOMAIN
+                    T_INTCONST (2)
+                    N_DOMAIN
+                        N_ARRAYDOMAIN
+                            T_INTCONST (1)
+                            N_DOMAIN
+                                T_ATOMICDOMAIN (D_STRING)
             N_OPTTYPESECT
             N_OPTCONSTSECT
             N_OPTMODULELIST
             N_EXPRBODY
-                T_ID (fn)
-                N_CONST
-                    T_INTCONST (3)
-                T_ID (fn)
+                T_ID (pf)
+                N_CONDEXPR
+                    T_COMPEXPR (E_EQ)
+                        N_LHS
+                            T_ID (x)
+                        N_CONST
+                            T_INTCONST (4)
+                    N_CONST
+                        N_ARRAYCONST
+                            N_CONST
+                                N_ARRAYCONST
+                                    N_CONST
+                                        T_STRCONST ("2")
+                            N_CONST
+                                N_ARRAYCONST
+                                    N_CONST
+                                        T_STRCONST ("2")
+                    N_OPTELSEIFEXPR
+                    N_CONST
+                        N_ARRAYCONST
+                            N_CONST
+                                N_ARRAYCONST
+                                    N_CONST
+                                        T_STRCONST ("2")
+                            N_CONST
+                                N_ARRAYCONST
+                                    N_CONST
+                                        T_STRCONST ("c")
+                T_ID (pf)
     N_STATBODY
-        T_ID (ifstat)
+        T_ID (arrai)
         N_STATLIST
             N_STAT
-                N_IFSTAT
+                T_BREAK
+            N_STAT
+                N_ASSIGNSTAT
                     N_LHS
                         T_ID (b)
-                    N_STATLIST
-                        N_STAT
-                            N_IFSTAT
-                                T_COMPEXPR (E_LT)
-                                    N_LHS
-                                        T_ID (y)
-                                    N_LHS
-                                        T_ID (y)
-                                N_STATLIST
-                                    N_STAT
-                                        N_ASSIGNSTAT
-                                            N_LHS
-                                                T_ID (x)
-                                            N_CONST
-                                                T_INTCONST (6)
-                                N_OPTELSEIFSTAT
-                                N_STATLIST
-                                    N_STAT
-                                        N_ASSIGNSTAT
-                                            N_LHS
-                                                T_ID (y)
-                                            N_LHS
-                                                T_ID (x)
-                    N_OPTELSEIFSTAT
-                        T_COMPEXPR (E_NE)
-                            N_LHS
-                                T_ID (x)
-                            T_NEGEXPR (E_UMINUS)
+                    T_COMPEXPR (E_EQ)
+                        T_MODCALL (E_FUNC)
+                            T_ID (pf)
+                            N_CONDEXPR
                                 N_CONST
-                                    T_INTCONST (8)
-                        N_STATLIST
-                            N_STAT
-                                N_ASSIGNSTAT
-                                    N_LHS
-                                        T_ID (y)
-                                    N_CONST
-                                        T_INTCONST (4)
-                        T_COMPEXPR (E_EQ)
-                            N_LHS
-                                T_ID (x)
-                            N_CONST
-                                T_INTCONST (5)
-                        N_STATLIST
-                            N_STAT
-                                N_ASSIGNSTAT
-                                    N_LHS
-                                        T_ID (z)
-                                    N_LHS
-                                        T_ID (z)
-                            N_STAT
-                                N_ASSIGNSTAT
-                                    N_LHS
-                                        T_ID (x)
-                                    N_CONST
-                                        T_INTCONST (6)
-            N_STAT
-                N_ASSIGNSTAT
-                    N_LHS
-                        T_ID (x)
-                    N_CONST
-                        T_INTCONST (4)
-            N_STAT
-                N_ASSIGNSTAT
-                    N_LHS
-                        T_ID (y)
-                    N_CONST
-                        T_INTCONST (5)
-            N_STAT
-                N_WHILESTAT
-                    T_LOGICEXPR (E_OR)
-                        T_COMPEXPR (E_GT)
-                            N_LHS
-                                T_ID (x)
-                            T_MATHEXPR (E_PLUS)
-                                N_CONST
-                                    T_INTCONST (3)
-                                N_CONST
-                                    T_INTCONST (4)
-                        T_COMPEXPR (E_EQ)
-                            T_MATHEXPR (E_PLUS)
-                                N_CONST
-                                    T_INTCONST (3)
-                                N_CONST
-                                    T_INTCONST (4)
-                            N_LHS
-                                T_ID (y)
-                    N_STATLIST
-                        N_STAT
-                            N_ASSIGNSTAT
+                                    T_BOOLCONST (true)
                                 N_LHS
-                                    T_ID (x)
+                                    T_ID (b)
+                                N_OPTELSEIFEXPR
+                                    T_COMPEXPR (E_LT)
+                                        N_LHS
+                                            T_ID (x)
+                                        N_CONST
+                                            T_INTCONST (3)
+                                    N_LHS
+                                        T_ID (b)
+                                    T_COMPEXPR (E_LT)
+                                        N_LHS
+                                            T_ID (x)
+                                        N_CONST
+                                            T_INTCONST (3)
+                                    N_LHS
+                                        T_ID (b)
                                 N_LHS
-                                    T_ID (y)
-                        N_STAT
-                            T_MODCALL (E_PROC)
-                                T_ID (pr)
-                                N_LHS
-                                    T_ID (x)
-            N_STAT
-                N_INPUTSTAT
-                    T_ID (x)
-        T_ID (ifstat)
+                                    T_ID (b)
+                        N_LHS
+                            T_ID (a)
+        T_ID (arrai)
