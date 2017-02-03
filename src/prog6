@@ -26,11 +26,11 @@ begin arrai
 break;
 b=pf(if true then
 	b
-elsif x<3 then
-	b
-elsif x<3 then
-	b
-else
-	b
-end)==a;
+	elsif x<3 then
+		b
+	elsif x<3 then
+		b
+	else
+		b
+		end)==a;
 end arrai.

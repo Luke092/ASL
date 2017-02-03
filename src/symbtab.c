@@ -169,7 +169,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                 }
                 
                 printf("Tipo ritornato da exprbody\n");
-                printType(*tipoRitornato);
+                ////printType(*tipoRitornato);
                 break;
           }
         nodoCorrente = nodoCorrente->brother;
@@ -230,7 +230,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     
     if(tipoRitornato!=NULL && *tipoRitornato != NULL){
         printf("Tipo ritornato da %s\n",nomeRoot);
-        printType(*tipoRitornato);
+        ////printType(*tipoRitornato);
     }
     
     if(root->val.ival == N_PROGRAM){
@@ -260,7 +260,7 @@ void pulisciSymbTab(pST s){//settiamo tutti i campi della hash table a NULL per 
         s->tab[j]=NULL;
 }
 
-/*MANCA LA  CONDEXPR,
+/*
  * funzione che si occupa di gestire i casi compresi dalla clausola EXPR della BNF astratta
  */
 Code exprBody(pnode ex,ptypeS* tipoRitornato){
@@ -409,17 +409,16 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
     
     *tipoRitornato = tipoRitornato2;
     printf("Tipo tornato dentro exprbody aster\n");
-    printType(*tipoRitornato);
+    //printType(*tipoRitornato);
     
     printf("Tipo tornato dentro exprbody normale\n");
-    printType(tipoRitornato2);
+    //printType(tipoRitornato2);
     
     return code;
 }
 
 /*
  * funzione che gestisce le cond expr
- * 
  * Ragiona esattamente come la funzione ifStat
  */
 Code condExpr(pnode nCond,ptypeS* tipoRitornato){
@@ -521,7 +520,7 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
     
     *tipoRitornato = expr1;
     printf("tipo tornato COND_EXPR\n");
-    printType(*tipoRitornato);
+    //printType(*tipoRitornato);
     
     if(elseif_code.size != 0){
         res_code = concode(if_code, elseif_code, else_code, endcode());
@@ -620,7 +619,7 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
     *tipoRitornato = tipoRitornato2;
     
     printf("Tipo tornato array const\n");
-    printType(*tipoRitornato);
+    //printType(*tipoRitornato);
         
 }
 
@@ -803,7 +802,7 @@ Code optModuleList(pnode optModuleList){
             printf("RITORNO\n");
                        
             if(tipoRitornato!=NULL){
-                printType(tipoRitornato);
+                ////printType(tipoRitornato);
                 /*
                  * se tipoRitornato è diverso da NULL vuol dire che è una func
                  * e devo controllare che il tipo sia compatibile caon la expr nel corpo
@@ -1011,7 +1010,7 @@ void nDomain(pnode n_domain, ptypeS* dom){
         exit(0);
     }
     printf("RITORNO NDOMAIN\n");
-    printType(*dom);
+    ////printType(*dom);
     
     //return dom;
     
@@ -1361,7 +1360,7 @@ Code forStat(pnode nodoFor){
     pstLine p = controllaEsistenzaId(nId->val.sval, &env_distance, &offset, &aux);
     
     if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
-        printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
+        printf("ERRORE #%d: l'id %s del counter del for non è quello di una variabile\n",nId->line,nId->val.sval);
         exit(0);
     }
     
@@ -1371,7 +1370,7 @@ Code forStat(pnode nodoFor){
     }
     
     if(controllaProibite(nId) == 2){
-        printf("ERRORE #%d: non puoi assegnare il counter %s\n",nId->line,nId->val.sval);
+        printf("ERRORE #%d: non puoi assegnare il counter %s di un altro ciclo\n",nId->line,nId->val.sval);
         exit(0);
     }
     
@@ -1432,12 +1431,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
             aux_code = endcode();
     int aux_count = 0;
     printf("modCall\n");
-    
-    //if da levare è solo per controllo
-    if(tipoRitornato==NULL){
-        printf("SIAMO in una proc\n");
-    }
-    
+ 
     ptypeS tipoRitornato2=NULL;
     pnode nodoIdMod = nodoModcall->child;
     
@@ -1535,7 +1529,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     if(tipoRitornato!=NULL){
         *tipoRitornato = tipoRitornato2;
         printf("Tipo ritornato dentro modcall\n");
-        printType(*tipoRitornato);
+        ////printType(*tipoRitornato);
     }
     
     // genero il codice della chiamata
@@ -1931,7 +1925,7 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
     ptypeS tr1 = NULL;
     f1_code = exprBody(f1,&tr1);   
     printf("TIPO FIGLIO 1\n");
-    printType(tr1);   
+    ////printType(tr1);   
     //stabilisco iltipo del secondo figlio (fratello del primo figlio)
     //di default lo metto uguale a tr1 e se sono nel caso di una neg expr lo lascio cosi (non entro nell'if)
     //altrimenti richiamo exprBody 
@@ -1941,7 +1935,7 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
     }
     
      printf("TIPO FIGLIO 2\n");
-    printType(tr2);
+    ////printType(tr2);
     
     if(tr1==NULL || tr2==NULL || controllaCompatibilitaTipi(tr1,tr2)==0){
         printf("ERRORE #%d: tipi incompatibili nell'espressione\n",line);
@@ -1958,7 +1952,7 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
             if(tipoComp != E_EQ && tipoComp != E_NE){
                 // <,<=,>,>= non possono essere applicati ai booleani 
                 
-                printType(tipoBoolean);
+                ////printType(tipoBoolean);
                 if(controllaCompatibilitaTipi(tr1,tipoBoolean)==1){
 
                     //ad due booleani non puoi applicare niente che non sia == o !=

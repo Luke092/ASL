@@ -1,0 +1,17 @@
+program test
+	type T : array [2] of integer;
+	var x,y : T;
+
+	proc p( a : string, inout b : boolean)
+	
+	const C : T = [1,2];
+
+	begin p
+		b = a<"s";
+	end p;
+
+begin test
+
+k = y;
+
+end test.

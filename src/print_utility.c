@@ -177,14 +177,14 @@ void stampa2(pstLine stab[],FILE *sp){
         if(stab[i]){
             
             fprintf(sp,"\noid:%d\nid:%s \n",stab[i]->oid,stab[i]->name);
-            if(stab[i]->root!=NULL){printType(stab[i]->root);}
+            if(stab[i]->root!=NULL){printType(stab[i]->root,sp);}
             if(stab[i]->formals1!=0){fprintf(sp,"\tn formali:%d",stab[i]->formals1);}
             fprintf(sp,"\t classe:%s",classe[stab[i]->classe]);
             pstLine parente = stab[i]->next;
             while(parente!=NULL){
          
                 fprintf(sp,"\n \t oid:%d id:%s \n",parente->oid,parente->name);
-                if(parente->root!=NULL){printType(parente->root);}
+                if(parente->root!=NULL){printType(parente->root,sp);}
                 if(parente->formals1!=0){fprintf(sp,"\tn formali:%d",parente->formals1);}
                 fprintf(sp,"\tclasse:%s",classe[parente->classe]);
                 parente = parente->next;
@@ -195,15 +195,15 @@ void stampa2(pstLine stab[],FILE *sp){
 }
 
 
-void printType(ptypeS type){
+void printType(ptypeS type, FILE *sp){
     
-  printf("    ");
-  printf("%s ",domtypes[type->domain]);
+  fprintf(sp,"    ");
+  fprintf(sp,"%s ",domtypes[type->domain]);
   if(type->domain==3){
-      printf("[%d]",type->dim);
-      printType(type->child);
+      fprintf(sp,"[%d]",type->dim);
+      printType(type->child,sp);
   }
-  printf("\n");
+  fprintf(sp,"\n");
   
 }
 /*
