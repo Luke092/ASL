@@ -1,0 +1,10 @@
+program p 
+
+var x : array [5] of array [2] of integer;
+  y:integer;
+
+begin p
+
+y=3;
+
+end p.

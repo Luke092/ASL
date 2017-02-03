@@ -36,7 +36,7 @@ elsif x==5 then
 end;
 x=4;
 y=5;
-while x>3+4 or 3+4  do
+while x>3+4 or 3+4==y  do
 	x=y;
 	pr(x);
 end;

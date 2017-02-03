@@ -14,6 +14,9 @@
 #include "def_codegen.h"
 #include "utilities.h"
 
+extern int stampaSymbtab;
+extern FILE *sp;
+
 /*
  * Lista concatenata per le varibili che non si possono assegnare
  */
@@ -61,7 +64,7 @@ typedef struct st{
 
 typedef  symbolTable *pST;//pointer Symbol Table
 
-void stampa2(pstLine[]),
+void stampa2(pstLine[],FILE*),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
         printSemanticError(),

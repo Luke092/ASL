@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 char* tabtypes[] =
 {
             "T_NONTERM",
@@ -113,35 +114,36 @@ char* tabnonterm[] =
             "N_OPTELSESTAT"
 };
 
-void treeprint(pnode root, int indent)
+void treeprint(pnode root, int indent,FILE *fp)
 {
+      
   int i;
   pnode p;
   
   for(i=0; i<indent; i++)
-    printf("    ");
+    fprintf(fp,"    ");
 
   
-  printf("%s", (root->type == T_NONTERM ? tabnonterm[root->val.ival] : tabtypes[root->type]));
+  fprintf(fp,"%s", (root->type == T_NONTERM ? tabnonterm[root->val.ival] : tabtypes[root->type]));
   if(root->type == T_ID || root->type == T_STRCONST)
-    printf(" (%s)", root->val.sval);
+    fprintf(fp," (%s)", root->val.sval);
   else if(root->type == T_INTCONST)
-    printf(" (%d)", root->val.ival);
+    fprintf(fp," (%d)", root->val.ival);
   else if(root->type == T_BOOLCONST)
-    printf(" (%s)", (root->val.ival == TRUE ? "true" : "false"));
+    fprintf(fp," (%s)", (root->val.ival == TRUE ? "true" : "false"));
   else if(root->type == T_ATOMICDOMAIN){
       
-      printf(" (%s)", domaintypes[root->val.ival]);}
+      fprintf(fp," (%s)", domaintypes[root->val.ival]);}
   else if(root->type == T_MODE){
       
-      printf(" (%s)",modetypes[root->val.ival]);
+      fprintf(fp," (%s)",modetypes[root->val.ival]);
   }
   else if(root->type == T_LOGICEXPR || root->type == T_COMPEXPR || root->type == T_MATHEXPR || root->type == T_NEGEXPR || root->type == T_MODCALL){
-      printf(" (%s)",exprtype[root->val.ival]);
+      fprintf(fp," (%s)",exprtype[root->val.ival]);
   }
-  printf("\n");
+  fprintf(fp,"\n");
   for(p=root->child; p != NULL; p = p->brother)
-    treeprint(p, indent+1);
+    treeprint(p, indent+1,fp);
 }
 
 char* domtypes[]=
@@ -166,31 +168,31 @@ char* classe[]=
 
 
 
-void stampa2(pstLine stab[]){
+void stampa2(pstLine stab[],FILE *sp){
    
-    printf("\n \n *******STAMPA STAB******** \n \n");
+    fprintf(sp,"\n \n *******STAMPA STAB******** \n \n");
     int i;
    
     for(i =0; i<TOT;i++){
-        printf("\n#%d\n",i);
+        fprintf(sp,"\n#%d\n",i);
         if(stab[i]){
             
-            printf("\noid:%d\nid:%s \n",stab[i]->oid,stab[i]->name);
+            fprintf(sp,"\noid:%d\nid:%s \n",stab[i]->oid,stab[i]->name);
             if(stab[i]->root!=NULL){printType(stab[i]->root);}
-            if(stab[i]->formals1!=0){printf("\tn formali:%d",stab[i]->formals1);}
-            printf("\t classe:%s",classe[stab[i]->classe]);
+            if(stab[i]->formals1!=0){fprintf(sp,"\tn formali:%d",stab[i]->formals1);}
+            fprintf(sp,"\t classe:%s",classe[stab[i]->classe]);
             pstLine parente = stab[i]->next;
             while(parente!=NULL){
          
-                printf("\n \t oid:%d id:%s \n",parente->oid,parente->name);
+                fprintf(sp,"\n \t oid:%d id:%s \n",parente->oid,parente->name);
                 if(parente->root!=NULL){printType(parente->root);}
-                if(parente->formals1!=0){printf("\tn formali:%d",parente->formals1);}
-                printf("\tclasse:%s",classe[parente->classe]);
+                if(parente->formals1!=0){fprintf(sp,"\tn formali:%d",parente->formals1);}
+                fprintf(sp,"\tclasse:%s",classe[parente->classe]);
                 parente = parente->next;
             }
         }
     }
-    printf("\n \n *******FINE******** \n \n");
+    fprintf(sp,"\n \n *******FINE******** \n \n");
 }
 
 

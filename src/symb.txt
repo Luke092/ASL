@@ -1,0 +1,176 @@
+	 	SYMBTAB DI pr
+
+ 
+ *******STAMPA STAB******** 
+ 
+
+#0
+
+#1
+
+#2
+
+#3
+
+#4
+
+#5
+
+#6
+
+#7
+
+oid:1
+id:k 
+	 classe:S_IN
+#8
+
+#9
+
+#10
+
+#11
+
+#12
+
+#13
+
+#14
+
+#15
+
+#16
+
+#17
+
+#18
+
+#19
+
+ 
+ *******FINE******** 
+ 
+
+
+	 	SYMBTAB DI fn
+
+ 
+ *******STAMPA STAB******** 
+ 
+
+#0
+
+#1
+
+#2
+
+#3
+
+#4
+
+#5
+
+#6
+
+#7
+
+oid:1
+id:k 
+	 classe:S_IN
+#8
+
+#9
+
+#10
+
+#11
+
+#12
+
+#13
+
+#14
+
+#15
+
+#16
+
+#17
+
+#18
+
+#19
+
+ 
+ *******FINE******** 
+ 
+
+
+	 	SYMBTAB DI ifstat
+
+ 
+ *******STAMPA STAB******** 
+ 
+
+#0
+
+oid:1
+id:x 
+	 classe:S_VAR
+#1
+
+oid:2
+id:y 
+	 classe:S_VAR
+#2
+
+oid:3
+id:z 
+	 classe:S_VAR
+ 	 oid:6 id:fn 
+	n formali:1	classe:S_FUNC
+#3
+
+#4
+
+#5
+
+#6
+
+oid:5
+id:pr 
+	n formali:1	 classe:S_PROC
+#7
+
+#8
+
+#9
+
+#10
+
+#11
+
+#12
+
+#13
+
+#14
+
+#15
+
+#16
+
+#17
+
+#18
+
+oid:4
+id:b 
+	 classe:S_VAR
+#19
+
+ 
+ *******FINE******** 
+ 
+
+
