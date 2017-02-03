@@ -156,7 +156,7 @@ void printError(char*);
   * definizioni per la tabella di hash
   */
 
-#define TOT 20
+#define TOT 10
 #define SHIFT 4
 
 typedef struct nodo nodo;

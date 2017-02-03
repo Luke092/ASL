@@ -10,7 +10,6 @@
 
 #ifndef DEF_SYMBTAB_H
 #define DEF_SYMBTAB_H
-
 #include "def_codegen.h"
 #include "utilities.h"
 
@@ -69,7 +68,7 @@ void stampa2(pstLine[],FILE*),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
         printSemanticError(),
-        printType(ptypeS),
+        printType(ptypeS, FILE*),
         aggiungiProibita(pnode),
         rimuoviProibita(pnode);
 

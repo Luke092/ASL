@@ -1,6 +1,5 @@
 #include "def.h"
 #include "def_symbtab.h"
-//#include "def_codegen.h"
 #include <stdio.h>
 #include <stdlib.h>
 

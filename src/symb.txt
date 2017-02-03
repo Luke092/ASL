@@ -1,4 +1,4 @@
-	 	SYMBTAB DI pf
+	 	SYMBTAB DI p
 
  
  *******STAMPA STAB******** 
@@ -20,39 +20,28 @@
 
 #7
 
+oid:1
+id:a 
+    S_STRING 
+	 classe:S_IN
+ 	 oid:3 id:C 
+    S_ARRAY [2]    S_INTEGER 
+
+	classe:S_CONST
 #8
 
+oid:2
+id:b 
+    S_BOOLEAN 
+	 classe:S_INOUT
 #9
 
-#10
-
-#11
-
-#12
-
-#13
-
-#14
-
-#15
-
-#16
-
-#17
-
-#18
-
-#19
-
-oid:1
-id:bo 
-	 classe:S_IN
  
  *******FINE******** 
  
 
 
-	 	SYMBTAB DI arrai
+	 	SYMBTAB DI test
 
  
  *******STAMPA STAB******** 
@@ -60,77 +49,41 @@ id:bo
 
 #0
 
-oid:4
+oid:2
 id:x 
+    S_ARRAY [2]    S_INTEGER 
+
 	 classe:S_VAR
 #1
 
-oid:5
+oid:3
 id:y 
+    S_ARRAY [2]    S_INTEGER 
+
 	 classe:S_VAR
 #2
 
-oid:8
-id:a2 
-	 classe:S_VAR
+oid:4
+id:p 
+	n formali:2	 classe:S_PROC
 #3
 
 #4
 
+oid:1
+id:T 
+    S_ARRAY [2]    S_INTEGER 
+
+	 classe:S_TYPE
 #5
 
-oid:1
-id:A 
-	 classe:S_TYPE
 #6
 
-oid:2
-id:B 
-	 classe:S_TYPE
 #7
 
 #8
 
 #9
-
-#10
-
-oid:3
-id:A2 
-	 classe:S_TYPE
-#11
-
-#12
-
-#13
-
-#14
-
-oid:10
-id:ARR 
-	 classe:S_CONST
- 	 oid:11 id:ARR2 
-	classe:S_CONST
- 	 oid:12 id:pf 
-	n formali:1	classe:S_FUNC
-#15
-
-oid:9
-id:s 
-	 classe:S_VAR
-#16
-
-#17
-
-oid:7
-id:a 
-	 classe:S_VAR
-#18
-
-oid:6
-id:b 
-	 classe:S_VAR
-#19
 
  
  *******FINE******** 
