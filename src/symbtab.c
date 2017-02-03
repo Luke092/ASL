@@ -1196,7 +1196,7 @@ Code ifStat(pnode nIfStat){
             endcode()
             );
     
-    pnode nOptElsif = nStatList->brother;
+        pnode nOptElsif = nStatList->brother;
     pnode nOptExpr = nOptElsif->child;
     
     pnode nElseStatList = nOptElsif->brother;
@@ -1231,7 +1231,7 @@ Code ifStat(pnode nIfStat){
         Code elseif_cond_code = endcode(),
                 elseif_then_code = endcode();
         
-        tmp_node = nOptElsif;
+        tmp_node = nOptExpr;
         
         for(int j = 0; j < i; j++){
             tmp_node = tmp_node->brother->brother;
