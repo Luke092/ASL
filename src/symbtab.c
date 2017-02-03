@@ -12,6 +12,8 @@ int line;//linea dell'errore
 
 int mid = 0; //l'id del modulo è univoco per tutto il programma
 
+int flCycle = 0; // flag che indica se sono o meno in un ciclo
+
 void printSemanticError(){
     printf("ERRORE #%d: causato probabilmente da %s\n",line,idErr);
 }
@@ -304,28 +306,8 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
                             addr += aux - offset;
                         }
                         
-                        if(tipoRitornato2 == tipoBoolean ||
-                                tipoRitornato2 == tipoIntero ||
-                                tipoRitornato2 == tipoString){
-                            code = makecode2(LOAD, env_distance, addr);
-                        } else {
-                            int size = 1;
-                            ptypeS t = tipoRitornato2;
-                            while(t->child != NULL){
-                                size *= t->dim;
-                                t = t->child;
-                            }
-                            if(t == tipoIntero || t == tipoBoolean){
-                                size *= sizeof(int);
-                            } else if (t == tipoString){
-                                size *= sizeof(void*);
-                            }
-                            code = concode(
-                                    makecode2(LODA, env_distance, addr),
-                                    makecode1(SIND, size),
-                                    endcode()
-                                    );
-                        }
+                        code = makecode2(LOAD, env_distance, addr);
+                        
                     } else {
                         int size;
                         ptypeS t = tipoRitornato2;
@@ -1021,8 +1003,7 @@ void nDomain(pnode n_domain, ptypeS* dom){
  * funzione che gestisce le stat list
  */
 Code statList(pnode nStatList){
-    Code code;
-    code.size = 0;
+    Code code = endcode();
     
     //printf("nstatbody\n");
     pnode nStat = nStatList->child;
@@ -1150,8 +1131,18 @@ Code statList(pnode nStatList){
             } else {
                 code = concode(code, tmp, endcode());
             }
-        } else if (nStat->child->type == T_BREAK){
-            //TODO: implement
+        } else if (nStat->child->type == T_BREAK){ // genero codice per BREAK
+            if(flCycle != 0){
+                tmp = makecode(OP_BREAK);
+                if(code.size == 0){
+                    code = tmp;
+                } else {
+                    code = concode(code, tmp, endcode());
+                }
+            } else {
+                printf("ERRORE #%d: l'istruzione break può essere usata solo in un ciclo\n", nStat->child->line);
+                exit(-1);
+            }
         }
         
         nStat = nStat->brother;
@@ -1284,6 +1275,7 @@ Code ifStat(pnode nIfStat){
  * funzione che gestisce i while 
  */
 Code whileStat(pnode nWhileStat){
+    flCycle++; //entro in un ciclo dal quale posso fare break
     Code res_code = endcode(),
             cond_code = endcode(),
             while_code = endcode();
@@ -1309,6 +1301,10 @@ Code whileStat(pnode nWhileStat){
             endcode()
             );
     
+    //TODO: convert BREAK to SKIP
+    res_code = subs_break_op(res_code);
+    flCycle--; // esco dal ciclo for
+    
     return res_code;
     
 }
@@ -1317,6 +1313,7 @@ Code whileStat(pnode nWhileStat){
  * funzione che gestisce i repeat
  */
 Code repeatStat(pnode nRepeatStat){
+    flCycle++; //entro in un ciclo dal quale posso fare break
     Code res_code = endcode(),
             cond_code = endcode(),
             repeat_code = endcode();
@@ -1341,6 +1338,10 @@ Code repeatStat(pnode nRepeatStat){
             endcode()
             );
     
+    //TODO: convert BREAK to SKIP
+    res_code = subs_break_op(res_code);
+    flCycle--; // esco dal ciclo for
+    
     return res_code;
 }
 
@@ -1348,6 +1349,7 @@ Code repeatStat(pnode nRepeatStat){
  *
  */
 Code forStat(pnode nodoFor){
+    flCycle++; //entro in un ciclo dal quale posso fare break
     for_level++;
     tmp_count = (tmp_count < for_level)? for_level : tmp_count;
     Code res_code = endcode(),
@@ -1413,6 +1415,10 @@ Code forStat(pnode nodoFor){
             makecode1(SKIP, -(for_code.size + 8)),
             endcode()
             );
+    
+    //TODO: convert BREAK to SKIP
+    res_code = subs_break_op(res_code);
+    flCycle--; // esco dal ciclo for
     
     for_level--;
     
@@ -1686,22 +1692,12 @@ Code assignStat(pnode nStat){
             addr += aux - offset;
         }
         
-        if(typeLhs != tipoBoolean &&
-                typeLhs != tipoIntero &&
-                typeLhs != tipoString){
-            code = concode(
-                    //makecode2(LODA, env_distance, addr),
+        code = concode(
                     ex_code,
                     makecode2(STOR, env_distance, addr),
                     endcode()
                     );
-        } else {
-            code = concode(
-                    ex_code,
-                    makecode2(STOR, env_distance, addr),
-                    endcode()
-                    );
-        }
+        
     } else {
         code = concode(
                 lhs_code,
@@ -1725,7 +1721,7 @@ Code assignStat(pnode nStat){
  *lhs torna il tipo della lhs 
  */
 Code lhs(pnode nLhs,ptypeS* tipoRitornato){
-    Code code;
+    Code code = endcode();
     
     printf("lhs\n");
     ptypeS tipoLhs = NULL;

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "def_codegen.h"
 #include "def_symbtab.h"
+#include "parser.h"
 
 char* s_op_code[] = 
 {
@@ -50,7 +51,7 @@ char* s_op_code[] =
     "RETN",
     "LOCS",
     "LOCI",
-    "NOOP"
+    "BREAK"
 };
 
 void relocate(Code code, int offset){
@@ -197,142 +198,125 @@ Stat* newstat(Operator op){
 void print_code(FILE* file, Code code){
     Stat* pt = code.head;
     for(int i = 0; i < code.size; i++){
-        print_stat(file, pt);
+        print_stat(file, pt, (pt->next == NULL)? 0 : 1);
         pt = pt->next;
     }
 }
 
-void print_stat(FILE* file, Stat* stat){
-    fprintf(file, "%s ", s_op_code[stat->op]);
+void print_stat(FILE* file, Stat* stat, int flEnd){
+    fprintf(file, "%s", s_op_code[stat->op]);
     switch(stat->op){
         case ACODE:
-            fprintf(file, "%d\n", stat->args[0]);
+            fprintf(file, " %d", stat->args[0]);
             break;
         case PUSH:
-            fprintf(file, "%d %d %d\n", stat->args[0].ival,
+            fprintf(file, " %d %d %d", stat->args[0].ival,
                     stat->args[1].ival,
                     stat->args[2].ival);
             break;
         case JUMP:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case APOP:
-            fprintf(file, "\n");
             break;
         case HALT:
-            fprintf(file, "\n");
             break;
         case ADEF:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case SDEF:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case LOAD:
-            fprintf(file, "%d %d\n", stat->args[0].ival,
+            fprintf(file, " %d %d", stat->args[0].ival,
                     stat->args[1].ival);
             break;
         case PACK:
-            fprintf(file, "%d %d\n", stat->args[0].ival,
+            fprintf(file, " %d %d", stat->args[0].ival,
                     stat->args[1].ival);
             break;
         case LODA:
-            fprintf(file, "%d %d\n", stat->args[0].ival,
+            fprintf(file, " %d %d", stat->args[0].ival,
                     stat->args[1].ival);
             break;
         case IXAD:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case AIND:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case SIND:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case STOR:
-            fprintf(file, "%d %d\n", stat->args[0].ival,
+            fprintf(file, " %d %d", stat->args[0].ival,
                     stat->args[1].ival);
             break;
         case ISTO:
-            fprintf(file, "\n");
             break;
         case SKIP:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case SKPF:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case EQUA:
-            fprintf(file, "\n");
             break;
         case NEQU:
-            fprintf(file, "\n");
             break;
         case IGRT:
-            fprintf(file, "\n");
             break;
         case IGEQ:
-            fprintf(file, "\n");
             break;
         case ILET:
-            fprintf(file, "\n");
             break;
         case ILEQ:
-            fprintf(file, "\n");
             break;
         case SGRT:
-            fprintf(file, "\n");
             break;
         case SGEQ:
-            fprintf(file, "\n");
             break;
         case SLET:
-            fprintf(file, "\n");
             break;
         case SLEQ:
-            fprintf(file, "\n");
             break;
         case ADDI:
-            fprintf(file, "\n");
             break;
         case SUBI:
-            fprintf(file, "\n");
             break;
         case MULI:
-            fprintf(file, "\n");
             break;
         case DIVI:
-            fprintf(file, "\n");
             break;
         case UMIN:
-            fprintf(file, "\n");
             break;
         case NEGA:
-            fprintf(file, "\n");
             break;
         case READ:
-            fprintf(file, "%d %d \"%s\"\n", stat->args[0].ival,
+            fprintf(file, " %d %d \"%s\"", stat->args[0].ival,
                     stat->args[1].ival,
                     stat->args[2].sval);
             break;
         case WRIT:
-            fprintf(file, "\"%s\"\n", stat->args[0].sval);
+            fprintf(file, " \"%s\"", stat->args[0].sval);
             break;
         case MODL:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case RETN:
-            fprintf(file, "\n");
             break;
         case LOCS:
-            fprintf(file, "%s\n", stat->args[0].sval);
+            fprintf(file, " %s", stat->args[0].sval);
             break;
         case LOCI:
-            fprintf(file, "%d\n", stat->args[0].ival);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         default:
-            fprintf(file, "OPERATORE NON RICONOSCIUTO!\n");
+            fprintf(file, " OPERATORE NON RICONOSCIUTO!");
             break;
+    }
+    if(flEnd){
+        fprintf(file, "\n");
     }
 }
 
@@ -388,4 +372,20 @@ Stat* getStat_by_address(Code code, int addr){
         pt = pt->next;
     }
     return NULL;
+}
+
+/*
+ * Funzione che sostituisce l'istruzione BREAK fittizia con una istruzione di
+ * SKIP alla fine del ciclio nel quale il BREAK si trova
+ */
+Code subs_break_op(Code code){
+    for(int i = 0; i < code.size; i++){
+        Stat* j = getStat_by_address(code, i);
+        if(j->op == OP_BREAK){
+            int skip_lenght = code.size - j->address; // lunghezza del salto
+            j->op = SKIP;
+            j->args[0].ival = skip_lenght;
+        }
+    }
+    return code;
 }

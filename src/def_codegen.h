@@ -50,7 +50,7 @@ typedef enum {
     RETN,
     LOCS,
     LOCI,
-    NOOP
+    OP_BREAK
 } Operator;
 
 typedef struct stat{
@@ -80,13 +80,14 @@ Code    appcode(Code code1, Code code2),
         make_locs(char* s),
         insert_code(Code code1, Code code2, int offset),
         cg_array_const(pnode),
-        subs_jump_address(Code code);
+        subs_jump_address(Code code),
+        subs_break_op(Code code);
 
 Stat* newstat(Operator op);
 Stat* getStat_by_address(Code code, int addr);
 
 void    print_code(FILE* file, Code code),
-        print_stat(FILE* file, Stat* stat);
+        print_stat(FILE* file, Stat* stat, int flEnd);
 
 #endif /* DEF_CODEGEN_H */
 

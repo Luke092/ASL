@@ -27,9 +27,6 @@ int main(int argc,char* argv[]){
             if(strcmp("-tree",argv[i-1])==0){
              
                 file = fopen("tree.txt", "w");
-                if (file == NULL) {
-                    printf("qwertyu\n");
-                }
                 treeprint(root, 0, file);
                 
                 fclose(file);
@@ -49,9 +46,10 @@ int main(int argc,char* argv[]){
             fclose(sp);
         }
         //print_code(stdout, code); //Stampo ACODE nello standard output
-        char *nomeProg = strcat(argv[1],".code");
+        char *nomeProg = string_cat(argv[1],".code");
         fileCode = fopen(nomeProg,"w");
         print_code(fileCode, code);
+        fclose(fileCode);
     }
     
   return result;
