@@ -24,14 +24,15 @@ int main(int argc,char* argv[]){
         while(i<=argc){
                      
             if(strcmp("-tree",argv[i-1])==0){
-             
-                file = fopen("tree.txt", "w");
+                char *nomeTree = string_cat(argv[1],".tree");
+                file = fopen(nomeTree, "w");
                 treeprint(root, 0, file);
                 
                 fclose(file);
             }else if(strcmp("-symb",argv[i-1])==0){
+                char *nomeSymb = string_cat(argv[1],".symb");
                 stampaSymbtab = 1;
-                sp = fopen("symb.txt", "w");
+                sp = fopen(nomeSymb, "w");
             }else{
                 printf("Parametro errato %s\n",argv[i-1]);
             }
@@ -45,8 +46,8 @@ int main(int argc,char* argv[]){
             fclose(sp);
         }
         //print_code(stdout, code); //Stampo ACODE nello standard output
-        char *nomeProg = string_cat(argv[1],".code");
-        fileCode = fopen(nomeProg,"w");
+        char *nomeCode = string_cat(argv[1],".code");
+        fileCode = fopen(nomeCode,"w");
         print_code(fileCode, code);
         fclose(fileCode);
     }

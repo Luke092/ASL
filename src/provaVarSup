@@ -1,0 +1,19 @@
+program p
+
+var x : integer;
+    ris : integer;
+	func f(y:integer):integer
+
+	begin f
+		x + y
+	end f;
+
+begin p
+
+x = 3;
+
+ris = f(2);
+
+output ris;
+
+end p.
