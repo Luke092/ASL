@@ -1392,7 +1392,21 @@ Code forStat(pnode nodoFor){
     
     for_code = statList(nId->brother->brother->brother);
     
-    int addr_tmp = stab->oidC + for_level - 1;
+    int addr_tmp = 0;
+    int i = 0;
+    // conto tutto ciò che non è PROC, FUNC o TYPE nella symbol table locale
+    for (i = 0; i < TOT; i++){
+        pstLine line = stab->tab[i];
+        while(line != NULL){
+            if(     line->classe != S_PROC &&
+                    line->classe != S_FUNC &&
+                    line->classe != S_TYPE){
+                addr_tmp++;
+            }
+            line = line->next;
+        }
+    }
+    addr_tmp += for_level - 1;
     int addr = p->oid - 1;
     if(p->classe == S_VAR || p->classe == S_CONST){
         addr += aux - offset;
