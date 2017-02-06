@@ -207,6 +207,48 @@ void printType(ptypeS type, FILE *sp){
   
 }
 /*
+void stampa2(pstLine stab[]){
+   
+    printf("\n \n *******STAMPA STAB******** \n \n");
+    int i;
+   
+    for(i =0; i<TOT;i++){
+        printf("\n#%d\n",i);
+        if(stab[i]){
+            
+            printf("\noid:%d\nid:%s \n",stab[i]->oid,stab[i]->name);
+            if(stab[i]->root!=NULL){printType(stab[i]->root);}
+            if(stab[i]->formals1!=0){printf("\tn formali:%d",stab[i]->formals1);}
+            printf("\t classe:%s",classe[stab[i]->classe]);
+            pstLine parente = stab[i]->next;
+            while(parente!=NULL){
+         
+                printf("\n \t oid:%d id:%s \n",parente->oid,parente->name);
+                if(parente->root!=NULL){printType(parente->root);}
+                if(parente->formals1!=0){printf("\tn formali:%d",parente->formals1);}
+                printf("\tclasse:%s",classe[parente->classe]);
+                parente = parente->next;
+            }
+        }
+    }
+    printf("\n \n *******FINE******** \n \n");
+}
+
+
+void printType(ptypeS type){
+    
+  printf("    ");
+  printf("%s ",domtypes[type->domain]);
+  if(type->domain==3){
+      printf("[%d]",type->dim);
+      printType(type->child);
+  }
+  printf("\n");
+  
+}*/
+
+
+/*
 void printError(char *errorMex){
     printf("\nERRORE: %s \n",errorMex);
 }*/

@@ -8,22 +8,26 @@ program p
 	b:boolean;
 	s:integer; 
 	const   MAX :integer=100;
-func provaFunc2(k:integer):arrT 
-        begin provaFunc2
-               [[3,5],[1,5],[3,3]]
-        end provaFunc2;
+
 
 proc provaProc(k:string)
- 	var u:T1;       
-	func provaFunc(z:integer):boolean
+        var u:T1;
+        func provaFunc(z:integer):boolean
         begin provaFunc
                 3==s
         end provaFunc;
 
 
-	begin provaProc
-		  b=provaFunc2(3);              
+        begin provaProc
+                  b=provaFunc2(3);
         end provaProc;
+
+
+
+func provaFunc2(k:integer):boolean 
+        begin provaFunc2
+               3<4
+        end provaFunc2;
 
 	
 func provaFunc(t:string):integer

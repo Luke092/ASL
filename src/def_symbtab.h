@@ -63,7 +63,7 @@ typedef struct st{
 
 typedef  symbolTable *pST;//pointer Symbol Table
 
-void stampa2(pstLine[],FILE*),
+void stampa2(pstLine[], FILE*),
         treeprint(pnode , int, FILE*),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
