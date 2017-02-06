@@ -7,6 +7,8 @@ extern Value lexval;
 extern int line;
 extern FILE *yyin;
 extern pnode root;
+int yylex();
+void yyerror();
 %}
 
 %token ASSIGN

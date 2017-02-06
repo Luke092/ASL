@@ -3,6 +3,7 @@
     #include "def.h"
     int line = 1;
     Value lexval;
+    char* assign_id_str(char *s);
 %}
 
 %option noyywrap
@@ -72,19 +73,12 @@ boolean         { return (BOOLEAN); }
 
 %%
 
-int assign_id_str(char *s){
+char* assign_id_str(char *s){
     
-    int puntatore;
+    char *puntatore;
     puntatore = insertFind(hash(s),s);
     return puntatore;
 }
 
-int newstring(char *s)
-{
-  char *p;
-  p = malloc(strlen(s)+1);
-  strcpy(p, s);
-  return(p);
-}
 
 

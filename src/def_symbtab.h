@@ -103,6 +103,7 @@ pstLine createLine(char*,int,int,ptypeS,pstLine,int,pstLine[],pstLine),
 pST createSymbTab(pST);
 
 int controlConstType(ptypeS,pnode),
+        optFormalList(pST,pnode),
         controllaCompatibilitaTipi(ptypeS ,ptypeS);
         
         

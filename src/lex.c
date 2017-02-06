@@ -586,7 +586,8 @@ char *yytext;
     #include "def.h"
     int line = 1;
     Value lexval;
-#line 590 "lex.c"
+    char* assign_id_str(char *s);
+#line 591 "lex.c"
 
 #define INITIAL 0
 
@@ -804,9 +805,9 @@ YY_DECL
 		}
 
 	{
-#line 19 "sintaxAnalizer.lex"
+#line 20 "sintaxAnalizer.lex"
 
-#line 810 "lex.c"
+#line 811 "lex.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -865,272 +866,272 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 20 "sintaxAnalizer.lex"
+#line 21 "sintaxAnalizer.lex"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "sintaxAnalizer.lex"
+#line 22 "sintaxAnalizer.lex"
 { return yytext[0]; }     
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 22 "sintaxAnalizer.lex"
+#line 23 "sintaxAnalizer.lex"
 { line++; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 23 "sintaxAnalizer.lex"
+#line 24 "sintaxAnalizer.lex"
 { return (EQUAL); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 24 "sintaxAnalizer.lex"
+#line 25 "sintaxAnalizer.lex"
 { return (ASSIGN); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "sintaxAnalizer.lex"
+#line 26 "sintaxAnalizer.lex"
 { return (NE); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 26 "sintaxAnalizer.lex"
+#line 27 "sintaxAnalizer.lex"
 { return (GT); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 27 "sintaxAnalizer.lex"
+#line 28 "sintaxAnalizer.lex"
 { return (GE); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 28 "sintaxAnalizer.lex"
+#line 29 "sintaxAnalizer.lex"
 { return (KT); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 29 "sintaxAnalizer.lex"
+#line 30 "sintaxAnalizer.lex"
 { return (KE);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 30 "sintaxAnalizer.lex"
+#line 31 "sintaxAnalizer.lex"
 { return (PLUS); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 31 "sintaxAnalizer.lex"
+#line 32 "sintaxAnalizer.lex"
 { return (MINUS); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 32 "sintaxAnalizer.lex"
+#line 33 "sintaxAnalizer.lex"
 { return (MUL); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 33 "sintaxAnalizer.lex"
+#line 34 "sintaxAnalizer.lex"
 { return (DIV); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 34 "sintaxAnalizer.lex"
+#line 35 "sintaxAnalizer.lex"
 { return (PROGRAM); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 35 "sintaxAnalizer.lex"
+#line 36 "sintaxAnalizer.lex"
 { return (TYPE); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 36 "sintaxAnalizer.lex"
+#line 37 "sintaxAnalizer.lex"
 { return (VAR); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 37 "sintaxAnalizer.lex"
+#line 38 "sintaxAnalizer.lex"
 { return (ARRAY); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 38 "sintaxAnalizer.lex"
+#line 39 "sintaxAnalizer.lex"
 { return (OF); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 39 "sintaxAnalizer.lex"
+#line 40 "sintaxAnalizer.lex"
 { return (CONST); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 40 "sintaxAnalizer.lex"
+#line 41 "sintaxAnalizer.lex"
 { return (PROC); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 41 "sintaxAnalizer.lex"
+#line 42 "sintaxAnalizer.lex"
 { return (FUNC); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 42 "sintaxAnalizer.lex"
+#line 43 "sintaxAnalizer.lex"
 { return (IN); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 43 "sintaxAnalizer.lex"
+#line 44 "sintaxAnalizer.lex"
 { return (OUT); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 44 "sintaxAnalizer.lex"
+#line 45 "sintaxAnalizer.lex"
 { return (INOUT); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 45 "sintaxAnalizer.lex"
+#line 46 "sintaxAnalizer.lex"
 { return (T_BEGIN); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 46 "sintaxAnalizer.lex"
+#line 47 "sintaxAnalizer.lex"
 { return (END); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 47 "sintaxAnalizer.lex"
+#line 48 "sintaxAnalizer.lex"
 { return (BREAK); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 48 "sintaxAnalizer.lex"
+#line 49 "sintaxAnalizer.lex"
 { return (EXIT); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 49 "sintaxAnalizer.lex"
+#line 50 "sintaxAnalizer.lex"
 { return (IF); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 50 "sintaxAnalizer.lex"
+#line 51 "sintaxAnalizer.lex"
 { return (THEN); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 51 "sintaxAnalizer.lex"
+#line 52 "sintaxAnalizer.lex"
 { return (ELSE); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 52 "sintaxAnalizer.lex"
+#line 53 "sintaxAnalizer.lex"
 { return (ELSIF); }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 53 "sintaxAnalizer.lex"
+#line 54 "sintaxAnalizer.lex"
 { return (WHILE); }           
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 54 "sintaxAnalizer.lex"
+#line 55 "sintaxAnalizer.lex"
 { return (DO); }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 55 "sintaxAnalizer.lex"
+#line 56 "sintaxAnalizer.lex"
 { return (REPEAT); }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 56 "sintaxAnalizer.lex"
+#line 57 "sintaxAnalizer.lex"
 { return (UNTIL); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 57 "sintaxAnalizer.lex"
+#line 58 "sintaxAnalizer.lex"
 { return (FOR); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 58 "sintaxAnalizer.lex"
+#line 59 "sintaxAnalizer.lex"
 { return (TO); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 59 "sintaxAnalizer.lex"
+#line 60 "sintaxAnalizer.lex"
 { return (INPUT); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 60 "sintaxAnalizer.lex"
+#line 61 "sintaxAnalizer.lex"
 { return (OUTPUT); }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 61 "sintaxAnalizer.lex"
+#line 62 "sintaxAnalizer.lex"
 { return (AND); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 62 "sintaxAnalizer.lex"
+#line 63 "sintaxAnalizer.lex"
 { return (OR); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 63 "sintaxAnalizer.lex"
+#line 64 "sintaxAnalizer.lex"
 { return (NOT); }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 64 "sintaxAnalizer.lex"
+#line 65 "sintaxAnalizer.lex"
 { return (INTEGER); }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 65 "sintaxAnalizer.lex"
+#line 66 "sintaxAnalizer.lex"
 { return (STRING); }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 66 "sintaxAnalizer.lex"
+#line 67 "sintaxAnalizer.lex"
 { return (BOOLEAN); }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 67 "sintaxAnalizer.lex"
+#line 68 "sintaxAnalizer.lex"
 { lexval.ival = atoi(yytext); return (INTCONST); }
 	YY_BREAK
 case 49:
 /* rule 49 can match eol */
 YY_RULE_SETUP
-#line 68 "sintaxAnalizer.lex"
+#line 69 "sintaxAnalizer.lex"
 { lexval.sval = assign_id_str(yytext); return (STRCONST); }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 69 "sintaxAnalizer.lex"
+#line 70 "sintaxAnalizer.lex"
 { lexval.bval = ( yytext[0] == 'f' ? FALSE : TRUE); return (BOOLCONST); }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 70 "sintaxAnalizer.lex"
+#line 71 "sintaxAnalizer.lex"
 { lexval.sval = assign_id_str(yytext);return (ID); }      
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 71 "sintaxAnalizer.lex"
+#line 72 "sintaxAnalizer.lex"
 { return (ERROR); }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 73 "sintaxAnalizer.lex"
+#line 74 "sintaxAnalizer.lex"
 ECHO;
 	YY_BREAK
-#line 1134 "lex.c"
+#line 1135 "lex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2131,24 +2132,17 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 73 "sintaxAnalizer.lex"
+#line 74 "sintaxAnalizer.lex"
 
 
 
-int assign_id_str(char *s){
+char* assign_id_str(char *s){
     
-    int puntatore;
+    char *puntatore;
     puntatore = insertFind(hash(s),s);
     return puntatore;
 }
 
-int newstring(char *s)
-{
-  char *p;
-  p = malloc(strlen(s)+1);
-  strcpy(p, s);
-  return(p);
-}
 
 
 
