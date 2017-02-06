@@ -59,6 +59,7 @@ typedef struct st{
     int oidC;//counter per gli oid
     int aux_count; // numero di paramentri ausiliari
     int offset;
+    int tmp_count; // numero di temporanei
 } symbolTable;
 
 typedef  symbolTable *pST;//pointer Symbol Table
@@ -97,7 +98,7 @@ ptypeS
 
 pstLine createLine(char*,int,int,ptypeS,pstLine,int,pstLine[],pstLine),
         insertFindLine(pstLine[],int , char*, int,int,ptypeS,pstLine,int,pstLine[]),
-        controllaEsistenzaId(char*, int*, int*, int*),
+        controllaEsistenzaId(char*, int*, int*, int*, int*),
         findInSt(pstLine[],char *id);
 
 pST createSymbTab(pST);
