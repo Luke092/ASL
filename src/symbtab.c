@@ -1393,7 +1393,7 @@ Code forStat(pnode nodoFor){
             line = line->next;
         }
     }
-    addr_tmp += for_level - 1;
+    addr_tmp += for_level + aux - 1;
     int addr = p->oid - 1;
     if(p->classe == S_VAR || p->classe == S_CONST){
         addr += aux - offset;
