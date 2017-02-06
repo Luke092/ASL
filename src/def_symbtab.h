@@ -42,7 +42,7 @@ typedef struct stLine{ //stLine = symbol table line
     int oid;
     enum {S_TYPE,S_VAR,S_CONST,S_FUNC,S_PROC,S_IN, S_OUT,S_INOUT} classe;
     ptypeS root;//puntatore al tipo
-    struct stLine *local;//puntatore alla symb tab locale
+    struct st *local;//puntatore alla symb tab locale
     //struct stLine *back;//puntatore alla symb tab del padre
     int formals1;
     struct stLine **formals2;//array di puntatori ai parametri formali/attuali
@@ -96,8 +96,8 @@ ptypeS
         controllaEsistenzaTipo(pnode);
        
 
-pstLine createLine(char*,int,int,ptypeS,pstLine,int,pstLine[],pstLine),
-        insertFindLine(pstLine[],int , char*, int,int,ptypeS,pstLine,int,pstLine[]),
+pstLine createLine(char*,int,int,ptypeS,pST,int,pstLine[],pstLine),
+        insertFindLine(pstLine[],int , char*, int,int,ptypeS,pST,int,pstLine[]),
         controllaEsistenzaId(char*, int*, int*, int*),
         findInSt(pstLine[],char *id);
 
@@ -111,7 +111,7 @@ int controlConstType(ptypeS,pnode),
 pstLine* recuperaFormali(pST,int);
 
 int controllaProibite(pnode),
-    count_local_objs(pstLine[]); // funzione per contare gli oggetti locali
+    count_local_objs(pST); // funzione per contare gli oggetti locali
 
 char* getArrayFormat(ptypeS);
 

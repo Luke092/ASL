@@ -176,7 +176,7 @@ void print_stat(FILE* file, Stat* stat, int flEnd){
     fprintf(file, "%s", s_op_code[stat->op]);
     switch(stat->op){
         case ACODE:
-            fprintf(file, " %d", stat->args[0]);
+            fprintf(file, " %d", stat->args[0].ival);
             break;
         case PUSH:
             fprintf(file, " %d %d %d", stat->args[0].ival,

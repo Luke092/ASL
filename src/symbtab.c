@@ -230,7 +230,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     }
     
     if(root->val.ival == N_PROGRAM){
-        int local_objs = count_local_objs(s->tab) + tmp_count;
+        int local_objs = count_local_objs(s) + tmp_count;
         /*
          * mid = 0 per main
          * num-formals-aux = num-locals in quanto non ho parametri formali per il main
@@ -2228,7 +2228,7 @@ pstLine findInSt(pstLine stab[],char *id){
  * in caso positivo torna il pstLine
  * in caso negativo aggiunge il nuovo elemento nella tabella
  */
-pstLine insertFindLine(pstLine stab[],int h, char *id, int oid,int classe,ptypeS root,pstLine local,int formals1,pstLine formals2[]){
+pstLine insertFindLine(pstLine stab[],int h, char *id, int oid,int classe,ptypeS root,pST local,int formals1,pstLine formals2[]){
     
     //printf("insertFindLine HASH %d\n",h);
     char *p;
@@ -2277,7 +2277,7 @@ pstLine insertFindLine(pstLine stab[],int h, char *id, int oid,int classe,ptypeS
 /*
  * funzione che crea una riga della symbtab e restituisce il corrispondente pstLine
  */
-pstLine createLine(char *id,int oid,int classe,ptypeS root,pstLine local,int formals1,pstLine formals2[],pstLine next){
+pstLine createLine(char *id,int oid,int classe,ptypeS root,pST local,int formals1,pstLine formals2[],pstLine next){
     
     //printf("create Line\n");
     pstLine p = malloc(sizeof(StructstLine));
@@ -2295,7 +2295,8 @@ pstLine createLine(char *id,int oid,int classe,ptypeS root,pstLine local,int for
 }
 
 
-int count_local_objs(pstLine s[]){
+int count_local_objs(pST st){
+    pstLine *s = st->tab;
     int objs = 0;
     for (int i = 0; i < TOT; i++){
         pstLine l = s[i];
