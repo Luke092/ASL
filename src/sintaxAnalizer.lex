@@ -13,7 +13,7 @@ digit [0-9]
 intconst {digit}+
 strconst \"([^\"])*\"
 boolconst true|false
-id {letter}({letter}|{digit})* 
+id {letter}(_?({letter}|{digit})+)* 
 sugar [;(),:\[\].]
 
 %%
@@ -68,7 +68,7 @@ boolean         { return (BOOLEAN); }
 {strconst}      { lexval.sval = assign_id_str(yytext); return (STRCONST); }
 {boolconst}     { lexval.bval = ( yytext[0] == 'f' ? FALSE : TRUE); return (BOOLCONST); }
 {id}            { lexval.sval = assign_id_str(yytext);return (ID); }      
-.               { stampaErrore(line); return (ERROR); }
+.               { return (ERROR); }
 
 %%
 
@@ -87,8 +87,4 @@ int newstring(char *s)
   return(p);
 }
 
-void stampaErrore(int l){
-    printf("Errore lessicale alla linea %d\n",l);
-
-}
 

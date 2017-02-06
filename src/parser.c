@@ -2410,5 +2410,5 @@ yyreturn:
 
 
 void yyerror(){
-    fprintf(stderr, "Syntax Error on symbol '%s' in line %d\n\n",yytext,line);
+    fprintf(stderr, "Errore lessicale sul simbolo '%s' alla linea %d\n\n",yytext,line);
 }

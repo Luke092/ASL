@@ -4,7 +4,7 @@ Terminals unused in grammar
    ERROR
 
 
-Grammar
+Grammatica
 
     0 $accept: program $end
 
@@ -194,7 +194,7 @@ Grammar
   120          | expr
 
 
-Terminals, with rules where they appear
+Simboli terminali e regole in cui appaiono
 
 $end (0) 0
 '(' (40) 40 42 105 116
@@ -257,2702 +257,2705 @@ ARRAY (305) 18
 OF (306) 18
 
 
-Nonterminals, with rules where they appear
+Simboli nonterminali e regole in cui appaiono
 
 $accept (60)
-    on left: 0
+    nel primo membro: 0
 program (61)
-    on left: 2, on right: 0
+    nel primo membro: 2, nel secondo membro: 0
 @1 (62)
-    on left: 1, on right: 2
+    nel primo membro: 1, nel secondo membro: 2
 opt-type-sect (63)
-    on left: 3 4, on right: 2 40 42
+    nel primo membro: 3 4, nel secondo membro: 2 40 42
 decl-list (64)
-    on left: 5 6, on right: 3 5 19
+    nel primo membro: 5 6, nel secondo membro: 3 5 19
 decl (65)
-    on left: 7, on right: 5 6 25 47
+    nel primo membro: 7, nel secondo membro: 5 6 25 47
 id-list (66)
-    on left: 9 10, on right: 7 9
+    nel primo membro: 9 10, nel secondo membro: 7 9
 @2 (67)
-    on left: 8, on right: 9
+    nel primo membro: 8, nel secondo membro: 9
 domain (68)
-    on left: 11 12 13, on right: 7 18 42
+    nel primo membro: 11 12 13, nel secondo membro: 7 18 42
 atomic-domain (69)
-    on left: 14 15 16, on right: 11
+    nel primo membro: 14 15 16, nel secondo membro: 11
 array-domain (70)
-    on left: 18, on right: 12
+    nel primo membro: 18, nel secondo membro: 12
 @3 (71)
-    on left: 17, on right: 18
+    nel primo membro: 17, nel secondo membro: 18
 opt-var-sect (72)
-    on left: 19 20, on right: 2 40
+    nel primo membro: 19 20, nel secondo membro: 2 40
 opt-const-sect (73)
-    on left: 21 22, on right: 2 40 42
+    nel primo membro: 21 22, nel secondo membro: 2 40 42
 const-list-decl (74)
-    on left: 23 24, on right: 21 23
+    nel primo membro: 23 24, nel secondo membro: 21 23
 const-decl (75)
-    on left: 25, on right: 23 24
+    nel primo membro: 25, nel secondo membro: 23 24
 const (76)
-    on left: 26 27 28 29, on right: 25 31 32 107
+    nel primo membro: 26 27 28 29, nel secondo membro: 25 31 32 107
 array-const (77)
-    on left: 30, on right: 29
+    nel primo membro: 30, nel secondo membro: 29
 const-list (78)
-    on left: 31 32, on right: 30 31
+    nel primo membro: 31 32, nel secondo membro: 30 31
 opt-module-list (79)
-    on left: 33 34, on right: 2 40 42
+    nel primo membro: 33 34, nel secondo membro: 2 40 42
 module-list (80)
-    on left: 35 36, on right: 33 35
+    nel primo membro: 35 36, nel secondo membro: 33 35
 module-decl (81)
-    on left: 37 38, on right: 35 36
+    nel primo membro: 37 38, nel secondo membro: 35 36
 procedure-decl (82)
-    on left: 40, on right: 37
+    nel primo membro: 40, nel secondo membro: 37
 @4 (83)
-    on left: 39, on right: 40
+    nel primo membro: 39, nel secondo membro: 40
 function-decl (84)
-    on left: 42, on right: 38
+    nel primo membro: 42, nel secondo membro: 38
 @5 (85)
-    on left: 41, on right: 42
+    nel primo membro: 41, nel secondo membro: 42
 opt-formal-list (86)
-    on left: 43 44, on right: 40 42
+    nel primo membro: 43 44, nel secondo membro: 40 42
 formal-list (87)
-    on left: 45 46, on right: 43 45
+    nel primo membro: 45 46, nel secondo membro: 43 45
 formal-decl (88)
-    on left: 47, on right: 45 46
+    nel primo membro: 47, nel secondo membro: 45 46
 mode (89)
-    on left: 48 49 50, on right: 47
+    nel primo membro: 48 49 50, nel secondo membro: 47
 stat-body (90)
-    on left: 53, on right: 2 40
+    nel primo membro: 53, nel secondo membro: 2 40
 @6 (91)
-    on left: 51, on right: 53
+    nel primo membro: 51, nel secondo membro: 53
 @7 (92)
-    on left: 52, on right: 53
+    nel primo membro: 52, nel secondo membro: 53
 expr-body (93)
-    on left: 56, on right: 42
+    nel primo membro: 56, nel secondo membro: 42
 @8 (94)
-    on left: 54, on right: 56
+    nel primo membro: 54, nel secondo membro: 56
 @9 (95)
-    on left: 55, on right: 56
+    nel primo membro: 55, nel secondo membro: 56
 stat-list (96)
-    on left: 57 58, on right: 53 57 72 73 74 75 76 78
+    nel primo membro: 57 58, nel secondo membro: 53 57 72 73 74 75
+    76 78
 stat (97)
-    on left: 59 60 61 62 63 64 65 66 67 68, on right: 57 58
+    nel primo membro: 59 60 61 62 63 64 65 66 67 68, nel secondo membro:
+    57 58
 input-stat (98)
-    on left: 69, on right: 64
+    nel primo membro: 69, nel secondo membro: 64
 output-stat (99)
-    on left: 70, on right: 65
+    nel primo membro: 70, nel secondo membro: 65
 for-stat (100)
-    on left: 72, on right: 63
+    nel primo membro: 72, nel secondo membro: 63
 @10 (101)
-    on left: 71, on right: 72
+    nel primo membro: 71, nel secondo membro: 72
 while-stat (102)
-    on left: 73, on right: 61
+    nel primo membro: 73, nel secondo membro: 61
 repeat-stat (103)
-    on left: 74, on right: 62
+    nel primo membro: 74, nel secondo membro: 62
 if-stat (104)
-    on left: 75, on right: 60
+    nel primo membro: 75, nel secondo membro: 60
 opt-elsif-stat-list (105)
-    on left: 76 77, on right: 75 76
+    nel primo membro: 76 77, nel secondo membro: 75 76
 opt-else-stat (106)
-    on left: 78 79, on right: 75
+    nel primo membro: 78 79, nel secondo membro: 75
 assign-stat (107)
-    on left: 80, on right: 59
+    nel primo membro: 80, nel secondo membro: 59
 left-hand-side (108)
-    on left: 81 82, on right: 80 83 106
+    nel primo membro: 81 82, nel secondo membro: 80 83 106
 indexing (109)
-    on left: 83, on right: 82
+    nel primo membro: 83, nel secondo membro: 82
 expr (110)
-    on left: 84 85, on right: 56 70 72 73 74 75 76 80 83 84 105 112
-    113 119 120
+    nel primo membro: 84 85, nel secondo membro: 56 70 72 73 74 75
+    76 80 83 84 105 112 113 119 120
 bool-op (111)
-    on left: 86 87, on right: 84
+    nel primo membro: 86 87, nel secondo membro: 84
 bool-term (112)
-    on left: 88 89, on right: 84 85
+    nel primo membro: 88 89, nel secondo membro: 84 85
 comp-op (113)
-    on left: 90 91 92 93 94 95, on right: 88
+    nel primo membro: 90 91 92 93 94 95, nel secondo membro: 88
 comp-term (114)
-    on left: 96 97, on right: 88 89 96
+    nel primo membro: 96 97, nel secondo membro: 88 89 96
 add-op (115)
-    on left: 98 99, on right: 96
+    nel primo membro: 98 99, nel secondo membro: 96
 term (116)
-    on left: 100 101, on right: 96 97 100
+    nel primo membro: 100 101, nel secondo membro: 96 97 100
 mul-op (117)
-    on left: 102 103, on right: 100
+    nel primo membro: 102 103, nel secondo membro: 100
 factor (118)
-    on left: 104 105 106 107 108 109, on right: 100 101 104
+    nel primo membro: 104 105 106 107 108 109, nel secondo membro:
+    100 101 104
 unary-op (119)
-    on left: 110 111, on right: 104
+    nel primo membro: 110 111, nel secondo membro: 104
 cond-expr (120)
-    on left: 112, on right: 108
+    nel primo membro: 112, nel secondo membro: 108
 opt-elsif-expr-list (121)
-    on left: 113 114, on right: 112 113
+    nel primo membro: 113 114, nel secondo membro: 112 113
 module-call (122)
-    on left: 116, on right: 66 109
+    nel primo membro: 116, nel secondo membro: 66 109
 @11 (123)
-    on left: 115, on right: 116
+    nel primo membro: 115, nel secondo membro: 116
 opt-expr-list (124)
-    on left: 117 118, on right: 116
+    nel primo membro: 117 118, nel secondo membro: 116
 expr-list (125)
-    on left: 119 120, on right: 117 119
+    nel primo membro: 119 120, nel secondo membro: 117 119
 
 
-State 0
+Stato 0
 
     0 $accept: . program $end
 
-    PROGRAM  shift, and go to state 1
+    PROGRAM  shift e prosecuzione allo stato 1
 
-    program  go to state 2
+    program  prosecuzione allo stato 2
 
 
-State 1
+Stato 1
 
     2 program: PROGRAM . ID @1 opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body '.'
 
-    ID  shift, and go to state 3
+    ID  shift e prosecuzione allo stato 3
 
 
-State 2
+Stato 2
 
     0 $accept: program . $end
 
-    $end  shift, and go to state 4
+    $end  shift e prosecuzione allo stato 4
 
 
-State 3
+Stato 3
 
     2 program: PROGRAM ID . @1 opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body '.'
 
-    $default  reduce using rule 1 (@1)
+    $default  riduzione con la regola 1 (@1)
 
-    @1  go to state 5
+    @1  prosecuzione allo stato 5
 
 
-State 4
+Stato 4
 
     0 $accept: program $end .
 
-    $default  accept
+    $default  accetta
 
 
-State 5
+Stato 5
 
     2 program: PROGRAM ID @1 . opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body '.'
 
-    TYPE  shift, and go to state 6
+    TYPE  shift e prosecuzione allo stato 6
 
-    $default  reduce using rule 4 (opt-type-sect)
+    $default  riduzione con la regola 4 (opt-type-sect)
 
-    opt-type-sect  go to state 7
+    opt-type-sect  prosecuzione allo stato 7
 
 
-State 6
+Stato 6
 
     3 opt-type-sect: TYPE . decl-list
 
-    ID  shift, and go to state 8
+    ID  shift e prosecuzione allo stato 8
 
-    decl-list  go to state 9
-    decl       go to state 10
-    id-list    go to state 11
+    decl-list  prosecuzione allo stato 9
+    decl       prosecuzione allo stato 10
+    id-list    prosecuzione allo stato 11
 
 
-State 7
+Stato 7
 
     2 program: PROGRAM ID @1 opt-type-sect . opt-var-sect opt-const-sect opt-module-list stat-body '.'
 
-    VAR  shift, and go to state 12
+    VAR  shift e prosecuzione allo stato 12
 
-    $default  reduce using rule 20 (opt-var-sect)
+    $default  riduzione con la regola 20 (opt-var-sect)
 
-    opt-var-sect  go to state 13
+    opt-var-sect  prosecuzione allo stato 13
 
 
-State 8
+Stato 8
 
     9 id-list: ID . @2 ',' id-list
    10        | ID .
 
-    ':'       reduce using rule 10 (id-list)
-    $default  reduce using rule 8 (@2)
+    ':'       riduzione con la regola 10 (id-list)
+    $default  riduzione con la regola 8 (@2)
 
-    @2  go to state 14
+    @2  prosecuzione allo stato 14
 
 
-State 9
+Stato 9
 
     3 opt-type-sect: TYPE decl-list .
 
-    $default  reduce using rule 3 (opt-type-sect)
+    $default  riduzione con la regola 3 (opt-type-sect)
 
 
-State 10
+Stato 10
 
     5 decl-list: decl . ';' decl-list
     6          | decl . ';'
 
-    ';'  shift, and go to state 15
+    ';'  shift e prosecuzione allo stato 15
 
 
-State 11
+Stato 11
 
     7 decl: id-list . ':' domain
 
-    ':'  shift, and go to state 16
+    ':'  shift e prosecuzione allo stato 16
 
 
-State 12
+Stato 12
 
    19 opt-var-sect: VAR . decl-list
 
-    ID  shift, and go to state 8
+    ID  shift e prosecuzione allo stato 8
 
-    decl-list  go to state 17
-    decl       go to state 10
-    id-list    go to state 11
+    decl-list  prosecuzione allo stato 17
+    decl       prosecuzione allo stato 10
+    id-list    prosecuzione allo stato 11
 
 
-State 13
+Stato 13
 
     2 program: PROGRAM ID @1 opt-type-sect opt-var-sect . opt-const-sect opt-module-list stat-body '.'
 
-    CONST  shift, and go to state 18
+    CONST  shift e prosecuzione allo stato 18
 
-    $default  reduce using rule 22 (opt-const-sect)
+    $default  riduzione con la regola 22 (opt-const-sect)
 
-    opt-const-sect  go to state 19
+    opt-const-sect  prosecuzione allo stato 19
 
 
-State 14
+Stato 14
 
     9 id-list: ID @2 . ',' id-list
 
-    ','  shift, and go to state 20
+    ','  shift e prosecuzione allo stato 20
 
 
-State 15
+Stato 15
 
     5 decl-list: decl ';' . decl-list
     6          | decl ';' .
 
-    ID  shift, and go to state 8
+    ID  shift e prosecuzione allo stato 8
 
-    $default  reduce using rule 6 (decl-list)
+    $default  riduzione con la regola 6 (decl-list)
 
-    decl-list  go to state 21
-    decl       go to state 10
-    id-list    go to state 11
+    decl-list  prosecuzione allo stato 21
+    decl       prosecuzione allo stato 10
+    id-list    prosecuzione allo stato 11
 
 
-State 16
+Stato 16
 
     7 decl: id-list ':' . domain
 
-    INTEGER  shift, and go to state 22
-    STRING   shift, and go to state 23
-    BOOLEAN  shift, and go to state 24
-    ID       shift, and go to state 25
-    ARRAY    shift, and go to state 26
+    INTEGER  shift e prosecuzione allo stato 22
+    STRING   shift e prosecuzione allo stato 23
+    BOOLEAN  shift e prosecuzione allo stato 24
+    ID       shift e prosecuzione allo stato 25
+    ARRAY    shift e prosecuzione allo stato 26
 
-    domain         go to state 27
-    atomic-domain  go to state 28
-    array-domain   go to state 29
+    domain         prosecuzione allo stato 27
+    atomic-domain  prosecuzione allo stato 28
+    array-domain   prosecuzione allo stato 29
 
 
-State 17
+Stato 17
 
    19 opt-var-sect: VAR decl-list .
 
-    $default  reduce using rule 19 (opt-var-sect)
+    $default  riduzione con la regola 19 (opt-var-sect)
 
 
-State 18
+Stato 18
 
    21 opt-const-sect: CONST . const-list-decl
 
-    ID  shift, and go to state 8
+    ID  shift e prosecuzione allo stato 8
 
-    decl             go to state 30
-    id-list          go to state 11
-    const-list-decl  go to state 31
-    const-decl       go to state 32
+    decl             prosecuzione allo stato 30
+    id-list          prosecuzione allo stato 11
+    const-list-decl  prosecuzione allo stato 31
+    const-decl       prosecuzione allo stato 32
 
 
-State 19
+Stato 19
 
     2 program: PROGRAM ID @1 opt-type-sect opt-var-sect opt-const-sect . opt-module-list stat-body '.'
 
-    PROC  shift, and go to state 33
-    FUNC  shift, and go to state 34
+    PROC  shift e prosecuzione allo stato 33
+    FUNC  shift e prosecuzione allo stato 34
 
-    $default  reduce using rule 34 (opt-module-list)
+    $default  riduzione con la regola 34 (opt-module-list)
 
-    opt-module-list  go to state 35
-    module-list      go to state 36
-    module-decl      go to state 37
-    procedure-decl   go to state 38
-    function-decl    go to state 39
+    opt-module-list  prosecuzione allo stato 35
+    module-list      prosecuzione allo stato 36
+    module-decl      prosecuzione allo stato 37
+    procedure-decl   prosecuzione allo stato 38
+    function-decl    prosecuzione allo stato 39
 
 
-State 20
+Stato 20
 
     9 id-list: ID @2 ',' . id-list
 
-    ID  shift, and go to state 8
+    ID  shift e prosecuzione allo stato 8
 
-    id-list  go to state 40
+    id-list  prosecuzione allo stato 40
 
 
-State 21
+Stato 21
 
     5 decl-list: decl ';' decl-list .
 
-    $default  reduce using rule 5 (decl-list)
+    $default  riduzione con la regola 5 (decl-list)
 
 
-State 22
+Stato 22
 
    14 atomic-domain: INTEGER .
 
-    $default  reduce using rule 14 (atomic-domain)
+    $default  riduzione con la regola 14 (atomic-domain)
 
 
-State 23
+Stato 23
 
    15 atomic-domain: STRING .
 
-    $default  reduce using rule 15 (atomic-domain)
+    $default  riduzione con la regola 15 (atomic-domain)
 
 
-State 24
+Stato 24
 
    16 atomic-domain: BOOLEAN .
 
-    $default  reduce using rule 16 (atomic-domain)
+    $default  riduzione con la regola 16 (atomic-domain)
 
 
-State 25
+Stato 25
 
    13 domain: ID .
 
-    $default  reduce using rule 13 (domain)
+    $default  riduzione con la regola 13 (domain)
 
 
-State 26
+Stato 26
 
    18 array-domain: ARRAY . '[' INTCONST @3 ']' OF domain
 
-    '['  shift, and go to state 41
+    '['  shift e prosecuzione allo stato 41
 
 
-State 27
+Stato 27
 
     7 decl: id-list ':' domain .
 
-    $default  reduce using rule 7 (decl)
+    $default  riduzione con la regola 7 (decl)
 
 
-State 28
+Stato 28
 
    11 domain: atomic-domain .
 
-    $default  reduce using rule 11 (domain)
+    $default  riduzione con la regola 11 (domain)
 
 
-State 29
+Stato 29
 
    12 domain: array-domain .
 
-    $default  reduce using rule 12 (domain)
+    $default  riduzione con la regola 12 (domain)
 
 
-State 30
+Stato 30
 
    25 const-decl: decl . ASSIGN const ';'
 
-    ASSIGN  shift, and go to state 42
+    ASSIGN  shift e prosecuzione allo stato 42
 
 
-State 31
+Stato 31
 
    21 opt-const-sect: CONST const-list-decl .
 
-    $default  reduce using rule 21 (opt-const-sect)
+    $default  riduzione con la regola 21 (opt-const-sect)
 
 
-State 32
+Stato 32
 
    23 const-list-decl: const-decl . const-list-decl
    24                | const-decl .
 
-    ID  shift, and go to state 8
+    ID  shift e prosecuzione allo stato 8
 
-    $default  reduce using rule 24 (const-list-decl)
+    $default  riduzione con la regola 24 (const-list-decl)
 
-    decl             go to state 30
-    id-list          go to state 11
-    const-list-decl  go to state 43
-    const-decl       go to state 32
+    decl             prosecuzione allo stato 30
+    id-list          prosecuzione allo stato 11
+    const-list-decl  prosecuzione allo stato 43
+    const-decl       prosecuzione allo stato 32
 
 
-State 33
+Stato 33
 
    40 procedure-decl: PROC . ID @4 '(' opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body ';'
 
-    ID  shift, and go to state 44
+    ID  shift e prosecuzione allo stato 44
 
 
-State 34
+Stato 34
 
    42 function-decl: FUNC . ID @5 '(' opt-formal-list ')' ':' domain opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    ID  shift, and go to state 45
+    ID  shift e prosecuzione allo stato 45
 
 
-State 35
+Stato 35
 
     2 program: PROGRAM ID @1 opt-type-sect opt-var-sect opt-const-sect opt-module-list . stat-body '.'
 
-    T_BEGIN  shift, and go to state 46
+    T_BEGIN  shift e prosecuzione allo stato 46
 
-    stat-body  go to state 47
+    stat-body  prosecuzione allo stato 47
 
 
-State 36
+Stato 36
 
    33 opt-module-list: module-list .
 
-    $default  reduce using rule 33 (opt-module-list)
+    $default  riduzione con la regola 33 (opt-module-list)
 
 
-State 37
+Stato 37
 
    35 module-list: module-decl . module-list
    36            | module-decl .
 
-    PROC  shift, and go to state 33
-    FUNC  shift, and go to state 34
+    PROC  shift e prosecuzione allo stato 33
+    FUNC  shift e prosecuzione allo stato 34
 
-    $default  reduce using rule 36 (module-list)
+    $default  riduzione con la regola 36 (module-list)
 
-    module-list     go to state 48
-    module-decl     go to state 37
-    procedure-decl  go to state 38
-    function-decl   go to state 39
+    module-list     prosecuzione allo stato 48
+    module-decl     prosecuzione allo stato 37
+    procedure-decl  prosecuzione allo stato 38
+    function-decl   prosecuzione allo stato 39
 
 
-State 38
+Stato 38
 
    37 module-decl: procedure-decl .
 
-    $default  reduce using rule 37 (module-decl)
+    $default  riduzione con la regola 37 (module-decl)
 
 
-State 39
+Stato 39
 
    38 module-decl: function-decl .
 
-    $default  reduce using rule 38 (module-decl)
+    $default  riduzione con la regola 38 (module-decl)
 
 
-State 40
+Stato 40
 
     9 id-list: ID @2 ',' id-list .
 
-    $default  reduce using rule 9 (id-list)
+    $default  riduzione con la regola 9 (id-list)
 
 
-State 41
+Stato 41
 
    18 array-domain: ARRAY '[' . INTCONST @3 ']' OF domain
 
-    INTCONST  shift, and go to state 49
+    INTCONST  shift e prosecuzione allo stato 49
 
 
-State 42
+Stato 42
 
    25 const-decl: decl ASSIGN . const ';'
 
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    '['        shift, and go to state 53
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    '['        shift e prosecuzione allo stato 53
 
-    const        go to state 54
-    array-const  go to state 55
+    const        prosecuzione allo stato 54
+    array-const  prosecuzione allo stato 55
 
 
-State 43
+Stato 43
 
    23 const-list-decl: const-decl const-list-decl .
 
-    $default  reduce using rule 23 (const-list-decl)
+    $default  riduzione con la regola 23 (const-list-decl)
 
 
-State 44
+Stato 44
 
    40 procedure-decl: PROC ID . @4 '(' opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body ';'
 
-    $default  reduce using rule 39 (@4)
+    $default  riduzione con la regola 39 (@4)
 
-    @4  go to state 56
+    @4  prosecuzione allo stato 56
 
 
-State 45
+Stato 45
 
    42 function-decl: FUNC ID . @5 '(' opt-formal-list ')' ':' domain opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    $default  reduce using rule 41 (@5)
+    $default  riduzione con la regola 41 (@5)
 
-    @5  go to state 57
+    @5  prosecuzione allo stato 57
 
 
-State 46
+Stato 46
 
    53 stat-body: T_BEGIN . ID @6 stat-list END ID @7
 
-    ID  shift, and go to state 58
+    ID  shift e prosecuzione allo stato 58
 
 
-State 47
+Stato 47
 
     2 program: PROGRAM ID @1 opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body . '.'
 
-    '.'  shift, and go to state 59
+    '.'  shift e prosecuzione allo stato 59
 
 
-State 48
+Stato 48
 
    35 module-list: module-decl module-list .
 
-    $default  reduce using rule 35 (module-list)
+    $default  riduzione con la regola 35 (module-list)
 
 
-State 49
+Stato 49
 
    18 array-domain: ARRAY '[' INTCONST . @3 ']' OF domain
 
-    $default  reduce using rule 17 (@3)
+    $default  riduzione con la regola 17 (@3)
 
-    @3  go to state 60
+    @3  prosecuzione allo stato 60
 
 
-State 50
+Stato 50
 
    26 const: INTCONST .
 
-    $default  reduce using rule 26 (const)
+    $default  riduzione con la regola 26 (const)
 
 
-State 51
+Stato 51
 
    28 const: BOOLCONST .
 
-    $default  reduce using rule 28 (const)
+    $default  riduzione con la regola 28 (const)
 
 
-State 52
+Stato 52
 
    27 const: STRCONST .
 
-    $default  reduce using rule 27 (const)
+    $default  riduzione con la regola 27 (const)
 
 
-State 53
+Stato 53
 
    30 array-const: '[' . const-list ']'
 
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    '['        shift, and go to state 53
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    '['        shift e prosecuzione allo stato 53
 
-    const        go to state 61
-    array-const  go to state 55
-    const-list   go to state 62
+    const        prosecuzione allo stato 61
+    array-const  prosecuzione allo stato 55
+    const-list   prosecuzione allo stato 62
 
 
-State 54
+Stato 54
 
    25 const-decl: decl ASSIGN const . ';'
 
-    ';'  shift, and go to state 63
+    ';'  shift e prosecuzione allo stato 63
 
 
-State 55
+Stato 55
 
    29 const: array-const .
 
-    $default  reduce using rule 29 (const)
+    $default  riduzione con la regola 29 (const)
 
 
-State 56
+Stato 56
 
    40 procedure-decl: PROC ID @4 . '(' opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body ';'
 
-    '('  shift, and go to state 64
+    '('  shift e prosecuzione allo stato 64
 
 
-State 57
+Stato 57
 
    42 function-decl: FUNC ID @5 . '(' opt-formal-list ')' ':' domain opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    '('  shift, and go to state 65
+    '('  shift e prosecuzione allo stato 65
 
 
-State 58
+Stato 58
 
    53 stat-body: T_BEGIN ID . @6 stat-list END ID @7
 
-    $default  reduce using rule 51 (@6)
+    $default  riduzione con la regola 51 (@6)
 
-    @6  go to state 66
+    @6  prosecuzione allo stato 66
 
 
-State 59
+Stato 59
 
     2 program: PROGRAM ID @1 opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body '.' .
 
-    $default  reduce using rule 2 (program)
+    $default  riduzione con la regola 2 (program)
 
 
-State 60
+Stato 60
 
    18 array-domain: ARRAY '[' INTCONST @3 . ']' OF domain
 
-    ']'  shift, and go to state 67
+    ']'  shift e prosecuzione allo stato 67
 
 
-State 61
+Stato 61
 
    31 const-list: const . ',' const-list
    32           | const .
 
-    ','  shift, and go to state 68
+    ','  shift e prosecuzione allo stato 68
 
-    $default  reduce using rule 32 (const-list)
+    $default  riduzione con la regola 32 (const-list)
 
 
-State 62
+Stato 62
 
    30 array-const: '[' const-list . ']'
 
-    ']'  shift, and go to state 69
+    ']'  shift e prosecuzione allo stato 69
 
 
-State 63
+Stato 63
 
    25 const-decl: decl ASSIGN const ';' .
 
-    $default  reduce using rule 25 (const-decl)
+    $default  riduzione con la regola 25 (const-decl)
 
 
-State 64
+Stato 64
 
    40 procedure-decl: PROC ID @4 '(' . opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body ';'
 
-    OUT    shift, and go to state 70
-    INOUT  shift, and go to state 71
+    OUT    shift e prosecuzione allo stato 70
+    INOUT  shift e prosecuzione allo stato 71
 
-    ID        reduce using rule 48 (mode)
-    $default  reduce using rule 44 (opt-formal-list)
+    ID        riduzione con la regola 48 (mode)
+    $default  riduzione con la regola 44 (opt-formal-list)
 
-    opt-formal-list  go to state 72
-    formal-list      go to state 73
-    formal-decl      go to state 74
-    mode             go to state 75
+    opt-formal-list  prosecuzione allo stato 72
+    formal-list      prosecuzione allo stato 73
+    formal-decl      prosecuzione allo stato 74
+    mode             prosecuzione allo stato 75
 
 
-State 65
+Stato 65
 
    42 function-decl: FUNC ID @5 '(' . opt-formal-list ')' ':' domain opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    OUT    shift, and go to state 70
-    INOUT  shift, and go to state 71
+    OUT    shift e prosecuzione allo stato 70
+    INOUT  shift e prosecuzione allo stato 71
 
-    ID        reduce using rule 48 (mode)
-    $default  reduce using rule 44 (opt-formal-list)
+    ID        riduzione con la regola 48 (mode)
+    $default  riduzione con la regola 44 (opt-formal-list)
 
-    opt-formal-list  go to state 76
-    formal-list      go to state 73
-    formal-decl      go to state 74
-    mode             go to state 75
+    opt-formal-list  prosecuzione allo stato 76
+    formal-list      prosecuzione allo stato 73
+    formal-decl      prosecuzione allo stato 74
+    mode             prosecuzione allo stato 75
 
 
-State 66
+Stato 66
 
    53 stat-body: T_BEGIN ID @6 . stat-list END ID @7
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    stat-list       go to state 86
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 86
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 67
+Stato 67
 
    18 array-domain: ARRAY '[' INTCONST @3 ']' . OF domain
 
-    OF  shift, and go to state 98
+    OF  shift e prosecuzione allo stato 98
 
 
-State 68
+Stato 68
 
    31 const-list: const ',' . const-list
 
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    '['        shift, and go to state 53
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    '['        shift e prosecuzione allo stato 53
 
-    const        go to state 61
-    array-const  go to state 55
-    const-list   go to state 99
+    const        prosecuzione allo stato 61
+    array-const  prosecuzione allo stato 55
+    const-list   prosecuzione allo stato 99
 
 
-State 69
+Stato 69
 
    30 array-const: '[' const-list ']' .
 
-    $default  reduce using rule 30 (array-const)
+    $default  riduzione con la regola 30 (array-const)
 
 
-State 70
+Stato 70
 
    49 mode: OUT .
 
-    $default  reduce using rule 49 (mode)
+    $default  riduzione con la regola 49 (mode)
 
 
-State 71
+Stato 71
 
    50 mode: INOUT .
 
-    $default  reduce using rule 50 (mode)
+    $default  riduzione con la regola 50 (mode)
 
 
-State 72
+Stato 72
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list . ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body ';'
 
-    ')'  shift, and go to state 100
+    ')'  shift e prosecuzione allo stato 100
 
 
-State 73
+Stato 73
 
    43 opt-formal-list: formal-list .
 
-    $default  reduce using rule 43 (opt-formal-list)
+    $default  riduzione con la regola 43 (opt-formal-list)
 
 
-State 74
+Stato 74
 
    45 formal-list: formal-decl . ',' formal-list
    46            | formal-decl .
 
-    ','  shift, and go to state 101
+    ','  shift e prosecuzione allo stato 101
 
-    $default  reduce using rule 46 (formal-list)
+    $default  riduzione con la regola 46 (formal-list)
 
 
-State 75
+Stato 75
 
    47 formal-decl: mode . decl
 
-    ID  shift, and go to state 8
+    ID  shift e prosecuzione allo stato 8
 
-    decl     go to state 102
-    id-list  go to state 11
+    decl     prosecuzione allo stato 102
+    id-list  prosecuzione allo stato 11
 
 
-State 76
+Stato 76
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list . ')' ':' domain opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    ')'  shift, and go to state 103
+    ')'  shift e prosecuzione allo stato 103
 
 
-State 77
+Stato 77
 
    67 stat: BREAK .
 
-    $default  reduce using rule 67 (stat)
+    $default  riduzione con la regola 67 (stat)
 
 
-State 78
+Stato 78
 
    68 stat: EXIT .
 
-    $default  reduce using rule 68 (stat)
+    $default  riduzione con la regola 68 (stat)
 
 
-State 79
+Stato 79
 
    75 if-stat: IF . expr THEN stat-list opt-elsif-stat-list opt-else-stat END
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 110
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 110
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 80
+Stato 80
 
    73 while-stat: WHILE . expr DO stat-list END
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 118
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 118
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 81
+Stato 81
 
    74 repeat-stat: REPEAT . stat-list UNTIL expr
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    stat-list       go to state 119
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 119
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 82
+Stato 82
 
    72 for-stat: FOR . ID @10 ASSIGN expr TO expr DO stat-list END
 
-    ID  shift, and go to state 120
+    ID  shift e prosecuzione allo stato 120
 
 
-State 83
+Stato 83
 
    69 input-stat: INPUT . ID
 
-    ID  shift, and go to state 121
+    ID  shift e prosecuzione allo stato 121
 
 
-State 84
+Stato 84
 
    70 output-stat: OUTPUT . expr
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 122
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 122
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 85
+Stato 85
 
    81 left-hand-side: ID .
   116 module-call: ID . @11 '(' opt-expr-list ')'
 
-    '('       reduce using rule 115 (@11)
-    $default  reduce using rule 81 (left-hand-side)
+    '('       riduzione con la regola 115 (@11)
+    $default  riduzione con la regola 81 (left-hand-side)
 
-    @11  go to state 123
+    @11  prosecuzione allo stato 123
 
 
-State 86
+Stato 86
 
    53 stat-body: T_BEGIN ID @6 stat-list . END ID @7
 
-    END  shift, and go to state 124
+    END  shift e prosecuzione allo stato 124
 
 
-State 87
+Stato 87
 
    57 stat-list: stat . ';' stat-list
    58          | stat . ';'
 
-    ';'  shift, and go to state 125
+    ';'  shift e prosecuzione allo stato 125
 
 
-State 88
+Stato 88
 
    64 stat: input-stat .
 
-    $default  reduce using rule 64 (stat)
+    $default  riduzione con la regola 64 (stat)
 
 
-State 89
+Stato 89
 
    65 stat: output-stat .
 
-    $default  reduce using rule 65 (stat)
+    $default  riduzione con la regola 65 (stat)
 
 
-State 90
+Stato 90
 
    63 stat: for-stat .
 
-    $default  reduce using rule 63 (stat)
+    $default  riduzione con la regola 63 (stat)
 
 
-State 91
+Stato 91
 
    61 stat: while-stat .
 
-    $default  reduce using rule 61 (stat)
+    $default  riduzione con la regola 61 (stat)
 
 
-State 92
+Stato 92
 
    62 stat: repeat-stat .
 
-    $default  reduce using rule 62 (stat)
+    $default  riduzione con la regola 62 (stat)
 
 
-State 93
+Stato 93
 
    60 stat: if-stat .
 
-    $default  reduce using rule 60 (stat)
+    $default  riduzione con la regola 60 (stat)
 
 
-State 94
+Stato 94
 
    59 stat: assign-stat .
 
-    $default  reduce using rule 59 (stat)
+    $default  riduzione con la regola 59 (stat)
 
 
-State 95
+Stato 95
 
    80 assign-stat: left-hand-side . ASSIGN expr
    83 indexing: left-hand-side . '[' expr ']'
 
-    ASSIGN  shift, and go to state 126
-    '['     shift, and go to state 127
+    ASSIGN  shift e prosecuzione allo stato 126
+    '['     shift e prosecuzione allo stato 127
 
 
-State 96
+Stato 96
 
    82 left-hand-side: indexing .
 
-    $default  reduce using rule 82 (left-hand-side)
+    $default  riduzione con la regola 82 (left-hand-side)
 
 
-State 97
+Stato 97
 
    66 stat: module-call .
 
-    $default  reduce using rule 66 (stat)
+    $default  riduzione con la regola 66 (stat)
 
 
-State 98
+Stato 98
 
    18 array-domain: ARRAY '[' INTCONST @3 ']' OF . domain
 
-    INTEGER  shift, and go to state 22
-    STRING   shift, and go to state 23
-    BOOLEAN  shift, and go to state 24
-    ID       shift, and go to state 25
-    ARRAY    shift, and go to state 26
+    INTEGER  shift e prosecuzione allo stato 22
+    STRING   shift e prosecuzione allo stato 23
+    BOOLEAN  shift e prosecuzione allo stato 24
+    ID       shift e prosecuzione allo stato 25
+    ARRAY    shift e prosecuzione allo stato 26
 
-    domain         go to state 128
-    atomic-domain  go to state 28
-    array-domain   go to state 29
+    domain         prosecuzione allo stato 128
+    atomic-domain  prosecuzione allo stato 28
+    array-domain   prosecuzione allo stato 29
 
 
-State 99
+Stato 99
 
    31 const-list: const ',' const-list .
 
-    $default  reduce using rule 31 (const-list)
+    $default  riduzione con la regola 31 (const-list)
 
 
-State 100
+Stato 100
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list ')' . opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body ';'
 
-    TYPE  shift, and go to state 6
+    TYPE  shift e prosecuzione allo stato 6
 
-    $default  reduce using rule 4 (opt-type-sect)
+    $default  riduzione con la regola 4 (opt-type-sect)
 
-    opt-type-sect  go to state 129
+    opt-type-sect  prosecuzione allo stato 129
 
 
-State 101
+Stato 101
 
    45 formal-list: formal-decl ',' . formal-list
 
-    OUT    shift, and go to state 70
-    INOUT  shift, and go to state 71
+    OUT    shift e prosecuzione allo stato 70
+    INOUT  shift e prosecuzione allo stato 71
 
-    $default  reduce using rule 48 (mode)
+    $default  riduzione con la regola 48 (mode)
 
-    formal-list  go to state 130
-    formal-decl  go to state 74
-    mode         go to state 75
+    formal-list  prosecuzione allo stato 130
+    formal-decl  prosecuzione allo stato 74
+    mode         prosecuzione allo stato 75
 
 
-State 102
+Stato 102
 
    47 formal-decl: mode decl .
 
-    $default  reduce using rule 47 (formal-decl)
+    $default  riduzione con la regola 47 (formal-decl)
 
 
-State 103
+Stato 103
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' . ':' domain opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    ':'  shift, and go to state 131
+    ':'  shift e prosecuzione allo stato 131
 
 
-State 104
+Stato 104
 
   110 unary-op: MINUS .
 
-    $default  reduce using rule 110 (unary-op)
+    $default  riduzione con la regola 110 (unary-op)
 
 
-State 105
+Stato 105
 
   112 cond-expr: IF . expr THEN expr opt-elsif-expr-list ELSE expr END
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 132
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 132
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 106
+Stato 106
 
   111 unary-op: NOT .
 
-    $default  reduce using rule 111 (unary-op)
+    $default  riduzione con la regola 111 (unary-op)
 
 
-State 107
+Stato 107
 
   105 factor: '(' . expr ')'
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 133
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 133
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 108
+Stato 108
 
   107 factor: const .
 
-    $default  reduce using rule 107 (factor)
+    $default  riduzione con la regola 107 (factor)
 
 
-State 109
+Stato 109
 
    83 indexing: left-hand-side . '[' expr ']'
   106 factor: left-hand-side .
 
-    '['  shift, and go to state 127
+    '['  shift e prosecuzione allo stato 127
 
-    $default  reduce using rule 106 (factor)
+    $default  riduzione con la regola 106 (factor)
 
 
-State 110
+Stato 110
 
    75 if-stat: IF expr . THEN stat-list opt-elsif-stat-list opt-else-stat END
    84 expr: expr . bool-op bool-term
 
-    THEN  shift, and go to state 134
-    AND   shift, and go to state 135
-    OR    shift, and go to state 136
+    THEN  shift e prosecuzione allo stato 134
+    AND   shift e prosecuzione allo stato 135
+    OR    shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 111
+Stato 111
 
    85 expr: bool-term .
 
-    $default  reduce using rule 85 (expr)
+    $default  riduzione con la regola 85 (expr)
 
 
-State 112
+Stato 112
 
    88 bool-term: comp-term . comp-op comp-term
    89          | comp-term .
    96 comp-term: comp-term . add-op term
 
-    EQUAL  shift, and go to state 138
-    NE     shift, and go to state 139
-    GT     shift, and go to state 140
-    GE     shift, and go to state 141
-    KT     shift, and go to state 142
-    KE     shift, and go to state 143
-    PLUS   shift, and go to state 144
-    MINUS  shift, and go to state 145
+    EQUAL  shift e prosecuzione allo stato 138
+    NE     shift e prosecuzione allo stato 139
+    GT     shift e prosecuzione allo stato 140
+    GE     shift e prosecuzione allo stato 141
+    KT     shift e prosecuzione allo stato 142
+    KE     shift e prosecuzione allo stato 143
+    PLUS   shift e prosecuzione allo stato 144
+    MINUS  shift e prosecuzione allo stato 145
 
-    $default  reduce using rule 89 (bool-term)
+    $default  riduzione con la regola 89 (bool-term)
 
-    comp-op  go to state 146
-    add-op   go to state 147
+    comp-op  prosecuzione allo stato 146
+    add-op   prosecuzione allo stato 147
 
 
-State 113
+Stato 113
 
    97 comp-term: term .
   100 term: term . mul-op factor
 
-    MUL  shift, and go to state 148
-    DIV  shift, and go to state 149
+    MUL  shift e prosecuzione allo stato 148
+    DIV  shift e prosecuzione allo stato 149
 
-    $default  reduce using rule 97 (comp-term)
+    $default  riduzione con la regola 97 (comp-term)
 
-    mul-op  go to state 150
+    mul-op  prosecuzione allo stato 150
 
 
-State 114
+Stato 114
 
   101 term: factor .
 
-    $default  reduce using rule 101 (term)
+    $default  riduzione con la regola 101 (term)
 
 
-State 115
+Stato 115
 
   104 factor: unary-op . factor
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    factor          go to state 151
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    factor          prosecuzione allo stato 151
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 116
+Stato 116
 
   108 factor: cond-expr .
 
-    $default  reduce using rule 108 (factor)
+    $default  riduzione con la regola 108 (factor)
 
 
-State 117
+Stato 117
 
   109 factor: module-call .
 
-    $default  reduce using rule 109 (factor)
+    $default  riduzione con la regola 109 (factor)
 
 
-State 118
+Stato 118
 
    73 while-stat: WHILE expr . DO stat-list END
    84 expr: expr . bool-op bool-term
 
-    DO   shift, and go to state 152
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    DO   shift e prosecuzione allo stato 152
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 119
+Stato 119
 
    74 repeat-stat: REPEAT stat-list . UNTIL expr
 
-    UNTIL  shift, and go to state 153
+    UNTIL  shift e prosecuzione allo stato 153
 
 
-State 120
+Stato 120
 
    72 for-stat: FOR ID . @10 ASSIGN expr TO expr DO stat-list END
 
-    $default  reduce using rule 71 (@10)
+    $default  riduzione con la regola 71 (@10)
 
-    @10  go to state 154
+    @10  prosecuzione allo stato 154
 
 
-State 121
+Stato 121
 
    69 input-stat: INPUT ID .
 
-    $default  reduce using rule 69 (input-stat)
+    $default  riduzione con la regola 69 (input-stat)
 
 
-State 122
+Stato 122
 
    70 output-stat: OUTPUT expr .
    84 expr: expr . bool-op bool-term
 
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    $default  reduce using rule 70 (output-stat)
+    $default  riduzione con la regola 70 (output-stat)
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 123
+Stato 123
 
   116 module-call: ID @11 . '(' opt-expr-list ')'
 
-    '('  shift, and go to state 155
+    '('  shift e prosecuzione allo stato 155
 
 
-State 124
+Stato 124
 
    53 stat-body: T_BEGIN ID @6 stat-list END . ID @7
 
-    ID  shift, and go to state 156
+    ID  shift e prosecuzione allo stato 156
 
 
-State 125
+Stato 125
 
    57 stat-list: stat ';' . stat-list
    58          | stat ';' .
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    $default  reduce using rule 58 (stat-list)
+    $default  riduzione con la regola 58 (stat-list)
 
-    stat-list       go to state 157
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 157
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 126
+Stato 126
 
    80 assign-stat: left-hand-side ASSIGN . expr
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 158
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 158
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 127
+Stato 127
 
    83 indexing: left-hand-side '[' . expr ']'
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 159
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 159
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 128
+Stato 128
 
    18 array-domain: ARRAY '[' INTCONST @3 ']' OF domain .
 
-    $default  reduce using rule 18 (array-domain)
+    $default  riduzione con la regola 18 (array-domain)
 
 
-State 129
+Stato 129
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list ')' opt-type-sect . opt-var-sect opt-const-sect opt-module-list stat-body ';'
 
-    VAR  shift, and go to state 12
+    VAR  shift e prosecuzione allo stato 12
 
-    $default  reduce using rule 20 (opt-var-sect)
+    $default  riduzione con la regola 20 (opt-var-sect)
 
-    opt-var-sect  go to state 160
+    opt-var-sect  prosecuzione allo stato 160
 
 
-State 130
+Stato 130
 
    45 formal-list: formal-decl ',' formal-list .
 
-    $default  reduce using rule 45 (formal-list)
+    $default  riduzione con la regola 45 (formal-list)
 
 
-State 131
+Stato 131
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' ':' . domain opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    INTEGER  shift, and go to state 22
-    STRING   shift, and go to state 23
-    BOOLEAN  shift, and go to state 24
-    ID       shift, and go to state 25
-    ARRAY    shift, and go to state 26
+    INTEGER  shift e prosecuzione allo stato 22
+    STRING   shift e prosecuzione allo stato 23
+    BOOLEAN  shift e prosecuzione allo stato 24
+    ID       shift e prosecuzione allo stato 25
+    ARRAY    shift e prosecuzione allo stato 26
 
-    domain         go to state 161
-    atomic-domain  go to state 28
-    array-domain   go to state 29
+    domain         prosecuzione allo stato 161
+    atomic-domain  prosecuzione allo stato 28
+    array-domain   prosecuzione allo stato 29
 
 
-State 132
+Stato 132
 
    84 expr: expr . bool-op bool-term
   112 cond-expr: IF expr . THEN expr opt-elsif-expr-list ELSE expr END
 
-    THEN  shift, and go to state 162
-    AND   shift, and go to state 135
-    OR    shift, and go to state 136
+    THEN  shift e prosecuzione allo stato 162
+    AND   shift e prosecuzione allo stato 135
+    OR    shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 133
+Stato 133
 
    84 expr: expr . bool-op bool-term
   105 factor: '(' expr . ')'
 
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
-    ')'  shift, and go to state 163
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
+    ')'  shift e prosecuzione allo stato 163
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 134
+Stato 134
 
    75 if-stat: IF expr THEN . stat-list opt-elsif-stat-list opt-else-stat END
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    stat-list       go to state 164
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 164
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 135
+Stato 135
 
    86 bool-op: AND .
 
-    $default  reduce using rule 86 (bool-op)
+    $default  riduzione con la regola 86 (bool-op)
 
 
-State 136
+Stato 136
 
    87 bool-op: OR .
 
-    $default  reduce using rule 87 (bool-op)
+    $default  riduzione con la regola 87 (bool-op)
 
 
-State 137
+Stato 137
 
    84 expr: expr bool-op . bool-term
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    bool-term       go to state 165
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    bool-term       prosecuzione allo stato 165
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 138
+Stato 138
 
    90 comp-op: EQUAL .
 
-    $default  reduce using rule 90 (comp-op)
+    $default  riduzione con la regola 90 (comp-op)
 
 
-State 139
+Stato 139
 
    91 comp-op: NE .
 
-    $default  reduce using rule 91 (comp-op)
+    $default  riduzione con la regola 91 (comp-op)
 
 
-State 140
+Stato 140
 
    92 comp-op: GT .
 
-    $default  reduce using rule 92 (comp-op)
+    $default  riduzione con la regola 92 (comp-op)
 
 
-State 141
+Stato 141
 
    93 comp-op: GE .
 
-    $default  reduce using rule 93 (comp-op)
+    $default  riduzione con la regola 93 (comp-op)
 
 
-State 142
+Stato 142
 
    94 comp-op: KT .
 
-    $default  reduce using rule 94 (comp-op)
+    $default  riduzione con la regola 94 (comp-op)
 
 
-State 143
+Stato 143
 
    95 comp-op: KE .
 
-    $default  reduce using rule 95 (comp-op)
+    $default  riduzione con la regola 95 (comp-op)
 
 
-State 144
+Stato 144
 
    98 add-op: PLUS .
 
-    $default  reduce using rule 98 (add-op)
+    $default  riduzione con la regola 98 (add-op)
 
 
-State 145
+Stato 145
 
    99 add-op: MINUS .
 
-    $default  reduce using rule 99 (add-op)
+    $default  riduzione con la regola 99 (add-op)
 
 
-State 146
+Stato 146
 
    88 bool-term: comp-term comp-op . comp-term
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    comp-term       go to state 166
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    comp-term       prosecuzione allo stato 166
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 147
+Stato 147
 
    96 comp-term: comp-term add-op . term
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    term            go to state 167
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    term            prosecuzione allo stato 167
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 148
+Stato 148
 
   102 mul-op: MUL .
 
-    $default  reduce using rule 102 (mul-op)
+    $default  riduzione con la regola 102 (mul-op)
 
 
-State 149
+Stato 149
 
   103 mul-op: DIV .
 
-    $default  reduce using rule 103 (mul-op)
+    $default  riduzione con la regola 103 (mul-op)
 
 
-State 150
+Stato 150
 
   100 term: term mul-op . factor
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    factor          go to state 168
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    factor          prosecuzione allo stato 168
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 151
+Stato 151
 
   104 factor: unary-op factor .
 
-    $default  reduce using rule 104 (factor)
+    $default  riduzione con la regola 104 (factor)
 
 
-State 152
+Stato 152
 
    73 while-stat: WHILE expr DO . stat-list END
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    stat-list       go to state 169
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 169
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 153
+Stato 153
 
    74 repeat-stat: REPEAT stat-list UNTIL . expr
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 170
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 170
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 154
+Stato 154
 
    72 for-stat: FOR ID @10 . ASSIGN expr TO expr DO stat-list END
 
-    ASSIGN  shift, and go to state 171
+    ASSIGN  shift e prosecuzione allo stato 171
 
 
-State 155
+Stato 155
 
   116 module-call: ID @11 '(' . opt-expr-list ')'
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    $default  reduce using rule 118 (opt-expr-list)
+    $default  riduzione con la regola 118 (opt-expr-list)
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 172
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
-    opt-expr-list   go to state 173
-    expr-list       go to state 174
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 172
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
+    opt-expr-list   prosecuzione allo stato 173
+    expr-list       prosecuzione allo stato 174
 
 
-State 156
+Stato 156
 
    53 stat-body: T_BEGIN ID @6 stat-list END ID . @7
 
-    $default  reduce using rule 52 (@7)
+    $default  riduzione con la regola 52 (@7)
 
-    @7  go to state 175
+    @7  prosecuzione allo stato 175
 
 
-State 157
+Stato 157
 
    57 stat-list: stat ';' stat-list .
 
-    $default  reduce using rule 57 (stat-list)
+    $default  riduzione con la regola 57 (stat-list)
 
 
-State 158
+Stato 158
 
    80 assign-stat: left-hand-side ASSIGN expr .
    84 expr: expr . bool-op bool-term
 
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    $default  reduce using rule 80 (assign-stat)
+    $default  riduzione con la regola 80 (assign-stat)
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 159
+Stato 159
 
    83 indexing: left-hand-side '[' expr . ']'
    84 expr: expr . bool-op bool-term
 
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
-    ']'  shift, and go to state 176
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
+    ']'  shift e prosecuzione allo stato 176
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 160
+Stato 160
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list ')' opt-type-sect opt-var-sect . opt-const-sect opt-module-list stat-body ';'
 
-    CONST  shift, and go to state 18
+    CONST  shift e prosecuzione allo stato 18
 
-    $default  reduce using rule 22 (opt-const-sect)
+    $default  riduzione con la regola 22 (opt-const-sect)
 
-    opt-const-sect  go to state 177
+    opt-const-sect  prosecuzione allo stato 177
 
 
-State 161
+Stato 161
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' ':' domain . opt-type-sect opt-const-sect opt-module-list expr-body ';'
 
-    TYPE  shift, and go to state 6
+    TYPE  shift e prosecuzione allo stato 6
 
-    $default  reduce using rule 4 (opt-type-sect)
+    $default  riduzione con la regola 4 (opt-type-sect)
 
-    opt-type-sect  go to state 178
+    opt-type-sect  prosecuzione allo stato 178
 
 
-State 162
+Stato 162
 
   112 cond-expr: IF expr THEN . expr opt-elsif-expr-list ELSE expr END
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 179
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 179
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 163
+Stato 163
 
   105 factor: '(' expr ')' .
 
-    $default  reduce using rule 105 (factor)
+    $default  riduzione con la regola 105 (factor)
 
 
-State 164
+Stato 164
 
    75 if-stat: IF expr THEN stat-list . opt-elsif-stat-list opt-else-stat END
 
-    ELSIF  shift, and go to state 180
+    ELSIF  shift e prosecuzione allo stato 180
 
-    $default  reduce using rule 77 (opt-elsif-stat-list)
+    $default  riduzione con la regola 77 (opt-elsif-stat-list)
 
-    opt-elsif-stat-list  go to state 181
+    opt-elsif-stat-list  prosecuzione allo stato 181
 
 
-State 165
+Stato 165
 
    84 expr: expr bool-op bool-term .
 
-    $default  reduce using rule 84 (expr)
+    $default  riduzione con la regola 84 (expr)
 
 
-State 166
+Stato 166
 
    88 bool-term: comp-term comp-op comp-term .
    96 comp-term: comp-term . add-op term
 
-    PLUS   shift, and go to state 144
-    MINUS  shift, and go to state 145
+    PLUS   shift e prosecuzione allo stato 144
+    MINUS  shift e prosecuzione allo stato 145
 
-    $default  reduce using rule 88 (bool-term)
+    $default  riduzione con la regola 88 (bool-term)
 
-    add-op  go to state 147
+    add-op  prosecuzione allo stato 147
 
 
-State 167
+Stato 167
 
    96 comp-term: comp-term add-op term .
   100 term: term . mul-op factor
 
-    MUL  shift, and go to state 148
-    DIV  shift, and go to state 149
+    MUL  shift e prosecuzione allo stato 148
+    DIV  shift e prosecuzione allo stato 149
 
-    $default  reduce using rule 96 (comp-term)
+    $default  riduzione con la regola 96 (comp-term)
 
-    mul-op  go to state 150
+    mul-op  prosecuzione allo stato 150
 
 
-State 168
+Stato 168
 
   100 term: term mul-op factor .
 
-    $default  reduce using rule 100 (term)
+    $default  riduzione con la regola 100 (term)
 
 
-State 169
+Stato 169
 
    73 while-stat: WHILE expr DO stat-list . END
 
-    END  shift, and go to state 182
+    END  shift e prosecuzione allo stato 182
 
 
-State 170
+Stato 170
 
    74 repeat-stat: REPEAT stat-list UNTIL expr .
    84 expr: expr . bool-op bool-term
 
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    $default  reduce using rule 74 (repeat-stat)
+    $default  riduzione con la regola 74 (repeat-stat)
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 171
+Stato 171
 
    72 for-stat: FOR ID @10 ASSIGN . expr TO expr DO stat-list END
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 183
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 183
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 172
+Stato 172
 
    84 expr: expr . bool-op bool-term
   119 expr-list: expr . ',' expr-list
   120          | expr .
 
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
-    ','  shift, and go to state 184
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
+    ','  shift e prosecuzione allo stato 184
 
-    $default  reduce using rule 120 (expr-list)
+    $default  riduzione con la regola 120 (expr-list)
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 173
+Stato 173
 
   116 module-call: ID @11 '(' opt-expr-list . ')'
 
-    ')'  shift, and go to state 185
+    ')'  shift e prosecuzione allo stato 185
 
 
-State 174
+Stato 174
 
   117 opt-expr-list: expr-list .
 
-    $default  reduce using rule 117 (opt-expr-list)
+    $default  riduzione con la regola 117 (opt-expr-list)
 
 
-State 175
+Stato 175
 
    53 stat-body: T_BEGIN ID @6 stat-list END ID @7 .
 
-    $default  reduce using rule 53 (stat-body)
+    $default  riduzione con la regola 53 (stat-body)
 
 
-State 176
+Stato 176
 
    83 indexing: left-hand-side '[' expr ']' .
 
-    $default  reduce using rule 83 (indexing)
+    $default  riduzione con la regola 83 (indexing)
 
 
-State 177
+Stato 177
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect . opt-module-list stat-body ';'
 
-    PROC  shift, and go to state 33
-    FUNC  shift, and go to state 34
+    PROC  shift e prosecuzione allo stato 33
+    FUNC  shift e prosecuzione allo stato 34
 
-    $default  reduce using rule 34 (opt-module-list)
+    $default  riduzione con la regola 34 (opt-module-list)
 
-    opt-module-list  go to state 186
-    module-list      go to state 36
-    module-decl      go to state 37
-    procedure-decl   go to state 38
-    function-decl    go to state 39
+    opt-module-list  prosecuzione allo stato 186
+    module-list      prosecuzione allo stato 36
+    module-decl      prosecuzione allo stato 37
+    procedure-decl   prosecuzione allo stato 38
+    function-decl    prosecuzione allo stato 39
 
 
-State 178
+Stato 178
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' ':' domain opt-type-sect . opt-const-sect opt-module-list expr-body ';'
 
-    CONST  shift, and go to state 18
+    CONST  shift e prosecuzione allo stato 18
 
-    $default  reduce using rule 22 (opt-const-sect)
+    $default  riduzione con la regola 22 (opt-const-sect)
 
-    opt-const-sect  go to state 187
+    opt-const-sect  prosecuzione allo stato 187
 
 
-State 179
+Stato 179
 
    84 expr: expr . bool-op bool-term
   112 cond-expr: IF expr THEN expr . opt-elsif-expr-list ELSE expr END
 
-    ELSIF  shift, and go to state 188
-    AND    shift, and go to state 135
-    OR     shift, and go to state 136
+    ELSIF  shift e prosecuzione allo stato 188
+    AND    shift e prosecuzione allo stato 135
+    OR     shift e prosecuzione allo stato 136
 
-    $default  reduce using rule 114 (opt-elsif-expr-list)
+    $default  riduzione con la regola 114 (opt-elsif-expr-list)
 
-    bool-op              go to state 137
-    opt-elsif-expr-list  go to state 189
+    bool-op              prosecuzione allo stato 137
+    opt-elsif-expr-list  prosecuzione allo stato 189
 
 
-State 180
+Stato 180
 
    76 opt-elsif-stat-list: ELSIF . expr THEN stat-list opt-elsif-stat-list
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 190
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 190
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 181
+Stato 181
 
    75 if-stat: IF expr THEN stat-list opt-elsif-stat-list . opt-else-stat END
 
-    ELSE  shift, and go to state 191
+    ELSE  shift e prosecuzione allo stato 191
 
-    $default  reduce using rule 79 (opt-else-stat)
+    $default  riduzione con la regola 79 (opt-else-stat)
 
-    opt-else-stat  go to state 192
+    opt-else-stat  prosecuzione allo stato 192
 
 
-State 182
+Stato 182
 
    73 while-stat: WHILE expr DO stat-list END .
 
-    $default  reduce using rule 73 (while-stat)
+    $default  riduzione con la regola 73 (while-stat)
 
 
-State 183
+Stato 183
 
    72 for-stat: FOR ID @10 ASSIGN expr . TO expr DO stat-list END
    84 expr: expr . bool-op bool-term
 
-    TO   shift, and go to state 193
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    TO   shift e prosecuzione allo stato 193
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 184
+Stato 184
 
   119 expr-list: expr ',' . expr-list
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 172
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
-    expr-list       go to state 194
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 172
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
+    expr-list       prosecuzione allo stato 194
 
 
-State 185
+Stato 185
 
   116 module-call: ID @11 '(' opt-expr-list ')' .
 
-    $default  reduce using rule 116 (module-call)
+    $default  riduzione con la regola 116 (module-call)
 
 
-State 186
+Stato 186
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list . stat-body ';'
 
-    T_BEGIN  shift, and go to state 46
+    T_BEGIN  shift e prosecuzione allo stato 46
 
-    stat-body  go to state 195
+    stat-body  prosecuzione allo stato 195
 
 
-State 187
+Stato 187
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' ':' domain opt-type-sect opt-const-sect . opt-module-list expr-body ';'
 
-    PROC  shift, and go to state 33
-    FUNC  shift, and go to state 34
+    PROC  shift e prosecuzione allo stato 33
+    FUNC  shift e prosecuzione allo stato 34
 
-    $default  reduce using rule 34 (opt-module-list)
+    $default  riduzione con la regola 34 (opt-module-list)
 
-    opt-module-list  go to state 196
-    module-list      go to state 36
-    module-decl      go to state 37
-    procedure-decl   go to state 38
-    function-decl    go to state 39
+    opt-module-list  prosecuzione allo stato 196
+    module-list      prosecuzione allo stato 36
+    module-decl      prosecuzione allo stato 37
+    procedure-decl   prosecuzione allo stato 38
+    function-decl    prosecuzione allo stato 39
 
 
-State 188
+Stato 188
 
   113 opt-elsif-expr-list: ELSIF . expr THEN expr opt-elsif-expr-list
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 197
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 197
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 189
+Stato 189
 
   112 cond-expr: IF expr THEN expr opt-elsif-expr-list . ELSE expr END
 
-    ELSE  shift, and go to state 198
+    ELSE  shift e prosecuzione allo stato 198
 
 
-State 190
+Stato 190
 
    76 opt-elsif-stat-list: ELSIF expr . THEN stat-list opt-elsif-stat-list
    84 expr: expr . bool-op bool-term
 
-    THEN  shift, and go to state 199
-    AND   shift, and go to state 135
-    OR    shift, and go to state 136
+    THEN  shift e prosecuzione allo stato 199
+    AND   shift e prosecuzione allo stato 135
+    OR    shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 191
+Stato 191
 
    78 opt-else-stat: ELSE . stat-list
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    stat-list       go to state 200
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 200
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 192
+Stato 192
 
    75 if-stat: IF expr THEN stat-list opt-elsif-stat-list opt-else-stat . END
 
-    END  shift, and go to state 201
+    END  shift e prosecuzione allo stato 201
 
 
-State 193
+Stato 193
 
    72 for-stat: FOR ID @10 ASSIGN expr TO . expr DO stat-list END
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 202
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 202
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 194
+Stato 194
 
   119 expr-list: expr ',' expr-list .
 
-    $default  reduce using rule 119 (expr-list)
+    $default  riduzione con la regola 119 (expr-list)
 
 
-State 195
+Stato 195
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body . ';'
 
-    ';'  shift, and go to state 203
+    ';'  shift e prosecuzione allo stato 203
 
 
-State 196
+Stato 196
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' ':' domain opt-type-sect opt-const-sect opt-module-list . expr-body ';'
 
-    T_BEGIN  shift, and go to state 204
+    T_BEGIN  shift e prosecuzione allo stato 204
 
-    expr-body  go to state 205
+    expr-body  prosecuzione allo stato 205
 
 
-State 197
+Stato 197
 
    84 expr: expr . bool-op bool-term
   113 opt-elsif-expr-list: ELSIF expr . THEN expr opt-elsif-expr-list
 
-    THEN  shift, and go to state 206
-    AND   shift, and go to state 135
-    OR    shift, and go to state 136
+    THEN  shift e prosecuzione allo stato 206
+    AND   shift e prosecuzione allo stato 135
+    OR    shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 198
+Stato 198
 
   112 cond-expr: IF expr THEN expr opt-elsif-expr-list ELSE . expr END
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 207
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 207
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 199
+Stato 199
 
    76 opt-elsif-stat-list: ELSIF expr THEN . stat-list opt-elsif-stat-list
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    stat-list       go to state 208
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 208
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 200
+Stato 200
 
    78 opt-else-stat: ELSE stat-list .
 
-    $default  reduce using rule 78 (opt-else-stat)
+    $default  riduzione con la regola 78 (opt-else-stat)
 
 
-State 201
+Stato 201
 
    75 if-stat: IF expr THEN stat-list opt-elsif-stat-list opt-else-stat END .
 
-    $default  reduce using rule 75 (if-stat)
+    $default  riduzione con la regola 75 (if-stat)
 
 
-State 202
+Stato 202
 
    72 for-stat: FOR ID @10 ASSIGN expr TO expr . DO stat-list END
    84 expr: expr . bool-op bool-term
 
-    DO   shift, and go to state 209
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    DO   shift e prosecuzione allo stato 209
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 203
+Stato 203
 
    40 procedure-decl: PROC ID @4 '(' opt-formal-list ')' opt-type-sect opt-var-sect opt-const-sect opt-module-list stat-body ';' .
 
-    $default  reduce using rule 40 (procedure-decl)
+    $default  riduzione con la regola 40 (procedure-decl)
 
 
-State 204
+Stato 204
 
    56 expr-body: T_BEGIN . ID @8 expr END ID @9
 
-    ID  shift, and go to state 210
+    ID  shift e prosecuzione allo stato 210
 
 
-State 205
+Stato 205
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' ':' domain opt-type-sect opt-const-sect opt-module-list expr-body . ';'
 
-    ';'  shift, and go to state 211
+    ';'  shift e prosecuzione allo stato 211
 
 
-State 206
+Stato 206
 
   113 opt-elsif-expr-list: ELSIF expr THEN . expr opt-elsif-expr-list
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 212
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 212
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 207
+Stato 207
 
    84 expr: expr . bool-op bool-term
   112 cond-expr: IF expr THEN expr opt-elsif-expr-list ELSE expr . END
 
-    END  shift, and go to state 213
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    END  shift e prosecuzione allo stato 213
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 208
+Stato 208
 
    76 opt-elsif-stat-list: ELSIF expr THEN stat-list . opt-elsif-stat-list
 
-    ELSIF  shift, and go to state 180
+    ELSIF  shift e prosecuzione allo stato 180
 
-    $default  reduce using rule 77 (opt-elsif-stat-list)
+    $default  riduzione con la regola 77 (opt-elsif-stat-list)
 
-    opt-elsif-stat-list  go to state 214
+    opt-elsif-stat-list  prosecuzione allo stato 214
 
 
-State 209
+Stato 209
 
    72 for-stat: FOR ID @10 ASSIGN expr TO expr DO . stat-list END
 
-    BREAK   shift, and go to state 77
-    EXIT    shift, and go to state 78
-    IF      shift, and go to state 79
-    WHILE   shift, and go to state 80
-    REPEAT  shift, and go to state 81
-    FOR     shift, and go to state 82
-    INPUT   shift, and go to state 83
-    OUTPUT  shift, and go to state 84
-    ID      shift, and go to state 85
+    BREAK   shift e prosecuzione allo stato 77
+    EXIT    shift e prosecuzione allo stato 78
+    IF      shift e prosecuzione allo stato 79
+    WHILE   shift e prosecuzione allo stato 80
+    REPEAT  shift e prosecuzione allo stato 81
+    FOR     shift e prosecuzione allo stato 82
+    INPUT   shift e prosecuzione allo stato 83
+    OUTPUT  shift e prosecuzione allo stato 84
+    ID      shift e prosecuzione allo stato 85
 
-    stat-list       go to state 215
-    stat            go to state 87
-    input-stat      go to state 88
-    output-stat     go to state 89
-    for-stat        go to state 90
-    while-stat      go to state 91
-    repeat-stat     go to state 92
-    if-stat         go to state 93
-    assign-stat     go to state 94
-    left-hand-side  go to state 95
-    indexing        go to state 96
-    module-call     go to state 97
+    stat-list       prosecuzione allo stato 215
+    stat            prosecuzione allo stato 87
+    input-stat      prosecuzione allo stato 88
+    output-stat     prosecuzione allo stato 89
+    for-stat        prosecuzione allo stato 90
+    while-stat      prosecuzione allo stato 91
+    repeat-stat     prosecuzione allo stato 92
+    if-stat         prosecuzione allo stato 93
+    assign-stat     prosecuzione allo stato 94
+    left-hand-side  prosecuzione allo stato 95
+    indexing        prosecuzione allo stato 96
+    module-call     prosecuzione allo stato 97
 
 
-State 210
+Stato 210
 
    56 expr-body: T_BEGIN ID . @8 expr END ID @9
 
-    $default  reduce using rule 54 (@8)
+    $default  riduzione con la regola 54 (@8)
 
-    @8  go to state 216
+    @8  prosecuzione allo stato 216
 
 
-State 211
+Stato 211
 
    42 function-decl: FUNC ID @5 '(' opt-formal-list ')' ':' domain opt-type-sect opt-const-sect opt-module-list expr-body ';' .
 
-    $default  reduce using rule 42 (function-decl)
+    $default  riduzione con la regola 42 (function-decl)
 
 
-State 212
+Stato 212
 
    84 expr: expr . bool-op bool-term
   113 opt-elsif-expr-list: ELSIF expr THEN expr . opt-elsif-expr-list
 
-    ELSIF  shift, and go to state 188
-    AND    shift, and go to state 135
-    OR     shift, and go to state 136
+    ELSIF  shift e prosecuzione allo stato 188
+    AND    shift e prosecuzione allo stato 135
+    OR     shift e prosecuzione allo stato 136
 
-    $default  reduce using rule 114 (opt-elsif-expr-list)
+    $default  riduzione con la regola 114 (opt-elsif-expr-list)
 
-    bool-op              go to state 137
-    opt-elsif-expr-list  go to state 217
+    bool-op              prosecuzione allo stato 137
+    opt-elsif-expr-list  prosecuzione allo stato 217
 
 
-State 213
+Stato 213
 
   112 cond-expr: IF expr THEN expr opt-elsif-expr-list ELSE expr END .
 
-    $default  reduce using rule 112 (cond-expr)
+    $default  riduzione con la regola 112 (cond-expr)
 
 
-State 214
+Stato 214
 
    76 opt-elsif-stat-list: ELSIF expr THEN stat-list opt-elsif-stat-list .
 
-    $default  reduce using rule 76 (opt-elsif-stat-list)
+    $default  riduzione con la regola 76 (opt-elsif-stat-list)
 
 
-State 215
+Stato 215
 
    72 for-stat: FOR ID @10 ASSIGN expr TO expr DO stat-list . END
 
-    END  shift, and go to state 218
+    END  shift e prosecuzione allo stato 218
 
 
-State 216
+Stato 216
 
    56 expr-body: T_BEGIN ID @8 . expr END ID @9
 
-    MINUS      shift, and go to state 104
-    IF         shift, and go to state 105
-    NOT        shift, and go to state 106
-    INTCONST   shift, and go to state 50
-    BOOLCONST  shift, and go to state 51
-    STRCONST   shift, and go to state 52
-    ID         shift, and go to state 85
-    '['        shift, and go to state 53
-    '('        shift, and go to state 107
+    MINUS      shift e prosecuzione allo stato 104
+    IF         shift e prosecuzione allo stato 105
+    NOT        shift e prosecuzione allo stato 106
+    INTCONST   shift e prosecuzione allo stato 50
+    BOOLCONST  shift e prosecuzione allo stato 51
+    STRCONST   shift e prosecuzione allo stato 52
+    ID         shift e prosecuzione allo stato 85
+    '['        shift e prosecuzione allo stato 53
+    '('        shift e prosecuzione allo stato 107
 
-    const           go to state 108
-    array-const     go to state 55
-    left-hand-side  go to state 109
-    indexing        go to state 96
-    expr            go to state 219
-    bool-term       go to state 111
-    comp-term       go to state 112
-    term            go to state 113
-    factor          go to state 114
-    unary-op        go to state 115
-    cond-expr       go to state 116
-    module-call     go to state 117
+    const           prosecuzione allo stato 108
+    array-const     prosecuzione allo stato 55
+    left-hand-side  prosecuzione allo stato 109
+    indexing        prosecuzione allo stato 96
+    expr            prosecuzione allo stato 219
+    bool-term       prosecuzione allo stato 111
+    comp-term       prosecuzione allo stato 112
+    term            prosecuzione allo stato 113
+    factor          prosecuzione allo stato 114
+    unary-op        prosecuzione allo stato 115
+    cond-expr       prosecuzione allo stato 116
+    module-call     prosecuzione allo stato 117
 
 
-State 217
+Stato 217
 
   113 opt-elsif-expr-list: ELSIF expr THEN expr opt-elsif-expr-list .
 
-    $default  reduce using rule 113 (opt-elsif-expr-list)
+    $default  riduzione con la regola 113 (opt-elsif-expr-list)
 
 
-State 218
+Stato 218
 
    72 for-stat: FOR ID @10 ASSIGN expr TO expr DO stat-list END .
 
-    $default  reduce using rule 72 (for-stat)
+    $default  riduzione con la regola 72 (for-stat)
 
 
-State 219
+Stato 219
 
    56 expr-body: T_BEGIN ID @8 expr . END ID @9
    84 expr: expr . bool-op bool-term
 
-    END  shift, and go to state 220
-    AND  shift, and go to state 135
-    OR   shift, and go to state 136
+    END  shift e prosecuzione allo stato 220
+    AND  shift e prosecuzione allo stato 135
+    OR   shift e prosecuzione allo stato 136
 
-    bool-op  go to state 137
+    bool-op  prosecuzione allo stato 137
 
 
-State 220
+Stato 220
 
    56 expr-body: T_BEGIN ID @8 expr END . ID @9
 
-    ID  shift, and go to state 221
+    ID  shift e prosecuzione allo stato 221
 
 
-State 221
+Stato 221
 
    56 expr-body: T_BEGIN ID @8 expr END ID . @9
 
-    $default  reduce using rule 55 (@9)
+    $default  riduzione con la regola 55 (@9)
 
-    @9  go to state 222
+    @9  prosecuzione allo stato 222
 
 
-State 222
+Stato 222
 
    56 expr-body: T_BEGIN ID @8 expr END ID @9 .
 
-    $default  reduce using rule 56 (expr-body)
+    $default  riduzione con la regola 56 (expr-body)

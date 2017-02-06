@@ -36,7 +36,7 @@ int for_level = 0;
  */
 
 pST createSymbTab(pST back){
-    printf("createSymbTab\n");
+    //printf("createSymbTab\n");
     
     if(primoGiro){
         tipoIntero=createType(0,NULL,0);
@@ -64,6 +64,7 @@ pST createSymbTab(pST back){
  * torna qualcosa != da NULL solo in caso di una func
  */
 Code start(pnode root, pST s, ptypeS* tipoRitornato){
+    //printf("start\n");
     
     Code code = endcode(),
             var_code = endcode(),
@@ -72,8 +73,6 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
             temp_code = endcode(),
             stat_code = endcode(),
             exprBody_code = endcode();
-    
-    printf("start\n");
     
     stab = s;
     
@@ -129,9 +128,9 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
       
                 //l'id usato per la root deve coincidere con quello che segue BEGIN
                 if(strcmp(nomeRoot,nodoCorrente->child->val.sval)!=0){
-                    printSemanticError();
+                    //printSemanticError();
                     printf("ERRORE #%d: l'id %s non coincide con quello di begin e end\n",idRoot->line,nomeRoot);
-                    exit(0);
+                    exit(-1);
                 }
                 tmp = statList(nodoCorrente->child->brother);
                 
@@ -158,7 +157,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
             case N_EXPRBODY:
                 if(strcmp(nomeRoot,nodoCorrente->child->val.sval)!=0){
                     printf("ERRORE #%d: l'id %s non coincide con quello di begin e end\n",idRoot->line,nomeRoot);
-                    exit(0);
+                    exit(-1);
                 }
                 //*tipoRitornato = exprBody(nodoCorrente->child->brother);
                 tmp = exprBody(nodoCorrente->child->brother,tipoRitornato);
@@ -170,8 +169,6 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
                         exprBody_code = tmp;
                 }
                 
-                printf("Tipo ritornato da exprbody\n");
-                ////printType(*tipoRitornato);
                 break;
           }
         nodoCorrente = nodoCorrente->brother;
@@ -228,11 +225,6 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
         //stampa(stab->tab);//stampa la hash table
         stampa2(stab->tab,sp);//stampa la symbol tabel
         fprintf(sp,"\n\n");
-    }
-    
-    if(tipoRitornato!=NULL && *tipoRitornato != NULL){
-        printf("Tipo ritornato da %s\n",nomeRoot);
-        ////printType(*tipoRitornato);
     }
     
     if(root->val.ival == N_PROGRAM){
@@ -384,18 +376,13 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
     if(tipoRitornato2==NULL){
         printf("ERRORE #%d:tipi dell'expr non compatibili\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }
     
     
     
     *tipoRitornato = tipoRitornato2;
-    printf("Tipo tornato dentro exprbody aster\n");
-    //printType(*tipoRitornato);
-    
-    printf("Tipo tornato dentro exprbody normale\n");
-    //printType(tipoRitornato2);
-    
+  
     return code;
 }
 
@@ -404,11 +391,12 @@ Code exprBody(pnode ex,ptypeS* tipoRitornato){
  * Ragiona esattamente come la funzione ifStat
  */
 Code condExpr(pnode nCond,ptypeS* tipoRitornato){
+    //printf("condexpr\n");
+    
     Code res_code = endcode(),
             if_code = endcode(),
             elseif_code = endcode(),
             else_code = endcode();
-    //printf("condexpr\n");
     
     line = nCond->child->line;
     
@@ -420,7 +408,7 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
         //l'exprIf deve essere per forza un booleano, se no è errore
         printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }
     
     //expr1= expr dopo l'if
@@ -467,7 +455,7 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
             //l'exprIf deve essere per forza un booleano, se no è errore
             printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
             printSemanticError();
-            exit(0);
+            exit(-1);
         }
         
         //expr2 = espressione dopo elsif
@@ -478,7 +466,7 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
             //l'expr2 deve essere dello stesso tipo di expr1, se no è errore
             printf("ERRORE #%d: il tipo dell'expr di un elseif non coincide con quella dell'if\n",line);
             printSemanticError();
-            exit(0);
+            exit(-1);
         }
         
         elseif_code = concode(
@@ -497,12 +485,10 @@ Code condExpr(pnode nCond,ptypeS* tipoRitornato){
         line = nElseIf->brother->child->line;
         printf("ERRORE #%d: il tipo dell'expr dell'else non coincide con quella dell'if\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }
     
     *tipoRitornato = expr1;
-    printf("tipo tornato COND_EXPR\n");
-    //printType(*tipoRitornato);
     
     if(elseif_code.size != 0){
         res_code = concode(if_code, elseif_code, else_code, endcode());
@@ -530,7 +516,7 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
     
     if(nconst->child->type!=T_NONTERM){
         //entro se trovo una int,str,bool const
-        printf("nArrayConst IF\n");
+       
         switch(nconst->child->type){
             case T_INTCONST:tipoParziale=tipoIntero;
             break;
@@ -541,7 +527,7 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
         }
         
         while(nconst->brother!=NULL){
-            printf("nArrayConstWHILE\n");
+            
             /*
              * una volta che ho trovato una costante, anche tutti i fratelli devono essere costanti dello stesso tipo
              */
@@ -552,7 +538,7 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
                 //vuol dire che è un N_ARRAYCONST
                 printf("ERRORE #%d: non sono ammessi array composti (es. [3,[]])\n",line);
                 printSemanticError();
-                exit(0);
+                exit(-1);
             }
             
             switch(nconst->child->type){
@@ -567,7 +553,7 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
             if(controllaCompatibilitaTipi(tipoParziale,tipoParziale2)==0){
                 printf("ERRORE #%d: non sono ammessi array con tipi eterogenei (es. [3,\"ciao\"])\n",line);
                 printSemanticError();
-                exit(0);
+               exit(-1);
             }
             
             contatore++;
@@ -576,7 +562,6 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
           
     }else{        
         //entro se ho un altro array innestato
-        printf("nArrayConstELSE\n");
         nArrayConst(nconst->child,&tipoParziale);
         
         //ora tutti i fratelli devono essere array con la stessa struttura di tipoParziale
@@ -587,7 +572,7 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
             if(controllaCompatibilitaTipi(tipoParziale,tipoParziale2)==0){
                 printf("ERRORE #%d: non sono ammessi array eterogenei (es. [[1],[2,3]])\n",line);
                 printSemanticError();
-                exit(0);
+                exit(-1);
             }
             
             contatore++;
@@ -595,23 +580,20 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
         }
                
     }
-    printf("nArrayConstRETURN\n");
     tipoRitornato2=createType(S_ARRAY,tipoParziale,contatore);
     
     *tipoRitornato = tipoRitornato2;
-    
-    printf("Tipo tornato array const\n");
-    //printType(*tipoRitornato);
         
 }
 
 //funzione che si occupa di: opt-type-sect, opt-var-sect, opt-const-sect
 Code optTypeSect_var_const(pnode opttypesect_var,int classe){
+     //printf("opttypesect\n");
+    
     Code d_code, c_code;
     d_code.size = 0;
     c_code.size = 0;
     
-    printf("opttypesect\n");
     pnode n_decl = opttypesect_var->child;//optypesect può essere opttype optvar o optconst
     
     while(n_decl){
@@ -683,7 +665,7 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
                 n_decl = n_decl->brother;//devo fare cosi perchè nell'albero le costanti hanno un fratello in più
              }else{
                  printf("ERRORE #%d: l'inizializzazione della costante %s non corrisponde al tipo",n_decl->child->child->line,idDecl);
-                 exit(0);
+                 exit(-1);
              }
         }
        
@@ -701,8 +683,9 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
 }
 
 Code optModuleList(pnode optModuleList){
+    //printf("\noptmodulelist\n");
+    
     Code code = endcode();
-    printf("\noptmodulelist\n");
     
     pnode procFuncDecl = optModuleList->child; //nodo n_procdecl o n_funcdecl
     while(procFuncDecl){//finchè ci sono fratelli ossia nodi n_procdecl o n_funcdecl
@@ -734,7 +717,7 @@ Code optModuleList(pnode optModuleList){
                     pnode tMode = nFormalDecl->child;
                     if(tMode->val.ival!=M_IN){
                         printf("ERRORE %d: la funzione %s può avere solo parametri IN\n",nID->line,idFD);
-                        exit(0);
+                        exit(-1);
                     }
                     
                     nFormalDecl = nFormalDecl->brother;
@@ -748,7 +731,7 @@ Code optModuleList(pnode optModuleList){
                 //(nDomain->child->type==T_ID) && (controllaEsistenzaTipo(stab,nDomain)==NULL)
                 if(tipoTornatoFunc==NULL){
                    printf("\nERRORE #%d: il tipo %s restituito dalla func %s non esiste\n",n_domain->child->line,n_domain->child->val.sval,idFD);
-                    exit(0);
+                    exit(-1);
                 }
                 
                 //stabiliamo la classe e il tipo (da passare a start)
@@ -771,7 +754,6 @@ Code optModuleList(pnode optModuleList){
             }
             stabLocal->aux_count = aux_count;
             
-            printf("ID: %s\n",idFD);
             pstLine newLine = insertFindLine(stab->tab,hash(idFD),idFD,stab->oidC,classe,tipoTornatoFunc,stabLocal,formals1,formals2);
             newLine->mid = mid++;
             tmp = start(procFuncDecl,stabLocal, &tipoRitornato);
@@ -780,25 +762,20 @@ Code optModuleList(pnode optModuleList){
             } else {
                 code = tmp;
             }
-            
-            printf("RITORNO\n");
                        
             if(tipoRitornato!=NULL){
-                ////printType(tipoRitornato);
                 /*
                  * se tipoRitornato è diverso da NULL vuol dire che è una func
                  * e devo controllare che il tipo sia compatibile caon la expr nel corpo
                  */
                 if(controllaCompatibilitaTipi(tipoRitornato,tipoTornatoFunc)==0){
                     printf("ERRORE #%d: l'expr nel corpo di %s non è compatibile con il tipo tornato\n",nID->line,idFD);
-                    exit(0);
+                    exit(-1);
                 }
-            }else{
-                printf("RITORNO NULL\n");
             }
         }else{//se l'id è già stato preso è errore
             printf("ERRORE #%d: id func/proc %s -> esiste già una var con quell'id\n",procFuncDecl->child->line,procFuncDecl->child->val.sval);
-            exit(0);
+            exit(-1);
         }
         procFuncDecl = procFuncDecl->brother;
         
@@ -837,7 +814,7 @@ pstLine* recuperaFormali(pST localStab,int formals1){
 }
 
 int optFormalList(pST localStab,pnode nOptFormalList){//restituisce il numero dei formali
-    printf("optformallist\n");
+    //printf("optformallist\n");
     pnode nFormalDecl = nOptFormalList->child;
     
     while(nFormalDecl!=NULL){
@@ -865,7 +842,7 @@ int optFormalList(pST localStab,pnode nOptFormalList){//restituisce il numero de
  * return 0 = errore
  */
 int controlConstType(ptypeS type,pnode n_const){
-    printf("controlConstType\n");
+    //printf("controlConstType\n");
     int risultato=1;
     int dimConstArray=0;
     int i=0;
@@ -896,8 +873,7 @@ int controlConstType(ptypeS type,pnode n_const){
 Code decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
     Code code;
     code.size = 0;
-    
-    printf("decl OID %d:\n",stab->oidC);
+   
     nDomain(n_decl->child->brother,dom);
     
     int var_size;
@@ -936,7 +912,7 @@ Code decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
             t_id = t_id->brother;
         }else{//altrimenti si sta sovrascrivendo=>ERRORE
             printf("ERRORE #%d: esiste già una var con l'id %s\n",t_id->line,t_id->val.sval);
-            exit(0);
+            exit(-1);
         }
         
         if(structured){
@@ -962,7 +938,7 @@ Code decl(pST stab, pnode n_decl,int classe,ptypeS* dom){
  * precedentemente definito
  */
 void nDomain(pnode n_domain, ptypeS* dom){
-    printf("ndomain\n");
+    //printf("ndomain\n");
     
     if(n_domain->child->type == T_ATOMICDOMAIN){
         
@@ -989,13 +965,9 @@ void nDomain(pnode n_domain, ptypeS* dom){
      
     if(*dom == NULL){//se non ho trovato nessuna corrispondenza ho un errore
         printf("ERRORE #%d: il tipo %s non esiste\n",n_domain->child->line,n_domain->child->val.sval);
-        exit(0);
+        exit(-1);
     }
-    printf("RITORNO NDOMAIN\n");
-    ////printType(*dom);
-    
-    //return dom;
-    
+  
 }
 
 /*
@@ -1062,7 +1034,7 @@ Code statList(pnode nStatList){
                 p = controllaEsistenzaId(nStat->child->child->val.sval, &env_distance, &offset, &aux);
                 if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
                     printf("ERRORE #%d: l'id %s non è quello di una variabile\n",nStat->child->child->line,nStat->child->child->val.sval);
-                    exit(0);
+                    exit(-1);
                 }
                 addr = p->oid - 1;
                  if(p->classe == S_VAR || p->classe == S_CONST){
@@ -1179,7 +1151,7 @@ Code ifStat(pnode nIfStat){
         //l'exprIf deve essere per forza un booleano, se no è errore
         printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }
     
     Code cond_code = endcode();
@@ -1241,7 +1213,7 @@ Code ifStat(pnode nIfStat){
             //l'exprElsif deve essere per forza un booleano, se no è errore
             printf("ERRORE #%d: l'expr di un if/elseif deve tornare un booleano\n",line);
             printSemanticError();
-            exit(0);
+            exit(-1);
         }
         
         elseif_then_code = statList(nOptExpr->brother);
@@ -1287,7 +1259,7 @@ Code whileStat(pnode nWhileStat){
         line = nWhileStat->child->line;
         printf("ERRORE #%d: l'expr di un while deve tornare un booleano\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }
     
     while_code = statList(nWhileStat->child->brother);
@@ -1327,7 +1299,7 @@ Code repeatStat(pnode nRepeatStat){
         line = nRepeatStat->child->line;
         printf("ERRORE #%d: l'expr di un repeat deve tornare un booleano\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }
     
     res_code = concode(
@@ -1363,17 +1335,17 @@ Code forStat(pnode nodoFor){
     
     if(p==NULL || (p->classe != S_VAR && p->classe != S_IN && p->classe != S_OUT && p->classe != S_INOUT)){
         printf("ERRORE #%d: l'id %s del counter del for non è quello di una variabile\n",nId->line,nId->val.sval);
-        exit(0);
+        exit(-1);
     }
     
     if(controllaCompatibilitaTipi(tipoIntero,p->root)==0){
         printf("ERRORE #%d: l'id %s della var del for non è quello di una variabile intera\n",nId->line,nId->val.sval);
-        exit(0);
+        exit(-1);
     }
     
     if(controllaProibite(nId) == 2){
         printf("ERRORE #%d: non puoi assegnare il counter %s di un altro ciclo\n",nId->line,nId->val.sval);
-        exit(0);
+        exit(-1);
     }
     
     //aggiungiamo la var alla lista di quelle non assegnabili
@@ -1387,7 +1359,7 @@ Code forStat(pnode nodoFor){
     
     if(controllaCompatibilitaTipi(tipoIntero,expr1)==0 || controllaCompatibilitaTipi(tipoIntero,expr2)==0){
         printf("ERRORE #%d: gli estremi della var %s nel for devono essere interi\n",nId->line,nId->val.sval);
-        exit(0);
+        exit(-1);
     }
     
     for_code = statList(nId->brother->brother->brother);
@@ -1450,7 +1422,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
             param_code = endcode(),
             aux_code = endcode();
     int aux_count = 0;
-    printf("modCall\n");
+    //printf("modCall\n");
  
     ptypeS tipoRitornato2=NULL;
     pnode nodoIdMod = nodoModcall->child;
@@ -1463,7 +1435,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     pstLine p = controllaEsistenzaId(nodoIdMod->val.sval, &env_distance, &offset, &aux);
     if(p==NULL){
         printf("ERRORE #%d: la func/proc %s non esiste\n",line,idErr);
-        exit(0);
+        exit(-1);
     }
     /*
      * bisogna anche controllare che:
@@ -1475,7 +1447,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
      */
     else if(!((nodoModcall->val.ival==E_PROC && p->classe==S_PROC) || (nodoModcall->val.ival==E_FUNC && p->classe==S_FUNC))){
         printf("ERRORE #%d: la func/proc %s non può essere chiamata li\n",line,idErr);
-        exit(0);
+        exit(-1);
     }
     else{
         
@@ -1485,14 +1457,12 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
         // che devono essere giusti sia in numero, che in tipo, che in modalità di passaggio
         //es. un parametro out o inout non può essere una costante
         pstLine *formali;
-        printf("NUMER FOR %d\n",p->formals1);
         formali = p->formals2;
         pnode nodoParamAttuale = nodoIdMod->brother;
         int i;
         Code tmp_param = endcode();
         for(i=0;i<p->formals1;i++){
-            printf("SENTRO FOR %d\n",i);
-            printf("%d***************NOME %s\n",i,formali[i]->name);
+            
             tmp_param = controllaParametroChiamata(formali[i],nodoParamAttuale);
             
             if(tmp_param.size != 0){
@@ -1534,12 +1504,10 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
         
         if(nodoParamAttuale != NULL){
             printf("ERRORE #%d: numero eccessivo di parametri attuali per la func/proc %s \n",line,idErr);
-            exit(0);
+            exit(-1);
         }
                
     }
-    
-    printf("exit modcall\n");
     
     //risetto questi perchè se sono passato da altre funzioni li ho modificati, ma se arrivo qui vuol dire che
     //errori nelle funzioni chiamate non ne ho trovati
@@ -1548,8 +1516,7 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
     
     if(tipoRitornato!=NULL){
         *tipoRitornato = tipoRitornato2;
-        printf("Tipo ritornato dentro modcall\n");
-        ////printType(*tipoRitornato);
+       
     }
     
     // genero il codice della chiamata
@@ -1575,14 +1542,14 @@ Code modCall(pnode nodoModcall,ptypeS* tipoRitornato){
  */
 Code controllaParametroChiamata(pstLine formale, pnode attuale){
     Code param_code = endcode();
-    printf("controllaParametroChiamata\n");
+   //printf("controllaParametroChiamata\n");
     
     //id della proc/func 
     char *idProcFunc = idErr;
     
     if(attuale == NULL){
             printf("ERRORE #%d: numero non sufficiente di parametri attuali per la func/proc %s \n",line,idErr);
-            exit(0);
+            exit(-1);
         }
     
     char *nomeFormale = formale->name;
@@ -1620,12 +1587,12 @@ Code controllaParametroChiamata(pstLine formale, pnode attuale){
      */
     if((formale->classe == S_OUT || formale->classe == S_INOUT) && (attuale->val.ival!=N_LHS || typeAttuale->costante==1)){
         printf("ERRORE #%d: al formale %s di tipo out/inout si può passare solo una var\n",line,nomeFormale);
-        exit(0);
+        exit(-1);
     }
     
     if(controllaCompatibilitaTipi(typeAttuale,formale->root)!=1){
         printf("ERRORE #%d: tipo attuale della proc/func %s non compatibile con quello del formale %s\n",line,idProcFunc,nomeFormale);
-        exit(0);
+        exit(-1);
     }
     
     return param_code;
@@ -1720,7 +1687,7 @@ Code assignStat(pnode nStat){
     if(risultato==0){
         printf("ERRORE #%d: tipi dell'assegnamento non compatibili\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }
     return code;
 }
@@ -1731,7 +1698,7 @@ Code assignStat(pnode nStat){
 Code lhs(pnode nLhs,ptypeS* tipoRitornato){
     Code code = endcode();
     
-    printf("lhs\n");
+    //printf("lhs\n");
     ptypeS tipoLhs = NULL;
     pnode figlio = nLhs->child;
     
@@ -1749,7 +1716,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
                 p->classe != S_INOUT &&
                 p->classe != S_OUT)){
             printf("ERRORE #%d: %s usato come lhs non è una variabile\n",figlio->line,figlio->val.sval);
-            exit(0);
+            exit(-1);
         }else{
             tipoLhs = p->root;
              
@@ -1757,10 +1724,10 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
              * per sapere se l'id trovato è quello di una costante
              */
             if(p->classe==S_CONST){
-                printf("costante=1\n");
+               
                 tipoLhs->costante=1;
             } else {
-                printf("costante=0\n");
+                
                 tipoLhs->costante=2;
             }      
         }
@@ -1783,7 +1750,6 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
         
         Code lhs_code, ex_code;
         
-        //printf("lhs INDEXING\n");
         pnode nLhs2 = figlio->child;
         pnode expr2 = figlio->child->brother;
         
@@ -1801,7 +1767,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
         if(controllaCompatibilitaTipi(tipoExpr2, tipoIntero)==0){
             printf("ERRORE: l'expr usata per l'indexing non restituisce un intero\n");
             printSemanticError();
-            exit(0);
+            exit(-1);
         }
            
         ptypeS parziale = NULL;
@@ -1813,7 +1779,7 @@ Code lhs(pnode nLhs,ptypeS* tipoRitornato){
         else{
             printf("ERRORE: l'array non è cosy grande\n");
             printSemanticError();
-            exit(0);
+            exit(-1);
         }
         
         //generazione codice per indexing
@@ -1881,7 +1847,7 @@ int controllaCompatibilitaTipi(ptypeS t1,ptypeS t2){
     }else{
         risultato = 0;
     }
-    //printf("controllaCompatibiliàtipi RETURN %d\n",risultato);
+   
     return risultato;
 }
 
@@ -1895,7 +1861,7 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
             f2_code = endcode(),
             res_code = endcode();
     
-    printf("expr\n");
+    //printf("expr\n");
     ptypeS tipoRitornato2;//tipo ritornato dall'expr
     
     line = nExpr->line;
@@ -1934,8 +1900,7 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
     //stabilisco il tipo del primo figlio
     ptypeS tr1 = NULL;
     f1_code = exprBody(f1,&tr1);   
-    printf("TIPO FIGLIO 1\n");
-    ////printType(tr1);   
+      
     //stabilisco iltipo del secondo figlio (fratello del primo figlio)
     //di default lo metto uguale a tr1 e se sono nel caso di una neg expr lo lascio cosi (non entro nell'if)
     //altrimenti richiamo exprBody 
@@ -1944,13 +1909,10 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
         f2_code = exprBody(f2,&tr2);
     }
     
-     printf("TIPO FIGLIO 2\n");
-    ////printType(tr2);
-    
     if(tr1==NULL || tr2==NULL || controllaCompatibilitaTipi(tr1,tr2)==0){
         printf("ERRORE #%d: tipi incompatibili nell'espressione\n",line);
         printSemanticError();
-        exit(0);
+        exit(-1);
     }else{
         
         //se ho una comp expr i figli possono avere tipo diverso da booleano
@@ -1958,17 +1920,16 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
         if(tipoExpr == T_COMPEXPR){
             
             int tipoComp = nExpr->val.ival;
-            printf("%d\n",tipoComp);
+        
             if(tipoComp != E_EQ && tipoComp != E_NE){
                 // <,<=,>,>= non possono essere applicati ai booleani 
                 
-                ////printType(tipoBoolean);
                 if(controllaCompatibilitaTipi(tr1,tipoBoolean)==1){
 
                     //ad due booleani non puoi applicare niente che non sia == o !=
                     printf("ERRORE #%d: non puoi applicare == o != ad un booleano\n",line);
                     //printSemanticError();
-                    exit(0);               
+                    exit(-1);               
                 }
 
             }
@@ -1987,7 +1948,7 @@ Code expr(pnode nExpr,ptypeS* tipoRitornato){
             }else{
                 printf("ERRORE #%d: non puoi applicare quell'operatore a quel tipo di figli\n",line);
                 //printSemanticError();
-                exit(0); 
+                exit(-1); 
             }
 
         }        
@@ -2356,8 +2317,6 @@ void aggiungiProibita(pnode nId){
     
     char *id = nId->val.sval;
     
-    printf("DENTRO PROIBITE %s\n",id);
-    
     while(successivo != NULL){
         
         if(strcmp(id,successivo->varId) == 0){
@@ -2376,8 +2335,6 @@ void aggiungiProibita(pnode nId){
     nuovo->next = NULL;
     precedente->next = nuovo;
     
-    printf("FUORI PROIBITE %s\n",testaProibite->next->varId);
-    
     return;
     
 }
@@ -2388,15 +2345,13 @@ void aggiungiProibita(pnode nId){
  * 2 = c'è
  */
 int controllaProibite(pnode nId){
-    printf("controlla proibite %s\n",nId->val.sval);
+    //printf("controlla proibite %s\n",nId->val.sval);
     
     pvarS successivo = testaProibite->next;
     
     char *id = nId->val.sval;
     
     while(successivo != NULL){
-        
-        printf("PRIBITA %s\n",successivo->varId);
         
         if(strcmp(id,successivo->varId) == 0){
             return 2;
