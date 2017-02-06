@@ -1,0 +1,53 @@
+program p
+	type T: array [5] of integer;
+	var A: T;
+	    res,i,elem: integer;
+	   
+	proc partition(inout A:T,p:integer,q:integer,out o:integer)
+		var x,i,j, temp: integer;
+			f: boolean;
+		begin partition
+			f = true;
+			x = A[p];
+			i = p - 1;
+			j = q + 1;
+			while true do
+				repeat 
+					i = i + 1;
+				until A[i] >= x;
+				repeat
+					j = j - 1;
+				until A[j] <= x;
+				if i < j then
+					temp = A[i];
+					A[i] = A[j];
+					A[j] = temp;
+				else
+					o=j;
+					break;
+				end;						
+			end;
+		end partition;
+	
+	proc qs(inout A:T,p:integer,r:integer)
+		var q: integer;
+		begin qs
+			if p<r then
+				partition(A, p, r, q);
+				
+				qs(A, p, q);
+				qs(A, q+1, r);
+			end;
+		end qs;
+begin p
+	output "Inseriamo i 5 numeri da ordinare";
+
+	for i = 0 to 4 do
+		output "Inserisci numero:";
+		input res;
+		A[i] = res;
+	end;
+	qs(A, 0, 4);
+	output A;
+end p.
+

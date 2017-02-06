@@ -1,0 +1,36 @@
+program p
+
+var x,y,z,i,j,k : integer;
+
+begin p
+
+i=0;
+
+while true do
+
+	if i > 10 then break; end;
+	output "while 1";
+	output i;
+
+	while true do 
+		if i > 7 then break; end;
+		output "while 2";
+		output i;
+		i = i+1;
+
+		while true do 
+
+		if i > 5 then break; end;
+		
+		output "while 3";
+		output i;
+		i = i+1;
+
+		end;
+	end;
+
+	i = i + 1;
+
+end;
+
+end p.

@@ -1,0 +1,16 @@
+program p
+	var x:integer;
+	func fib(x: integer):integer
+		begin fib
+			if x==0 or x==1 then
+				x
+			else
+				fib(x - 1)+fib(x - 2)
+			end
+		end fib;
+begin p
+	output "Inserisci il numero della sequenza da visualizzare:";	
+	input x;
+	output fib(x);
+end p.
+

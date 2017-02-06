@@ -1,0 +1,25 @@
+program Hof
+	var n : integer;
+		
+	func F(n:integer):integer
+	begin F
+		if n==0 then 1 else n-M(F(n- 1)) end
+	end F;
+
+	func M(n:integer):integer
+	begin M
+		if n==0 then 0 else n-F(M(n- 1)) end
+	end M; 
+
+begin Hof
+
+output "Inserisci un numero";
+input n;
+
+output "F";
+output F(n);
+
+output "M";
+output M(n);
+
+end Hof.

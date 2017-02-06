@@ -1,0 +1,7 @@
+entrambi i programmi prendono un array e moltiplicano i primi due elementi, poi il risultato lo moltiplicano con il terzo,
+il risultato lo sommano con il quarto e cosi via (le funzioni sum e mul si chiamamno ricorsivamente a vicenda)
+
+
+mutuaRic: la proc sum usa un parametro inout per l'array mentre mul usa direttamente la variabile globale
+
+mutuaRic2: sia mul che sum usano solo la variabile globale arr

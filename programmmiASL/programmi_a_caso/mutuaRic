@@ -1,0 +1,45 @@
+program p
+
+	type T : array [5] of integer;
+	var arr : T;
+	    ris : integer;	
+	proc sum(inout a : T,  inout r : integer, x : integer)
+
+		proc mul(inout k : integer, y : integer)	
+		
+		begin mul
+		
+		if y<5 then
+			output y;
+                        k = k * a[y];
+                        y = y + 1;
+                        sum(a, k, y);
+
+                end;
+		
+		end mul;		
+
+	begin sum
+		
+		if x<5 then
+			output x;			
+			r = r + a[x];
+			x = x + 1;
+			mul( r, x);
+
+		end;
+
+	end sum;
+
+begin p
+
+	arr = [2,5,1,3,4];
+
+	ris = 0;
+
+	sum(arr, ris, 0);
+
+	output "risultato ";
+	output ris;
+
+end p.

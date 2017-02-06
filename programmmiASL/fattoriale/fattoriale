@@ -1,0 +1,16 @@
+program p
+	var x: integer;
+	func fact(x: integer): integer
+		begin fact
+			if (x==0) or (x==1) then
+				1
+			else
+				x * fact(x-1)
+			end
+		end fact;
+begin p
+	output "Inserisci il numero da fattorializzare:";
+	input x;
+	output fact(x);
+end p. 
+

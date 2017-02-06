@@ -1,0 +1,43 @@
+program mulM
+type arrT : array [3] of integer;
+     matT : array [3] of arrT;
+var m1,m2,m3 : matT;
+
+	proc prendiM(out m: matT)
+	begin prendiM
+		output "Inserisci la matrice (elemento per elemento)";
+		input m;
+	end prendiM;
+
+	proc mul(out m: matT)
+	var i, j, k : integer; 
+	    colonna : arrT;	
+	begin mul
+		for i = 0 to 2 do
+		    for k = 0 to 2 do			
+			for j = 0 to 2 do
+				colonna[j] = m2[j][k]; 
+			end;
+			output colonna;
+			m[i][k] = calcolaElem(m1[i],colonna);		
+			
+		    end;
+		end;
+
+	end mul;
+
+	func calcolaElem(r1 : arrT, r2 : arrT):integer
+	begin calcolaElem
+		r1[0]*r2[0]+r2[1]*r1[1]+r2[2]*r1[2]
+	end calcolaElem;
+
+begin mulM
+
+prendiM(m1);
+output m1;
+prendiM(m2);
+output m2;
+mul(m3);
+output m3;
+
+end mulM.

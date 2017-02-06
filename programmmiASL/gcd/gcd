@@ -1,0 +1,33 @@
+program gcd_main
+var res : integer;
+    a,b : integer;
+
+	proc gcd(x : integer, y : integer)
+
+	begin gcd
+		while x != y do
+
+			if x > y then gcd(x-y, y);
+			else gcd(x,y-x);
+			end;
+			break;
+		end;
+		
+		if x == y then res = x; end;
+
+	end gcd;
+
+
+begin gcd_main
+
+output "Inserisci primo numero:";
+input a;
+output "Inserisci secondo numero:";
+input b;
+
+gcd(a,b);
+
+output "GCD:";
+output res;
+
+end gcd_main.
