@@ -68,6 +68,7 @@ void stampa2(pstLine[], FILE*),
         nDomain(pnode,ptypeS*),
         nArrayConst(pnode,ptypeS*),
         printSemanticError(),
+        pulisciSymbTab(pST),
         printType(ptypeS, FILE*),
         aggiungiProibita(pnode),
         rimuoviProibita(pnode);

@@ -2,6 +2,7 @@
 #include "def_symbtab.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "parser.h"
 
 FILE *yyin;
 pnode root = NULL;

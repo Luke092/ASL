@@ -76,12 +76,6 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
     
     stab = s;
     
-    if(stab!=NULL){
-        stampa2(stab->tab);
-    }
-    
-    
-    
     pnode idRoot = root->child;
     char *nomeRoot = idRoot->val.sval;
     

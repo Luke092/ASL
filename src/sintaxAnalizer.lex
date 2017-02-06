@@ -10,7 +10,7 @@
 spacing ([ \t])+
 letter [A-Za-z]
 digit [0-9]
-intconst {digit}+
+intconst -?{digit}+
 strconst \"([^\"])*\"
 boolconst true|false
 id {letter}(_?({letter}|{digit})+)* 
