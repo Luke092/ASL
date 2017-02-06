@@ -36,7 +36,7 @@ int for_level = 0;
  */
 
 pST createSymbTab(pST back){
-    printf("createSymbTab\n");
+    //printf("createSymbTab\n");
     
     if(primoGiro){
         tipoIntero=createType(0,NULL,0);
@@ -64,7 +64,7 @@ pST createSymbTab(pST back){
  * torna qualcosa != da NULL solo in caso di una func
  */
 Code start(pnode root, pST s, ptypeS* tipoRitornato){
-    printf("start\n");
+    //printf("start\n");
     
     Code code = endcode(),
             var_code = endcode(),
@@ -229,7 +229,7 @@ Code start(pnode root, pST s, ptypeS* tipoRitornato){
        
         fprintf(sp,"\t \tSYMBTAB DI %s\n",nomeRoot);
         //stampa(stab->tab);//stampa la hash table
-        stampa22(stab->tab,sp);//stampa la symbol tabel
+        stampa2(stab->tab,sp);//stampa la symbol tabel
         fprintf(sp,"\n\n");
     }
     
@@ -594,7 +594,7 @@ void nArrayConst(pnode nAC,ptypeS* tipoRitornato){
 
 //funzione che si occupa di: opt-type-sect, opt-var-sect, opt-const-sect
 Code optTypeSect_var_const(pnode opttypesect_var,int classe){
-     printf("opttypesect\n");
+    //printf("opttypesect\n");
     
     Code d_code, c_code;
     d_code.size = 0;
@@ -689,7 +689,7 @@ Code optTypeSect_var_const(pnode opttypesect_var,int classe){
 }
 
 Code optModuleList(pnode optModuleList){
-    printf("\noptmodulelist\n");
+    //printf("\noptmodulelist\n");
     
     Code code = endcode();
     char *idFD;
@@ -769,9 +769,6 @@ Code optModuleList(pnode optModuleList){
         }
         procFuncDecl = procFuncDecl->brother;
         
-        /**/
-        
-        //offset = old_offset; // ripristino l'offset locale
     }
     
         procFuncDecl = optModuleList->child; //nodo n_procdecl o n_funcdecl
@@ -784,9 +781,8 @@ Code optModuleList(pnode optModuleList){
             
             pstLine linea = findInSt(stab->tab,procFuncDecl->child->val.sval);
             
-                printf("Dentro while %s\n",linea->name);
                 tmp = start(procFuncDecl,linea->local, &tipoRitornato);
-                printf("Fine start %s\n",linea->name);
+              
                 if(code.size != 0){
                     code = concode(code, tmp, endcode());
                 } else {
