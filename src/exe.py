@@ -12,9 +12,10 @@ for i in range(2,len(sys.argv)):
 	if sys.argv[i] == "-symb":
                 params.append("-symb")
 
-subprocess.call(["./asl_compiler",sys.argv[1]]+params)
+result = subprocess.call(["./asl_compiler",sys.argv[1]]+params)
 
-my_file = sys.argv[1] + ".code"
-if os.path.isfile(my_file):
-	subprocess.call(["./virtual_machine",my_file])
+if result == 0:
+	my_file = sys.argv[1] + ".code"
+	if os.path.isfile(my_file):
+		subprocess.call(["./virtual_machine",my_file])
 
