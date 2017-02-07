@@ -333,5 +333,5 @@ expr-list :         expr ',' expr-list {$$=$1;$1->brother=$3;}
 %%
 
 void yyerror(){
-    fprintf(stderr, "Errore lessicale sul simbolo '%s' alla linea %d\n\n",yytext,line);
+    fprintf(stderr, "Errore sul simbolo '%s' alla linea %d\n\n",yytext,line);
 }
