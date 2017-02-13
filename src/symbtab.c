@@ -777,6 +777,7 @@ Code optModuleList(pnode optModuleList){
         while(procFuncDecl != NULL){
             
             Code tmp = endcode();
+            tipoRitornato = NULL;
             
             pstLine linea = findInSt(stab->tab,procFuncDecl->child->val.sval);
             
